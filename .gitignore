@@ -86,3 +86,8 @@ $RECYCLE.BIN/
 .Trashes
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
+
+### OTHERS ###
+
+bundle.js
+bundle.js.map
