@@ -1,5 +1,8 @@
 # wayfare-ui
 
+
+### Setup Environment
+
 ```
 npm install
 npm run buildEnv => creates .env based off .env.sample.js
