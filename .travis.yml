@@ -8,11 +8,11 @@ before_script:
   - sudo apt-get -qq update # qq for less output
   - psql -c 'create database travis_ci_test;' -U postgres
 install:
-  - yarn
-  - yarn buildEnv
-  - yarn setup:server
-  - yarn setup:client
+  - npm install
+  - npm run buildEnv
+  - npm run setup:server
+  - npm run setup:client
 script:
-  - yarn build &
+  - npm run build &
   - sleep 10 
-  - yarn start:server 
+  - npm run start:server 
