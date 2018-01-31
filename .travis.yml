@@ -15,4 +15,5 @@ install:
 script:
   - npm run build &
   - sleep 10 
-  - npm run start:server 
+  - npm run start:server &
+  - sleep 10
