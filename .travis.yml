@@ -1,0 +1,18 @@
+language: node_js
+node_js: node
+cache:
+  directories:
+    - node_modules
+services: postgresql
+before_script:
+  - sudo apt-get -qq update # qq for less output
+  - psql -c 'create database travis_ci_test;' -U postgres
+install:
+  - yarn
+  - yarn buildEnv
+  - yarn setup:server
+  - yarn setup:client
+script:
+  - yarn build &
+  - sleep 10 
+  - yarn start:server 
