@@ -7,12 +7,17 @@ import Search from './components/Search/SearchResultPage.jsx';
 import ListingPage from './components/Listings/ListingPage.jsx';
 import BookingForm from './components/Listings/BookingForm.jsx';
 import UserPage from "./components/User/UserPage.jsx"
+import Login from './components/Auth/Login';
+import SignUp from './components/Auth/SignUp';
 
 const App = ({ store }) => {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <Switch>
+        <div>
+          <Switch>
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={SignUp} />
             <Route path='/search' component={Search} />
             {/* Setup :listingId for specific listing */}
             <Route path='/listing/book/:listingId' component={BookingForm} />
@@ -20,7 +25,8 @@ const App = ({ store }) => {
             {/* Setup :userId for specific user */}
             <Route path='/user/:userId' component={UserPage} />
             <Route path='/' component={Home} />
-          </Switch>
+            </Switch>
+        </div>
       </BrowserRouter>
     </Provider>
   )
