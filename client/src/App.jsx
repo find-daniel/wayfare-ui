@@ -7,6 +7,7 @@ import SearchResults from './components/Search/SearchResultPage';
 import ListingPage from './components/Listings/ListingPage';
 import BookingForm from './components/Listings/BookingForm';
 import UserPage from "./components/User/UserPage"
+import CreateListingForm from './components/User/Host/CreateListingForm'
 import Login from './components/Auth/Login';
 import SignUp from './components/Auth/SignUp';
 import NavBar from './components/Nav/NavBar';
@@ -26,6 +27,7 @@ const App = ({ store }) => {
             <Route path='/listing/book/:listingId' component={BookingForm} />
             <Route path='/listing/:listingId' component={ListingPage} />
             {/* Setup :userId for specific user */}
+            <Route path='/user/create-listing' component={CreateListingForm} />
             <Route path='/user/:userId' component={UserPage} />
             <Route path='/' component={Home} />
           </Switch>
