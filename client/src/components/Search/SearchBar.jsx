@@ -1,10 +1,12 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 
 class SearchBar extends React.Component {
   onSubmitHandler(e) {
     e.preventDefault();
     e.target.reset();
     console.log('submitted');
+    // this.props.history.push('/search/something'); //
     
     // Setup axios request to fetch results
   }
@@ -12,7 +14,7 @@ class SearchBar extends React.Component {
   render() {
     return (
       <div>
-        <form action="submit" onSubmit={this.onSubmitHandler.bind(this)} >
+        <form onSubmit={this.onSubmitHandler.bind(this)}>
           <input type="text" placeholder="Search"/>
         </form>
       </div>
