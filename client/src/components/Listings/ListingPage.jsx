@@ -11,7 +11,7 @@ class ListingPage extends React.Component {
       <div>
         <h2> Inside ListingPage </h2>
         <ListingInfo />
-        <Pictures />
+        <Pictures/>
         <Map />
         <ListingReviewsList />
       </div>
