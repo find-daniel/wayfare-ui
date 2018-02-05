@@ -82,7 +82,7 @@ class Signup extends React.Component {
           <input type="text" placeholder="email"/>
           password:
           <input type="text" placeholder="password"/>
-          <button>Submit</button>
+          <button>Sign Up</button>
         </form>
       </div>
     )
