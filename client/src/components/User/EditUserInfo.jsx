@@ -1,20 +1,51 @@
+import "babel-polyfill";
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
+
 class EditUserInfo extends React.Component {
+  constructor () {
+    super();
+    this.state = {
+      city: '',
+      bio: '',
+      image: '',
+      uid: 'asdf823r9asd'
+    }
+  }
+
   async onSubmitHandler(e) {
     e.preventDefault();
     try {
+      const {city, bio, image, uid} = this.state;
       // PUT to udpate user row
-      axios.put();
+      const payload = {
+        city: city,
+        bio: bio,
+        image: image,
+        uid: uid
+      };
 
-      console.log('changes submitted');
+      // update user info
+      const data = await axios.put('http://localhost:3396/api/users/editUser', payload);
+
+      // update user skills
+      // const skills = await axios.put('http://localhost:3396/api/editSkills');
+
+      console.log('changes submitted', data);
       this.props.history.push('/user/:userId');
     } catch (err) {
       console.error(err);
     }
+  }
+
+  onChangeHandler(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+    console.log(`${e.target.name} : ${e.target.value}`);
   }
 
   render() {
@@ -26,17 +57,17 @@ class EditUserInfo extends React.Component {
             {/* Location */}
             <div>
               <p>Location</p>
-              <input type="text" placeholder="City, State"/>
+              <input onChange={this.onChangeHandler.bind(this)} name='city' type="text" placeholder="City, State"/>
             </div>
             {/* Profile Photo */}
             <div>
               <p>Profile Photo</p>
-              <input type="file"/>
+              <input onChange={this.onChangeHandler.bind(this)} name='image' type="file"/>
             </div>
             {/* Bio */}
             <div>
               <p>Bio</p>
-              <textarea name="bio" id="" cols="30" rows="10" placeholder="Tell us about yourself"></textarea>
+              <textarea onChange={this.onChangeHandler.bind(this)} name="bio" id="" cols="30" rows="10" placeholder="Tell us about yourself"></textarea>
             </div>
             <button>Submit</button>
           </form>
