@@ -22,10 +22,10 @@ class EditUserInfo extends React.Component {
       const {city, bio, image, uid} = this.state;
       // PUT to udpate user row
       const payload = {
-        city: city,
-        bio: bio,
-        image: image,
-        uid: uid
+        city,
+        bio,
+        image,
+        uid
       };
 
       // update user info
