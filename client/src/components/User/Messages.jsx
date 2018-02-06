@@ -1,5 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux'; 
 import io from 'socket.io-client';
+import { activeUser } from '../../actions/actionCreators';
+import axios from 'axios';
 
 class Messages extends React.Component {
   constructor() {
@@ -8,9 +12,11 @@ class Messages extends React.Component {
       socket: null,
       message: '',
       author: null,
-      message: null,
+      message: '',
+      messages: [],
       room: null
     }
+    this.sendMessage = this.sendMessage.bind(this);
   }
 
   componentWillMount() {
@@ -20,17 +26,29 @@ class Messages extends React.Component {
       }
     });
     console.log('socket', this.socket)
-    this.setState({ socket: this.socket });
+    axios.get('http://localhost:4155/api/chat/getMessages')
+      .then((res) => {
+        console.log('resss', res)
+        this.setState({
+          messages: res.data
+        })
+      })
+      .catch(() => {
+        console.log('error fetching messages')
+      })
+
+    this.setState({ socket: this.socket, room: location.pathname.slice(1) });
+    console.log('messages', this.state.messages)
   }
 
   sendMessage(e) {
     e.preventDefault();
-    this.setState({message: ''})
-    console.log('message sent!')
+    this.setState({message: this.message})
     this.socket.emit('client.message', {
-      author: 'eric',
-      message: this.message,
-      room: 'room2'
+      author: this.props.active_user.displayName,
+      authorImage: this.props.active_user.photoURL,
+      message: this.state.message,
+      room: this.state.room
     })
   }
 
@@ -38,32 +56,34 @@ class Messages extends React.Component {
   render() {
     return (
       <div className="container">
-          <div className="row">
-              <div className="col-4">
-                  <div className="card">
-                      <div className="card-body">
-                          <div className="card-title">Chat</div>
-                          <hr/>
-                          <div className="messages">
+        <div className="card">
+            <div className="card-body">
+                <div className="card-title">Chat</div>
+                <hr/>
+                <div className="messages">
 
-                          </div>
-                          <div className="footer">
-                              <br/>
-                              <input type="text" placeholder="Message" className="form-control" value={this.state.message} onChange={e => this.setState({message: e.target.value})}/>
-                              <br/>
-                              <button className="btn btn-primary form-control" onClick={(e) => this.sendMessage(e)}>Send</button>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
+                </div>
+                <div className="footer">
+                    <br/>
+                    <input type="text" placeholder="Message"  value={this.state.message} onChange={e => this.setState({message: e.target.value})}/>
+                    <br/>
+                    <button  onClick={(e) => this.sendMessage(e)}>Send</button>
+                </div>
+            </div>
+        </div>  
       </div>
   );
 }
 
 }
 
-export default Messages;
+function mapStateToProps(state) {
+  return {
+    active_user: state.active_user
+  }
+}
+
+export default connect(mapStateToProps)(Messages);
 
 
 //                              <input type="text" placeholder="Username" value={this.state.username} onChange={ev => this.setState({username: ev.target.value})} className="form-control"/>
