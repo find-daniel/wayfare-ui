@@ -3,7 +3,7 @@ import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import { Provider, connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { activeUser } from './actions/actionCreators';
-
+import firebase from './lib.js';
 import Home from './components/LandingPage/Home';
 import SearchResults from './components/Search/SearchResultPage';
 import ListingPage from './components/Listings/ListingPage';
@@ -14,7 +14,6 @@ import EditUserInfo from './components/User/EditUserInfo';
 import Login from './components/Auth/Login';
 import SignUp from './components/Auth/SignUp';
 import NavBar from './components/Nav/NavBar';
-import firebase from './lib';
 
 class App extends React.Component {
   constructor(props){

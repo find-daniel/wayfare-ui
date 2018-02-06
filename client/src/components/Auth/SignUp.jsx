@@ -5,23 +5,32 @@ import axios from 'axios';
 import 'babel-polyfill';
 
 class Signup extends React.Component {
+  constructor() {
+    super()
+
+    this.state = {
+      email: '',
+      password: '',
+    }
+  }
+
   async onSubmitHandler(e) {
     e.preventDefault();
     try {
-      const authData = await firebase.auth().createUserWithEmailAndPassword('ubuntu@gmail.com', 'ubuntu?')
-      console.log('Local user signed up with Firebase. authData:', authData)
+      const authData = await firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+      console.log('Local user signed up with Firebase.')
       let payload = {
         email: authData.providerData[0].email,
         uid: authData.uid
       }
       try {
         const data = await axios.post('http://localhost:3396/api/auth/signup', payload)
-        console.log('Local user saved to sql db. Data: ', data)
+        console.log('Local user saved to sql db.')
       } catch (err) {
         console.log('Error saving local user to sql db. Err: ', err)
       }
     } catch (err) {
-      console.log('Error signing up local user with Firebase. Err: ', err)
+      console.log('Error signing up local user with Firebase. Err: ', err.message)
     }
   }
 
@@ -29,7 +38,7 @@ class Signup extends React.Component {
     e.preventDefault();
     try {
       const authData = await firebase.auth().signInWithPopup(googleProvider)
-      console.log('User signed in with Firebase->Google. authData:', authData);
+      console.log('User signed in with Firebase->Google.');
       let payload = {
         email: authData.user.email,
         name: authData.user.displayName,
@@ -38,12 +47,12 @@ class Signup extends React.Component {
       }
       try {
         const data = await axios.post('http://localhost:3396/api/auth/signup', payload)
-        console.log('Google user saved to sql db. Data: ', data)
+        console.log('Google user saved to sql db.')
       } catch (err) {
         console.log('Error saving Google user to sql db. Err: ', err)
       }
     } catch (err) {
-      console.log('Error signing in Google user with Firebase. Err: ', err)
+      console.log('Error signing in Google user with Firebase. Err: ', err.message)
     }
   }
 
@@ -51,7 +60,7 @@ class Signup extends React.Component {
     e.preventDefault();
     try {
       const data = await firebase.auth().signInWithPopup(facebookProvider);
-      console.log('User signed in with Firebase->Facebook. authData: ', data);
+      console.log('User signed in with Firebase->Facebook.');
       let payload = {
         email: data.user.email,
         name: data.user.displayName,
@@ -60,13 +69,19 @@ class Signup extends React.Component {
       }
       try {
         const data = await axios.post('http://localhost:3396/api/auth/signup', payload)
-        console.log('Facebook user saved to sql db. Data :', data)
+        console.log('Facebook user saved to sql db.')
       } catch (err) {
         console.log('Error saving Facebook user to sql db. Err: ', err)
       }
     } catch (err) {
-      console.log('Error signing in Facebook user with Firebase. Err: ', err)
+      console.log('Error signing in Facebook user with Firebase. Err: ', err.message)
     }
+  }
+
+  handleInputChange(e) {
+    let value = e.target.value;
+    let id = e.target.id;
+    this.setState({ [id]: value });
   }
 
   render() {
@@ -79,10 +94,10 @@ class Signup extends React.Component {
         <hr/>
         <form action="submit" onSubmit={this.onSubmitHandler.bind(this)}>
           email:
-          <input type="text" placeholder="email"/>
+          <input onChange={this.handleInputChange.bind(this)} type="text" id="email" placeholder="email"/>
           password:
-          <input type="text" placeholder="password"/>
-          <button>Sign Up</button>
+          <input onChange={this.handleInputChange.bind(this)} type="text" id="password" placeholder="password"/>
+          <button>Submit</button>
         </form>
       </div>
     )
