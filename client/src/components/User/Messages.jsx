@@ -12,7 +12,6 @@ class Messages extends React.Component {
       socket: null,
       message: '',
       author: null,
-      message: '',
       messages: [],
       room: null
     }
