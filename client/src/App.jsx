@@ -14,7 +14,6 @@ import EditUserInfo from './components/User/EditUserInfo';
 import Login from './components/Auth/Login';
 import SignUp from './components/Auth/SignUp';
 import NavBar from './components/Nav/NavBar';
-import firebase from './lib';
 
 class App extends React.Component {
   constructor(props){
