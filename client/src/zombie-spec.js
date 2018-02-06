@@ -38,30 +38,31 @@ describe('user can load our signup page', function () {
   })
 })
 
+describe('user signs up with new local account', function() {
+  before(function(done) {
+    browser.visit('/signup', done);
+  });
+
+  describe('submits form', function() {
+    before(function(done) {
+      browser
+        .fill('input[id=email]',    Math.random().toString(36).substring(3)+'@gmail.com')
+        .fill('input[id=password]', 'anypassword')
+        .pressButton('Submit', done);
+    });
+
+    it('should be successful signup', function(done) {
+      browser.assert.status(200);
+      browser.assert.success();
+      done()
+    });
+
+  });
+});
 
 
+// will add more once front-end gets figured out
 
-// describe('user signs up with new local account', function() {
-//   before(function(done) {
-//     browser.visit('/signup', done);
-//   });
-
-//   describe('submits form', function() {
-//     before(function(done) {
-//       browser
-//         .fill('input[id=email]',    Math.random().toString(36).substring(3)+'@gmail.com')
-//         .fill('input[id=password]', 'anypassword')
-//         .pressButton('Submit', done);
-//     });
-
-//     it('should be successful signup', function(done) {
-//       browser.assert.status(200);
-//       browser.assert.success();
-//       done()
-//     });
-
-//   });
-// });
 
 // describe('user signs in with a local account', function() {
 
