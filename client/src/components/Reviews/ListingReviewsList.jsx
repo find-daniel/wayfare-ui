@@ -1,13 +1,39 @@
 import React from 'react';
 import ListingReviewEntry from './ListingReviewEntry';
+import axios from 'axios'
+
 
 class ListingReviewsList extends React.Component {
+
+  constructor(props) {
+    super(props); 
+
+    this.state = {
+      reviews: [] 
+    }
+  }
+
+  async componentDidMount() {
+    let reviews = await axios.get('http://localhost:3396/api/users/getUserReviews', {
+      params: {userId: this.props.hostId}
+    }); 
+    this.setState({
+      reviews : reviews.data.rows
+    })
+  }
+
   render() {
     return (
       <div>
-        <h3> Inside ListingReviewsList </h3>
-        {/* Map */}
-        <ListingReviewEntry />
+        <h2> Reviews </h2>
+        {this.state.reviews.length === 0 
+          ?
+            <div/>
+            :
+            this.state.reviews.map(review => {
+              return <ListingReviewEntry review={review}/>
+            })
+        }
       </div>
     )
   }
