@@ -1,6 +1,8 @@
 import React from 'react';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { activeUser } from './actions/actionCreators';
 
 import Home from './components/LandingPage/Home';
 import SearchResults from './components/Search/SearchResultPage';
@@ -11,10 +13,24 @@ import CreateListingForm from './components/User/Host/CreateListingForm'
 import Login from './components/Auth/Login';
 import SignUp from './components/Auth/SignUp';
 import NavBar from './components/Nav/NavBar';
+import firebase from './lib';
 
-const App = ({ store }) => {
-  return (
-    <Provider store={store}>
+class App extends React.Component {
+  constructor(props){
+    super(props)
+  }
+  componentDidMount(){
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.props.activeUser(user);
+        console.log('activeuserrr', this.props.active_user)
+      } 
+    })
+  }
+  
+ render () 
+  {return (
+    <Provider store={this.props.store}>
       <BrowserRouter>
         <div>
           <Route path="/" component={NavBar} />
@@ -34,7 +50,17 @@ const App = ({ store }) => {
         </div>
       </BrowserRouter>
     </Provider>
-  )
+  )}
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    active_user: state.active_user
+  }
+}
+
+function matchDispatchToProps(dispatch) {
+  return bindActionCreators({activeUser: activeUser}, dispatch)
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(App);
