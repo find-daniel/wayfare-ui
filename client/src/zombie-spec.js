@@ -5,38 +5,71 @@ Browser.localhost('localhost', 1337);
 const browser = new Browser();
 
 
-describe('user can load our home page', function () {
+describe('user can load home page', function () {
   before(function(done){
     browser.visit('/', done)
   })
 
-  it('should render our home page', function(done){
+  it('should render home page', function(done){
+    browser.assert.text('title', 'Wayfare');
+    browser.assert.text('h1', 'Inside Home');
     browser.assert.success();
     done();
   })
+
 })
 
-describe('user can load our login page', function () {
+describe('user can load login page', function () {
   before(function(done){
     browser.visit('/login', done)
   })
 
-  it('should render our login page', function(done){
+  it('should render login page', function(done){
     browser.assert.success();
     done();
   })
 })
 
-describe('user can load our signup page', function () {
+describe('user can load signup page', function () {
   before(function(done){
     browser.visit('/login', done)
   })
 
-  it('should render our signup page', function(done){
+  it('should render signup page', function(done){
     browser.assert.success();
     done();
   })
 })
+
+describe('user can load create-listing page', function () {
+  before(function(done){
+    browser.visit('/user/create-listing', done)
+  })
+
+  it('should render login page', function(done){
+    browser.assert.success();
+    done();
+  })
+})
+
+describe('user can load create-listing page', function () {
+  before(function(done){
+    browser.visit('/user/create-listing', done)
+  })
+
+  it('should render login page', function(done){
+    browser.assert.success();
+    done();
+  })
+
+  // it('should refuse empty submissions', function(done) {
+  //   browser.pressButton('Create').then(function() {
+  //     browser.assert.text('div.alert', 'Please fill out the fields')
+  //   }).then(done, done);
+  // });
+
+})
+
 
 describe('user signs up with new local account', function() {
   before(function(done) {
