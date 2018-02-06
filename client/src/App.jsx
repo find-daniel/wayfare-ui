@@ -29,30 +29,31 @@ class App extends React.Component {
     })
   }
   
- render () 
-  {return (
-    <Provider store={this.props.store}>
-      <BrowserRouter>
-        <div>
-          <Route path="/" component={NavBar} />
-          <Switch>
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={SignUp} />
-            {/* Pass query into search request */}
-            <Route path='/search/:query' component={SearchResults} />
-            {/* Setup :listingId for specific listing */}
-            <Route path='/listing/book/:listingId' component={BookingForm} />
-            <Route path='/listing/:listingId' component={ListingPage} />
-            {/* Setup :userId for specific user */}
-            <Route path='/user/:userId/create-listing' component={CreateListingForm} />
-            <Route path='/user/:userId/edit' component={EditUserInfo} />
-            <Route path='/user/:userId' component={UserPage} />
-            <Route path='/' component={Home} />
-          </Switch>
-        </div>
-      </BrowserRouter>
-    </Provider>
-  )}
+ render () {
+    return (
+      <Provider store={this.props.store}>
+        <BrowserRouter>
+          <div>
+            <Route path="/" component={NavBar} />
+            <Switch>
+              <Route path="/login" component={Login} />
+              <Route path="/signup" component={SignUp} />
+              {/* Pass query into search request */}
+              <Route path='/search/:query' component={SearchResults} />
+              {/* Setup :listingId for specific listing */}
+              <Route path='/listing/book/:listingId' component={BookingForm} />
+              <Route path='/listing/:listingId' component={ListingPage} />
+              {/* Setup :userId for specific user */}
+              <Route path='/user/:userId/create-listing' component={CreateListingForm} />
+              <Route path='/user/:userId/edit' component={EditUserInfo} />
+              <Route path='/user/:userId' component={UserPage} />
+              <Route path='/' component={Home} />
+            </Switch>
+          </div>
+        </BrowserRouter>
+      </Provider>
+    )
+  }
 }
 
 function mapStateToProps(state) {

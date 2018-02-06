@@ -12,7 +12,7 @@ class EditUserInfo extends React.Component {
       city: '',
       bio: '',
       image: '',
-      uid: 'asdf823r9asd'
+      uid: ''
     }
   }
 
@@ -79,12 +79,8 @@ class EditUserInfo extends React.Component {
 
 function mapStateToProps (state) {
   return {
-
+    active_user: state.active_user
   }
 };
 
-function mapDispatchToProps (dispatch) {
-
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(EditUserInfo);
+export default connect(mapStateToProps)(EditUserInfo);
