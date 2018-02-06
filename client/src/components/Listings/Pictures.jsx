@@ -1,10 +1,29 @@
 import React from 'react';
+import axios from 'axios'; 
+import "babel-polyfill";
 
 class Pictures extends React.Component {
+
+  constructor(props) {
+    super(props); 
+    this.state = {
+      image: ''
+    }
+  }
+
+    async componentDidMount() {
+    let img = await axios.get('http://localhost:3396/api/listing/getPhoto', {
+      params: {listingId: this.props.listingId}
+    }); 
+    this.setState ({
+      image : img.data
+    })
+   }
+
   render() {
     return (
       <div>
-        <h3> Inside Pictures </h3>
+        <img src={this.state.image}/>
       </div>
     )
   }
