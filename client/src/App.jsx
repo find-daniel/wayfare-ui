@@ -3,7 +3,7 @@ import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import { Provider, connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { activeUser } from './actions/actionCreators';
-
+import firebase from './lib.js';
 import Home from './components/LandingPage/Home';
 import SearchResults from './components/Search/SearchResultPage';
 import ListingPage from './components/Listings/ListingPage';
