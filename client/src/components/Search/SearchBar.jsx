@@ -15,7 +15,7 @@ class SearchBar extends React.Component {
     return (
       <div>
         <form onSubmit={this.onSubmitHandler.bind(this)}>
-          <input type="text" placeholder="Search"/>
+          <input className="input-group" type="text" placeholder="Search"/>
         </form>
       </div>
     )

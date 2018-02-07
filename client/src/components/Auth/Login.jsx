@@ -12,7 +12,13 @@ class Login extends React.Component {
       email: '',
       password: '',
     }
+
+    this.onSuccess = this.onSuccess.bind(this);
   }
+
+  onSuccess () {
+    this.props.history.push('/');
+  };
 
   async onSubmitHandler(e) {
     e.preventDefault();
@@ -48,6 +54,7 @@ class Login extends React.Component {
       try {
         const data = await axios.post('http://localhost:3396/api/auth/signup', payload)
         console.log('Google user saved to sql db.')
+        this.onSuccess();
       } catch (err) {
         console.log('Error saving Google user to sql db. Err: ', err)
       }

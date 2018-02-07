@@ -23,9 +23,10 @@ class App extends React.Component {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.props.activeUser(user);
+        localStorage.setItem('activeUser', user.uid)
         console.log('activeuserrr', this.props.active_user)
       } 
-    })
+    });
   }
   
  render () {

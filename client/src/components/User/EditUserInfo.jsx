@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import firebase from 'firebase';
 
 
 class EditUserInfo extends React.Component {
@@ -11,8 +12,8 @@ class EditUserInfo extends React.Component {
     this.state = {
       city: '',
       bio: '',
-      image: '',
-      uid: ''
+      image: 'http://ugc.reveliststatic.com/gen/full/2016/07/12/14/d7/ug/phhckvfb402qbwe.gif',
+      uid: localStorage.getItem('activeUser')
     }
   }
 

@@ -24,3 +24,10 @@ export const activeUser = (user) => {
   }
 } 
 
+
+export const userData = (data) => {
+  return {
+    type: 'GET_USER_DATA',
+    payload: data
+  }
+} 
