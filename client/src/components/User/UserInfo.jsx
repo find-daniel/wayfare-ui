@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import { userData } from '../../actions/actionCreators';
 import axios from 'axios';
+import './UserInfo.css';
 
 class UserInfo extends React.Component {
   async componentDidMount() {
@@ -19,23 +20,10 @@ class UserInfo extends React.Component {
     } else {
       return (
         <div className="card">
-          <div className="card-img-top"style= {{height: '120px', backgroundColor: '#915757', zIndex: '1'}}>
-            <img className="img-fluid"
-             style={{
-              display: 'inline-block',
-              position: 'relative',
-              width: '33%',
-              height: '115px',
-              overflow: 'hidden',
-              borderRadius: '50%',
-              marginTop: '55px',
-              marginLeft: '32%',
-              zIndex: '2',
-              boxShadow: '0px 1px 1px 0px'
-              }} 
-              src={this.props.user_data.image} alt=""/>
+          <div className="card-img-top img-background">
+            <img className="img-fluid profile-pic" src={this.props.user_data.image} alt=""/>
           </div>
-          <div className="card-body" style={{marginTop: '25px', backgroundColor: '#D8D8D8', marginLeft:'5%', marginRight:'5%', marginBottom: '10px', borderRadius: '5px'}} >
+          <div className="card-body user-body">
             <div style={{marginTop: '25px'}} >
               <h6>Rating:</h6>
               <p>{this.props.user_data.guestrating}</p>
