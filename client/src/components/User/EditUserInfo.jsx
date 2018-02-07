@@ -86,7 +86,7 @@ class EditUserInfo extends React.Component {
             {/* Profile Photo */}
             <div>
               <p>Profile Photo</p>
-              <input onChange={this.onChangeHandler.bind(this)} name='image' type="file"/>
+              {/* <input onChange={this.onChangeHandler.bind(this)} name='image' type="file"/> */}
             </div>
             {/* Dropzone to add photos by click or dragging*/}
             <div>
