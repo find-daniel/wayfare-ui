@@ -42,16 +42,35 @@ class ListingPage extends React.Component {
   render() {
     return (
       <div>
-        <h4 class="title">{this.state.listing.title}</h4>
-        <ListingInfo listing={this.state.listing} user={this.state.user}  skills={this.state.skills}/>
-        <Pictures listingId={this.state.listingId}/>
-        <Map />
-        {this.state.listing === ''
-          ?
-            <div>  </div>
-          :
-          <ListingReviewsList hostId={this.state.listing.hostid}/>
-        }
+        <h2 className="title">{this.state.listing.title}</h2>
+        <hr/>
+        <div className="container">
+          <div className="row">
+            <div className="col-md-5">
+              <div className="row">
+                <Pictures listingId={this.state.listingId}/>
+              </div>
+              <p/>
+              <div className="row reviews">
+                {this.state.listing === ''
+                  ?
+                    <div>  </div>
+                  :
+                  <ListingReviewsList hostId={this.state.listing.hostid}/>
+                }
+              </div>
+              </div>
+            <div className="col-md-2"/>
+            <div className="col-md-5">
+                <ListingInfo listing={this.state.listing} user={this.state.user}  skills={this.state.skills}/>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col align-self-center">
+              <Map />
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
