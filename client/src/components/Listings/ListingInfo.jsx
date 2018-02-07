@@ -39,7 +39,7 @@ class ListingInfo extends React.Component {
         <div className="card hostBox">
           <span>
             <img className="host-image" src={this.props.user.image}/>
-            <Link class="hostInfoLink" to={`/user/${this.props.user.uid}`}>{this.props.user.name}</Link>
+            <Link className="hostInfoLink" to={`/user/${this.props.user.uid}`}>{this.props.user.name}</Link>
           </span>
         </div>
       </div>
