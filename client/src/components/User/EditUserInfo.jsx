@@ -4,14 +4,15 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import firebase from 'firebase';
-
-
+import Dropzone from 'react-dropzone';
+import upload from 'superagent';
 class EditUserInfo extends React.Component {
   constructor () {
     super();
     this.state = {
       city: '',
       bio: '',
+      imageObj: '',
       image: 'http://ugc.reveliststatic.com/gen/full/2016/07/12/14/d7/ug/phhckvfb402qbwe.gif',
       uid: localStorage.getItem('activeUser')
     }
@@ -19,6 +20,20 @@ class EditUserInfo extends React.Component {
 
   async onSubmitHandler(e) {
     e.preventDefault();
+    try {
+      const data = await   upload
+      .post('http://localhost:3396/api/files/upload')
+      .attach('theseNamesMustMatch', this.state.imageObj)
+      .field('email', window.localStorage.email)
+      .field('imagename', this.state.imageObj.name)
+      .field('name', 'profilePictures/' + window.localStorage.email + '/' + this.state.imageObj.name)
+  
+      this.setState({
+        image: data.body.url
+      })
+    } catch (err) {
+      console.log('error uploading to s3')
+    }
     try {
       const {city, bio, image, uid} = this.state;
       // PUT to udpate user row
@@ -49,6 +64,14 @@ class EditUserInfo extends React.Component {
     console.log(`${e.target.name} : ${e.target.value}`);
   }
 
+  _onDrop(files) {
+    let file = files[0];
+    console.log('file', file)
+    this.setState({
+      imageObj: file
+    })
+  }
+
   render() {
     return (
       <div>
@@ -64,6 +87,14 @@ class EditUserInfo extends React.Component {
             <div>
               <p>Profile Photo</p>
               <input onChange={this.onChangeHandler.bind(this)} name='image' type="file"/>
+            </div>
+            {/* Dropzone to add photos by click or dragging*/}
+            <div>
+              <Dropzone onDrop={ this._onDrop.bind(this) } maxSize={ 5000000 }>
+                <div>
+                 Click or drag photo here!
+                </div>
+              </Dropzone>
             </div>
             {/* Bio */}
             <div>
