@@ -42,6 +42,7 @@ class ListingPage extends React.Component {
   render() {
     return (
       <div>
+        <p/>
         <h2 className="title">{this.state.listing.title}</h2>
         <hr/>
         <div className="container">
@@ -60,7 +61,7 @@ class ListingPage extends React.Component {
                 }
               </div>
               </div>
-            <div className="col-md-2"/>
+            <div className="col-md-1"/>
             <div className="col-md-5">
                 <ListingInfo listing={this.state.listing} user={this.state.user}  skills={this.state.skills}/>
             </div>

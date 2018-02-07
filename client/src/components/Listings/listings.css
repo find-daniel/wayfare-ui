@@ -4,8 +4,8 @@
 }
 
 .listingImage{
-  height: 400px; 
-  width: 500px; 
+  height: 80%; 
+  width: 100%; 
 }
 .host-image{
   height:100px;
@@ -13,7 +13,6 @@
   border-radius:50%;
   background-color: white;
 }
-
 
 .hostBox{
   height: 120px;
@@ -24,17 +23,16 @@
 
 .hostInfoLink{
   color: black; 
-  padding: 15px; 
+  padding: 10px; 
+  padding-left:15px; 
+  padding-right: 15px; 
   font-size: 25px; 
   background-color: white; 
   align-self: right; 
 }
 
 .hostInfoBox{
-  /* padding-left:50px;  */
-  width: 200px; 
-  height: 150px; 
-  color: white; 
+  padding-left:40px; 
 }
 
 .hostImageBox{
@@ -42,15 +40,8 @@
 }
 
 .reviews{
-  background-color: gray; 
-  border-radius: 25px; 
+  background-color: rgb(180,180,180); 
   padding: 20px; 
-}
-
-
-.bookingButtonEntry {
-  padding-right: 25%; 
-  padding-left: 25%; 
 }
 
 .hostInfo{

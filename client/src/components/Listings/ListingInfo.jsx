@@ -16,9 +16,11 @@ class ListingInfo extends React.Component {
         <div className="card">
           <div className="card-body">
             <h4 className="card-title">{this.props.listing.startdate} - {this.props.listing.enddate}, {this.props.listing.city}</h4>
+            <hr/>
             <p className="card-text">
               {this.props.listing.description}
             </p>
+            <hr/>
             <h6> Skills for Stay: </h6>
               <ul>
               {this.props.skills.length > 0 
@@ -30,8 +32,10 @@ class ListingInfo extends React.Component {
                 <li></li>
                 }
               </ul>
-            <div className="bookingButtonEntry">
-              <a href="#" type="button" className="btn btn-light">Request Booking</a>
+            <div className="container">
+              <Link to={`/listing/book/${this.props.listing.id}`} type="button" className="btn btn-light col-sm-5">Request Booking</Link>
+              <span className="col-sm-2"/>
+              <Link to={`/user/${localStorage.getItem('activeUser')}/inbox/${localStorage.getItem('activeUser')+this.props.listing.id+this.props.listing.hostid}`} type="button" className="btn btn-light col-sm-5">Message Host</Link>
             </div>
           </div>
         </div>
@@ -39,7 +43,9 @@ class ListingInfo extends React.Component {
         <div className="card hostBox">
           <span>
             <img className="host-image" src={this.props.user.image}/>
-            <Link className="hostInfoLink" to={`/user/${this.props.user.uid}`}>{this.props.user.name}</Link>
+            <span className="hostInfoBox">
+              <Link className="hostInfoLink" to={`/${this.props.user.uid}`}>{this.props.user.name}</Link>
+            </span>
           </span>
         </div>
       </div>
