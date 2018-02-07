@@ -20,6 +20,7 @@ class ListingReviewsList extends React.Component {
     this.setState({
       reviews : reviews.data.rows
     })
+    console.log(reviews); 
   }
 
   render() {
