@@ -3,13 +3,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
-import { userData } from '../../actions/actionCreators';
+import { setUserData } from '../../actions/actionCreators';
 import axios from 'axios';
+console.log(localStorage.getItem('activeUid'))
 
 class UserInfo extends React.Component {
   async componentDidMount() {
-    const data = await axios.get('http://localhost:3396/api/users/getUser', {params: {uid: localStorage.getItem('activeUser')}});
-    this.props.userData(data.data.rows[0])
+    const data = await axios.get('http://localhost:3396/api/users/getUser', {params: {uid: localStorage.getItem('activeUid')}});
+    this.props.setUserData(data.data.rows[0])
     console.log('this is the user data: ', data.data.rows[0]);
   }
 
@@ -37,7 +38,7 @@ class UserInfo extends React.Component {
             </div>
             {/* Check for active_user */}
             <div>
-              <Link to={`/user/${localStorage.getItem('activeUser')}/edit`}><button className="btn-outline-dark">Edit</button></Link>
+              <Link to={`/user/${localStorage.getItem('activeUid')}/edit`}><button className="btn-outline-dark">Edit</button></Link>
             </div> 
           </div>
         </div>
@@ -55,7 +56,7 @@ function mapStateToProps (state) {
 
 function matchDispatchToProps (dispatch) {
   return bindActionCreators({
-    userData: userData
+    setUserData: setUserData
   }, dispatch);
 }
 

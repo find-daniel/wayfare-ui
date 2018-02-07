@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import { Provider, connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { activeUser } from './actions/actionCreators';
+import { setActiveUser } from './actions/actionCreators';
 import firebase from './lib.js';
 import Home from './components/LandingPage/Home';
 import SearchResults from './components/Search/SearchResultPage';
@@ -22,9 +22,9 @@ class App extends React.Component {
   componentDidMount(){
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        this.props.activeUser(user);
-        localStorage.setItem('activeUser', user.uid)
-        console.log('activeuserrr', this.props.active_user)
+        this.props.setActiveUser(user);
+        localStorage.setItem('activeUid', user.uid)
+        // console.log('activeuserrr', this.props.active_user)
       } 
     });
   }
@@ -63,7 +63,7 @@ function mapStateToProps(state) {
 }
 
 function matchDispatchToProps(dispatch) {
-  return bindActionCreators({activeUser: activeUser}, dispatch)
+  return bindActionCreators({setActiveUser: setActiveUser}, dispatch)
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(App);

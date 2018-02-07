@@ -13,7 +13,7 @@ class EditUserInfo extends React.Component {
       city: '',
       bio: '',
       image: 'http://ugc.reveliststatic.com/gen/full/2016/07/12/14/d7/ug/phhckvfb402qbwe.gif',
-      uid: localStorage.getItem('activeUser')
+      uid: localStorage.getItem('activeUid')
     }
   }
 

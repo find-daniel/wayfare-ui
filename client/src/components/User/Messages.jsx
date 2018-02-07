@@ -3,7 +3,7 @@ import 'babel-polyfill';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'; 
 import io from 'socket.io-client';
-import { activeUser } from '../../actions/actionCreators';
+import { setActiveUser } from '../../actions/actionCreators';
 import axios from 'axios';
 
 class Messages extends React.Component {

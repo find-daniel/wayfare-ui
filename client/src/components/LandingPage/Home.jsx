@@ -17,7 +17,7 @@ class Home extends React.Component {
         }
         {/* Links for development only ** for now ** */}
         <Link to="/listing/:listingId"><button>Switch to listingPage</button></Link>
-        <Link to="/user/create-listing"><button>Switch to createListingForm</button></Link>
+        <Link to="/user/:userId/create-listing"><button>Switch to createListingForm</button></Link>
         <Link to="/listing/book/:listingId"><button>Switch to BookingForm</button></Link>
       </div>
     )
