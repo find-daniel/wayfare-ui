@@ -8,7 +8,7 @@ class UserPage extends React.Component {
   render() {
     return (
       <div>
-        <div className="offset-md-1 col-sm-5">
+        <div className="offset-md-1 col-sm-5 row">
           {/* stupid async issue */}
           {!this.props.user_data ? null 
           :
