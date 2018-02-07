@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios'; 
 import "babel-polyfill";
+import './listings.css'
 
 class Pictures extends React.Component {
 
@@ -23,7 +24,7 @@ class Pictures extends React.Component {
   render() {
     return (
       <div>
-        <img src={this.state.image}/>
+        <img className="listingImage" src={this.state.image}/>
       </div>
     )
   }

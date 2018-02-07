@@ -32,11 +32,13 @@ class NavBar extends React.Component {
 
   render() {
     return (
-      <div className="navbar bg-light" >
+      <div className="navbar nav bg-light" >
         <div>
           <Link className="navbar-brand" to="/">Wayfare</Link>
         </div>
-        <SearchBar />
+        <div className="" >
+          <SearchBar />
+        </div>
         {/* Conditionally render depending if user is logged in */}
         {
         !localStorage.getItem('activeUid') ?
@@ -46,6 +48,7 @@ class NavBar extends React.Component {
           </div>
         :
           <div>
+            <Link to={`/user/${localStorage.getItem('activeUser')}`}><button>User Page</button></Link>
             <button className="btn btn-outline-dark" onClick={this.onLogoutClickHandler.bind(this)}>Logout</button>
           </div>
         }

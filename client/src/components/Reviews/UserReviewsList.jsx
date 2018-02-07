@@ -1,13 +1,19 @@
 import React from 'react';
+import { Switch, Route, Link } from 'react-router-dom';
 import UserReviewEntry from './UserReviewEntry';
+import GivenReview from '../User/Review Categories/GivenReview';
+import ReceivedReview from '../User/Review Categories/ReceivedReview';
 
 class UserReviewList extends React.Component {
   render() {
     return (
       <div>
-        <h3> Inside UserReviewList </h3>
-        {/* Map */}
-        <UserReviewEntry />
+        <Link to={`/user/${localStorage.getItem('activeUser')}/reviews/given`}>Given</Link>
+        <Link to={`/user/${localStorage.getItem('activeUser')}/reviews/received`}>Recieved</Link>
+        <Switch>
+          <Route path='/user/:userId/reviews/given' component={GivenReview}/>
+          <Route path='/user/:userId/reviews/received' component={ReceivedReview}/>
+        </Switch>
       </div>
     )
   }
