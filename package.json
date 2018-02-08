@@ -29,6 +29,7 @@
     "file-loader": "^1.1.6",
     "firebase": "^4.9.1",
     "lodash": "^4.17.4",
+    "react-google-maps": "^9.4.5",
     "zombie": "^5.0.7"
   },
   "devDependencies": {

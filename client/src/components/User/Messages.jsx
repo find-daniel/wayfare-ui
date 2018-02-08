@@ -36,6 +36,7 @@ class Messages extends React.Component {
         console.log('couldnt fetch err', err)
       }
       
+    
     socket.on('connect', () => {
       socket.emit('client.ready', this.state.room)
     })
