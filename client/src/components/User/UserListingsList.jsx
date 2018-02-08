@@ -11,6 +11,14 @@ class UserListingsList extends React.Component {
           <Link to={`/user/${localStorage.getItem('activeUid')}/listings/pending`}>Pending</Link>
           <Link to={`/user/${localStorage.getItem('activeUid')}/listings/in-progress`}>In Progress</Link>
           <Link to={`/user/${localStorage.getItem('activeUid')}/listings/completed`}>Completed</Link>
+          {localStorage.getItem('accountType') === '0' ? null :
+            <div>
+              <Link to={`/user/${localStorage.getItem('activeUser')}/create-listing`}><button>Create Listing</button></Link>
+            </div>
+          }
+          <Link to={`/user/${localStorage.getItem('activeUser')}/listings/pending`}>Pending</Link>
+          <Link to={`/user/${localStorage.getItem('activeUser')}/listings/in-progress`}>In Progress</Link>
+          <Link to={`/user/${localStorage.getItem('activeUser')}/listings/completed`}>Completed</Link>
           <Switch> 
             <Route path='/user/:userId/listings/pending' component={PendingListing} />
             <Route path='/user/:userId/listings/in-progress' component={InProgressListing} />

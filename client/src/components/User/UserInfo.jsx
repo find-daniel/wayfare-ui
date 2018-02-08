@@ -11,6 +11,9 @@ class UserInfo extends React.Component {
   async componentDidMount() {
     const data = await axios.get('http://localhost:3396/api/users/getUser', {params: {uid: localStorage.getItem('activeUid')}});
     this.props.setUserData(data.data.rows[0])
+    const data = await axios.get('http://localhost:3396/api/users/getUser', {params: {uid: localStorage.getItem('activeUser')}});
+    this.props.userData(data.data.rows[0])
+    localStorage.setItem('accountType', this.props.user_data.type);
     console.log('this is the user data: ', data.data.rows[0]);
   }
 
