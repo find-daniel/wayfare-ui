@@ -48,7 +48,7 @@ class NavBar extends React.Component {
           </div>
         :
           <div>
-            <Link to={`/user/${localStorage.getItem('activeUser')}`}><button>User Page</button></Link>
+            <Link to={`/user/${localStorage.getItem('activeUid')}`}><button>User Page</button></Link>
             <button className="btn btn-outline-dark" onClick={this.onLogoutClickHandler.bind(this)}>Logout</button>
           </div>
         }
