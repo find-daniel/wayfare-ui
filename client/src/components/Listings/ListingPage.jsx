@@ -18,19 +18,23 @@ class ListingPage extends React.Component {
       listingURL: '',
       user: '', 
       skills: '', 
-      alert: false
+      alert: false, 
+      listingOwner: false
     }
   }
   async componentDidMount() {
+    //get listing information
     let listing = await axios.get('http://localhost:3396/api/listing/getListing', {
       params: {listingId: this.state.listingId}
     }); 
+    //get the host information 
     let userId = await axios.get('http://localhost:3396/api/users/getUserData', {
       params: {userId: listing.data.hostid}
     }); 
+    //get listing skills
     let skills = await axios.get('http://localhost:3396/api/listing/getListingSkills', {
       params: {listingId: this.state.listingId}
-    }); 
+    });
     this.setState ({
       listing: listing.data, 
       listingAddressURL: listing.data.address.split(' ').join('+'),
@@ -48,6 +52,17 @@ class ListingPage extends React.Component {
       lng: parsedGeoData.results[0].geometry.location.lng
     })
 
+    //check if the active user is the listing owner
+    let currUser = await axios.get('http://localhost:3396/api/users/getUser', {
+      params: {uid: localStorage.getItem('activeUid')}
+    })
+    currUser = currUser.data.rows[0].id; 
+    if (currUser === listing.data.hostid) {
+      this.setState ({
+        listingOwner: true
+      })
+    }
+    //increment view count for listing
     let viewCount = await axios.post('http://localhost:3396/api/listing/updateListingViewCount', {
       params: {listingId: this.state.listingId}
     }); 

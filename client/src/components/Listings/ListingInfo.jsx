@@ -36,9 +36,6 @@ class ListingInfo extends React.Component {
                   </ul>
                 :
                 <div>
-                  <p></p>
-                  <p></p>
-                  <div></div>
                 </div>
                 }
             <div className="container">
