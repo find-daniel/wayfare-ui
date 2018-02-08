@@ -23,7 +23,7 @@ class NavBar extends React.Component {
     try {
       const logout = await firebase.auth().signOut()
       console.log('User logged out.')
-      localStorage.removeItem('activeUser');
+      localStorage.removeItem('activeUid');
       window.location.reload(true);
     } catch (err) {
       console.log('Error logging out.')
@@ -41,14 +41,14 @@ class NavBar extends React.Component {
         </div>
         {/* Conditionally render depending if user is logged in */}
         {
-        !localStorage.getItem('activeUser') ?
+        !localStorage.getItem('activeUid') ?
           <div>
             <Link to="/login"><button className="btn btn-outline-dark" id= "Login">Login</button></Link>
             <Link to="/signup"><button className="btn btn-outline-dark" id="Signup">Signup</button></Link>
           </div>
         :
           <div>
-            <Link to={`/user/${localStorage.getItem('activeUser')}`}><button>User Page</button></Link>
+            <Link to={`/user/${localStorage.getItem('activeUid')}`}><button>User Page</button></Link>
             <button className="btn btn-outline-dark" onClick={this.onLogoutClickHandler.bind(this)}>Logout</button>
           </div>
         }

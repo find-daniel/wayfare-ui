@@ -35,9 +35,9 @@ class UserPage extends React.Component {
             </div>
             <div className="right offset-md-1 col-md-7">
               {/* Create submenu here */}
-              <Link to={`/user/${localStorage.getItem('activeUser')}/inbox`}>Inbox</Link>
-              <Link to={`/user/${localStorage.getItem('activeUser')}/listings`}>Listings</Link>
-              <Link to={`/user/${localStorage.getItem('activeUser')}/reviews`}>Reviews</Link>
+              <Link to={`/user/${localStorage.getItem('activeUid')}/inbox`}>Inbox</Link>
+              <Link to={`/user/${localStorage.getItem('activeUid')}/listings`}>Listings</Link>
+              <Link to={`/user/${localStorage.getItem('activeUid')}/reviews`}>Reviews</Link>
               <hr/>
               <Switch> 
                 <Route path='/user/:userId/inbox' component={Messages} />

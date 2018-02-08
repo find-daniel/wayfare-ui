@@ -8,8 +8,8 @@ class UserReviewList extends React.Component {
   render() {
     return (
       <div>
-        <Link to={`/user/${localStorage.getItem('activeUser')}/reviews/given`}>Given</Link>
-        <Link to={`/user/${localStorage.getItem('activeUser')}/reviews/received`}>Recieved</Link>
+        <Link to={`/user/${localStorage.getItem('activeUid')}/reviews/given`}>Given</Link>
+        <Link to={`/user/${localStorage.getItem('activeUid')}/reviews/received`}>Recieved</Link>
         <Switch>
           <Route path='/user/:userId/reviews/given' component={GivenReview}/>
           <Route path='/user/:userId/reviews/received' component={ReceivedReview}/>

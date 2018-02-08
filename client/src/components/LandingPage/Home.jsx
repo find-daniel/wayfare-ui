@@ -11,7 +11,7 @@ class Home extends React.Component {
         <h1> Inside Home </h1>
         {/* Links for development only ** for now ** */}
         <Link to="/listing/:listingId"><button>Switch to listingPage</button></Link>
-        <Link to={`/user/${localStorage.getItem('activeUser')}/create-listing`}><button>Switch to createListingForm</button></Link>
+        <Link to={`/user/${localStorage.getItem('activeUid')}/create-listing`}><button>Switch to createListingForm</button></Link>
         <Link to="/listing/book/:listingId"><button>Switch to BookingForm</button></Link>
       </div>
     )
