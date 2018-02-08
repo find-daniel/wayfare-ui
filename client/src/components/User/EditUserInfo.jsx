@@ -13,6 +13,7 @@ class EditUserInfo extends React.Component {
       city: '',
       bio: '',
       imageObj: '',
+      imagePrev: '',
       image: 'http://ugc.reveliststatic.com/gen/full/2016/07/12/14/d7/ug/phhckvfb402qbwe.gif',
       uid: localStorage.getItem('activeUid')
     }
@@ -67,7 +68,8 @@ class EditUserInfo extends React.Component {
     let file = files[0];
     console.log('file', file)
     this.setState({
-      imageObj: file
+      imageObj: file,
+      imagePrev: file.preview
     })
   }
 
@@ -85,13 +87,20 @@ class EditUserInfo extends React.Component {
             {/* Profile Photo */}
             <div>
               <p>Profile Photo</p>
-              {/* <input onChange={this.onChangeHandler.bind(this)} name='image' type="file"/> */}
             </div>
             {/* Dropzone to add photos by click or dragging*/}
             <div>
-              <Dropzone onDrop={ this._onDrop.bind(this) } maxSize={ 5000000 }>
+              <Dropzone 
+                accept="image/jpeg, image/jpg, image/png"
+                multiple={false}
+                onDropAccepted={ this._onDrop.bind(this) } maxSize={ 5000000 }
+                onDragLeave= {this._onDrop.bind(this) } maxSize={ 5000000 }
+                // onDropRejected = {can render a warning if we want}
+                // className="dropzone"   <-- Daniel, add styles to .dropzone later!
+              >
                 <div>
-                 Click or drag photo here!
+                  Click or drag photo here!
+                    {!this.state.imagePrev ? null : <div>Preview: <br/><img style={{maxHeight: '120px'}} src={this.state.imagePrev} /></div> }
                 </div>
               </Dropzone>
             </div>
