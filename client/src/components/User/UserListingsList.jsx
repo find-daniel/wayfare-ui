@@ -8,6 +8,11 @@ class UserListingsList extends React.Component {
   render () {
     return (
       <div>
+          {localStorage.getItem('accountType') === '0' ? null :
+            <div>
+              <Link to={`/user/${localStorage.getItem('activeUid')}/create-listing`}><button>Create Listing</button></Link>
+            </div>
+          }
           <Link to={`/user/${localStorage.getItem('activeUid')}/listings/pending`}>Pending</Link>
           <Link to={`/user/${localStorage.getItem('activeUid')}/listings/in-progress`}>In Progress</Link>
           <Link to={`/user/${localStorage.getItem('activeUid')}/listings/completed`}>Completed</Link>
