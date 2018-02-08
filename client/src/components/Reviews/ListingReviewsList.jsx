@@ -20,21 +20,22 @@ class ListingReviewsList extends React.Component {
     this.setState({
       reviews : reviews.data.rows
     })
-    console.log(reviews); 
   }
 
   render() {
     return (
-      <div>
-        <h2> Reviews </h2>
-        {this.state.reviews.length === 0 
-          ?
-            <div/>
-            :
-            this.state.reviews.map(review => {
-              return <div> <hr/> <ListingReviewEntry review={review}/> </div>
-            })
-        }
+      <div className="card">
+        <div className="card-body">
+          <h2 className="card-title"> Reviews </h2>
+          {this.state.reviews.length === 0 
+            ?
+              <div/>
+              :
+              this.state.reviews.map(review => {
+                return <div className="card-text"> <hr/> <ListingReviewEntry review={review}/> </div>
+              })
+          }
+        </div>
       </div>
     )
   }

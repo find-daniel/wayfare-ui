@@ -16,7 +16,8 @@ class ListingPage extends React.Component {
       listingId: this.props.match.params.listingId,
       listing: '', 
       user: '', 
-      skills: ''
+      skills: '', 
+      alert: false
     }
   }
   async componentDidMount() {
@@ -34,14 +35,30 @@ class ListingPage extends React.Component {
       user: userId.data, 
       skills: skills.data
     })
-    await axios.post('http://localhost:3396/api/listing/updateListingViewCount', {
+    let viewCount = await axios.post('http://localhost:3396/api/listing/updateListingViewCount', {
       params: {listingId: this.state.listingId}
     }); 
+    viewCount = viewCount.data.rows[0].viewcount; 
+    if (viewCount === 1) {
+      this.setState ({
+        alert: true
+      });
+    }
   }
 
   render() {
     return (
       <div>
+        {this.state.alert 
+          ?
+          <div class="alert alert-success center" role="alert">
+            <strong>Success!</strong> You have successfully created a listing!
+          </div>
+          :
+          <div/>
+          }
+
+        <p/>
         <h2 className="title">{this.state.listing.title}</h2>
         <hr/>
         <div className="container">
@@ -60,7 +77,7 @@ class ListingPage extends React.Component {
                 }
               </div>
               </div>
-            <div className="col-md-2"/>
+            <div className="col-md-1"/>
             <div className="col-md-5">
                 <ListingInfo listing={this.state.listing} user={this.state.user}  skills={this.state.skills}/>
             </div>
