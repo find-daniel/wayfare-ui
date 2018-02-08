@@ -96,7 +96,7 @@ class EditUserInfo extends React.Component {
                 onDropAccepted={ this._onDrop.bind(this) } maxSize={ 5000000 }
                 onDragLeave= {this._onDrop.bind(this) } maxSize={ 5000000 }
                 // onDropRejected = {can render a warning if we want}
-                // className="dropzone"   <-- Daniel, add styles to .dropzone later!
+                // className="dropzone"   <-- Daniel-san, add styles to .dropzone later! onegaishimasu
               >
                 <div>
                   Click or drag photo here!
