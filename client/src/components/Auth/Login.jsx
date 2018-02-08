@@ -32,6 +32,7 @@ class Login extends React.Component {
       try {
         const data = await axios.post('http://localhost:3396/api/auth/login', payload)
         console.log('Local user data from sql db. Data: ', data)
+        localStorage.setItem('email', data.data.email);
       } catch (err) {
         console.log('Error querying local user data from sql db. Err: ', err)
       }
@@ -45,6 +46,7 @@ class Login extends React.Component {
     try {
       const authData = await firebase.auth().signInWithPopup(googleProvider)
       console.log('User signed in with Firebase->Google.');
+      localStorage.setItem('email', authData.user.email);
       let payload = {
         email: authData.user.email,
         name: authData.user.displayName,
@@ -68,6 +70,7 @@ class Login extends React.Component {
     try {
       const data = await firebase.auth().signInWithPopup(facebookProvider);
       console.log('User signed in with Firebase->Facebook.');
+      localStorage.setItem('email', data.user.email);
       let payload = {
         email: data.user.email,
         name: data.user.displayName,
