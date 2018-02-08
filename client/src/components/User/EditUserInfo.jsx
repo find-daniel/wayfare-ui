@@ -32,7 +32,7 @@ class EditUserInfo extends React.Component {
         image: data.body.url
       })
     } catch (err) {
-      console.log('error uploading to s3')
+      console.log('error uploading to s3', err)
     }
     try {
       const {city, bio, image, uid} = this.state;
