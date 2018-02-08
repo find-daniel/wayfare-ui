@@ -20,7 +20,6 @@ class ListingReviewsList extends React.Component {
     this.setState({
       reviews : reviews.data.rows
     })
-    console.log(reviews); 
   }
 
   render() {
@@ -33,7 +32,7 @@ class ListingReviewsList extends React.Component {
               <div/>
               :
               this.state.reviews.map(review => {
-                return <div class="card-text"> <hr/> <ListingReviewEntry review={review}/> </div>
+                return <div className="card-text"> <hr/> <ListingReviewEntry review={review}/> </div>
               })
           }
         </div>
