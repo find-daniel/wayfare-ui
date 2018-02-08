@@ -33,6 +33,7 @@ class Login extends React.Component {
         const data = await axios.post('http://localhost:3396/api/auth/login', payload)
         console.log('Local user data from sql db. Data: ', data)
         localStorage.setItem('email', data.data.email);
+        this.onSuccess();
       } catch (err) {
         console.log('Error querying local user data from sql db. Err: ', err)
       }
@@ -80,6 +81,7 @@ class Login extends React.Component {
       try {
         const data = await axios.post('http://localhost:3396/api/auth/signup', payload)
         console.log('Facebook user saved to sql db.')
+        this.onSuccess();
       } catch (err) {
         console.log('Error saving Facebook user to sql db. Err: ', err)
       }

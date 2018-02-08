@@ -13,7 +13,7 @@ class UserPage extends React.Component {
   async accountUpgradeHandler () {
     try {
       const payload = {
-        uid: localStorage.getItem('activeUser'),
+        uid: localStorage.getItem('activeUid'),
         type: this.props.user_data.type
       };
       const data = await axios.put('http://localhost:3396/api/users/upgradeUser', payload);
@@ -67,11 +67,8 @@ class UserPage extends React.Component {
             <div className="right offset-md-1 col-md-7">
               {/* Create submenu here */}
               <Link to={`/user/${localStorage.getItem('activeUid')}/inbox`}>Inbox</Link>
-              <Link to={`/user/${localStorage.getItem('activeUid')}/listings`}>Listings</Link>
-              <Link to={`/user/${localStorage.getItem('activeUid')}/reviews`}>Reviews</Link>
-              <Link to={`/user/${localStorage.getItem('activeUser')}/inbox`}>Inbox</Link>
-              <Link to={`/user/${localStorage.getItem('activeUser')}/listings/pending`}>Listings</Link>
-              <Link to={`/user/${localStorage.getItem('activeUser')}/reviews/given`}>Reviews</Link>
+              <Link to={`/user/${localStorage.getItem('activeUid')}/listings/pending`}>Listings</Link>
+              <Link to={`/user/${localStorage.getItem('activeUid')}/reviews/given`}>Reviews</Link>
               <hr/>
               <Switch> 
                 <Route path='/user/:userId/inbox' component={Messages} />

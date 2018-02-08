@@ -25,6 +25,7 @@ class NavBar extends React.Component {
       console.log('User logged out.')
       localStorage.removeItem('activeUid');
       window.location.reload(true);
+      this.props.history.push('/');
     } catch (err) {
       console.log('Error logging out.')
     }
@@ -48,8 +49,7 @@ class NavBar extends React.Component {
           </div>
         :
           <div>
-            <Link to={`/user/${localStorage.getItem('activeUid')}`}><button>User Page</button></Link>
-            <Link to={`/user/${localStorage.getItem('activeUser')}/inbox`}><button>User Page</button></Link>
+            <Link to={`/user/${localStorage.getItem('activeUid')}/inbox`}><button>User Page</button></Link>
             <button className="btn btn-outline-dark" onClick={this.onLogoutClickHandler.bind(this)}>Logout</button>
           </div>
         }
