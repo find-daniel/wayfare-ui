@@ -21,13 +21,11 @@ class CreateListingForm extends React.Component {
 
   async onSubmitHandler(e) {
     e.preventDefault();
-    
     let userId = await axios.get('http://localhost:3396/api/users/getUser', {
       params: {uid: this.props.match.params.userId}
     }); 
     userId = userId.data.rows[0].id; 
 
-    
 
     const listingDetails = {
       title: this.refs.title.value,

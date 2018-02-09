@@ -19,8 +19,12 @@ class ListingPage extends React.Component {
       user: '', 
       skills: '', 
       alert: false, 
-      listingOwner: false
+      listingOwner: true, 
+      edit: false
     }
+
+    this.editInfo = this.editInfo.bind(this); 
+    this.submitInfo = this.submitInfo.bind(this); 
   }
   async componentDidMount() {
     //get listing information
@@ -35,13 +39,17 @@ class ListingPage extends React.Component {
     let skills = await axios.get('http://localhost:3396/api/listing/getListingSkills', {
       params: {listingId: this.state.listingId}
     });
+    let skillsArr = []; 
+    skills.data.forEach(skill => {
+      skillsArr.push(skill.skill);  
+    })
     this.setState ({
       listing: listing.data, 
       listingAddressURL: listing.data.address.split(' ').join('+'),
       listingCityURL: listing.data.city.split(' ').join('+'),
       listingStateURL: listing.data.state,
       user: userId.data, 
-      skills: skills.data
+      skills: skillsArr
     })
     
     let geodata = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${this.state.listingAddressURL},+${this.state.listingCityURL},+${this.state.listingStateURL}&key=AIzaSyBvPqU7ldLdjnZvfEvXs9WIAJbbcodpfBE`)
@@ -74,12 +82,24 @@ class ListingPage extends React.Component {
     }
   }
 
+  editInfo() {
+    this.setState({
+      edit: true
+    })
+  }
+
+  submitInfo() {
+    this.setState({
+      edit: false
+    })
+  }
+
   render() {
     return (
       <div>
         {this.state.alert 
           ?
-          <div class="alert alert-success center" role="alert">
+          <div className="alert alert-success center" role="alert">
             <strong>Success!</strong> You have successfully created a listing!
           </div>
           :
@@ -87,7 +107,14 @@ class ListingPage extends React.Component {
           }
 
         <p/>
-        <h2 className="title">{this.state.listing.title}</h2>
+          {this.state.edit 
+          ?
+          <div className="title-edit-box">
+            <textarea type="text" className="title-edit" placeholder={this.state.listing.title}></textarea> 
+            </div>
+          :
+            <h2 className="title">{this.state.listing.title}</h2>
+          }
         <hr/>
         <div className="container">
           <div className="row">
@@ -107,7 +134,7 @@ class ListingPage extends React.Component {
               </div>
             <div className="col-md-1"/>
             <div className="col-md-5">
-                <ListingInfo listing={this.state.listing} user={this.state.user}  skills={this.state.skills}/>
+                <ListingInfo editInfo={this.editInfo} submitInfo={this.submitInfo} listingOwner={this.state.listingOwner} listing={this.state.listing} user={this.state.user}  skills={this.state.skills}/>
             </div>
           </div>
           <div className="row">

@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios'; 
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import { Provider, connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -19,13 +20,27 @@ class App extends React.Component {
   constructor(props){
     super(props)
   }
+  
   componentDidMount(){
-    firebase.auth().onAuthStateChanged(user => {
+    firebase.auth().onAuthStateChanged((user) => {
+      setTimeout(()=>{ 
       if (user) {
         this.props.setActiveUser(user);
         localStorage.setItem('activeUid', user.uid)
-        // console.log('activeuserrr', this.props.active_user)
-      } 
+        console.log('user', user, 'user.uid', user.uid)
+        axios.get('http://localhost:3396/api/users/getUser', {params: {uid: user.uid}})
+          .then((data) => {
+            console.log(data); 
+            localStorage.setItem('activeId', data.data.rows[0].id); 
+          }) 
+      } else {
+        localStorage.setItem('activeUid', '');
+        localStorage.setItem('activeId', ''); 
+        localStorage.setItem('activeUser', ''); 
+        localStorage.setItem('email', ''); 
+        localStorage.setItem('accountType', ''); 
+      }
+    }, 1000); 
     });
   }
   
