@@ -11,17 +11,21 @@ class CreateListingForm extends React.Component {
     this.state = {
       imageObj: '',
       imagePrev: '',
-      image: ''
+      image: '',
+      skills: []
     }
+
+    this.addSkill = this.addSkill.bind(this); 
+    this.deleteSkill = this.deleteSkill.bind(this); 
   }
 
   async onSubmitHandler(e) {
     e.preventDefault();
-    
     let userId = await axios.get('http://localhost:3396/api/users/getUser', {
       params: {uid: this.props.match.params.userId}
     }); 
     userId = userId.data.rows[0].id; 
+
 
     const listingDetails = {
       title: this.refs.title.value,
@@ -70,9 +74,38 @@ class CreateListingForm extends React.Component {
     } catch (err) {
       console.log('error uploading to s3', err)
     }
+    let listingId = await axios.post('http://localhost:3396/api/listing/createListing', {params: {listingDetails: listingDetails}}); 
+    
+    listingId = listingId.data.rows[0].id; 
+    for(let i = 0; i < this.state.skills.length; i++ ) {
+      const data = await axios.post('http://localhost:3396/api/listing/addSkill', {
+        params: {listingId: listingId, skill: this.state.skills[i]}
+      })
+    };  
+
 
     this.props.history.push(`/listing/${listingId}`); 
-    //redirect to listing page 
+  }
+
+  addSkill() {
+    let arr = this.state.skills; 
+    arr.push(this.refs.skill.value); 
+    this.setState ({
+      skills: arr
+    }) 
+    this.refs.skill.value = "";
+  }
+
+  deleteSkill(skill) {
+    let arr = this.state.skills; 
+    arr.forEach((s, i) => {
+      if (s === skill) {
+        delete arr[i]; 
+      }
+    })
+    this.setState({
+      skills: arr
+    })
   }
 
   _onDrop(files) {
@@ -98,6 +131,20 @@ class CreateListingForm extends React.Component {
           <br/>
           {/* Send to google geocoding api */}
           <input type="text" ref="location" placeholder="Location" required/>
+          <br/>
+          <input type="text" ref="skill" placeholder="Requested Skill"/><button onClick={this.addSkill}>+</button>
+          {this.state.skills.length > 0
+            ? <div>
+                <div>Skills: </div>
+                <ul>
+                {(this.state.skills.map(skill => {
+                  return <li>{skill}  <button onClick={() => {this.deleteSkill(skill)}}>-</button></li>
+                }))}
+                </ul>
+              </div>
+            :
+              <div/>
+          }
           <br/>
           <textarea name="description" ref="description" id="" cols="30" rows="10" placeholder="Describe your listing" required></textarea>
           <br/>
