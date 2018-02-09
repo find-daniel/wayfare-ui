@@ -21,43 +21,65 @@ const MyMapComponent = compose(
 )((props) =>
     <GoogleMap
       defaultZoom= {8}
-      defaultCenter={{ lat: 33.976237, lng: -118.390752}}
+      defaultCenter={{ lat: props.lat, lng: props.lng }}
       >
-      {props.isMarkerShown && <Marker position={{ lat: 33.976237, lng: -118.390752 }} onClick={props.onMarkerClick}/>}
+      {props.isMarkerShown && <Marker position={{ lat: props.lat, lng: props.lng }} onClick={props.onMarkerClick}/>}
     </GoogleMap>
 ) 
 
 
 class myMap extends React.PureComponent {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
-      isMarkerShown: false
+      isMarkerShown: false,
+      
+      
     }
-
+  this.delayedShowMarker = this.delayedShowMarker.bind(this);
+  this.handleMarkerClick = this.handleMarkerClick.bind(this)
   }
 
   componentDidMount() {
+    console.log('prioppps', this.props)
     this.delayedShowMarker();
+    
   }
 
   delayedShowMarker() {
+    
     setTimeout(() => {
+      console.log(this.props)
       this.setState({ isMarkerShown: true })
-    }, 3000)
+    }, 300)
   }
 
   handleMarkerClick() {
     this.setState({ isMarkerShown: false })
     this.delayedShowMarker();
+   
   }
 
   render() {
+     
     return (
-      <MyMapComponent
-      isMarkerShown={this.state.isMarkerShown}
-      onMarkerClick={this.handleMarkerClick}
-      />
+      <div>
+      {
+        !this.props.lat
+        ? null
+        : (
+          <MyMapComponent
+          isMarkerShown={this.state.isMarkerShown}
+          onMarkerClick={this.handleMarkerClick}
+          lng={this.props.lng}
+          lat={this.props.lat}
+          />
+        )
+        
+        
+      }
+      </div>
+      
     )
   }
 }

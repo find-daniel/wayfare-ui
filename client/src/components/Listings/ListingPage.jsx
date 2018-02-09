@@ -2,7 +2,7 @@ import React from 'react';
 import SearchBar from '../Search/SearchBar';
 import ListingInfo from './ListingInfo';
 import Pictures from './Pictures';
-import Map from '../Map/Map';
+import Mymap from '../Map/Map';
 import ListingReviewsList from '../Reviews/ListingReviewsList';
 import axios from 'axios'; 
 import "babel-polyfill";
@@ -15,6 +15,7 @@ class ListingPage extends React.Component {
     this.state = {
       listingId: this.props.match.params.listingId,
       listing: '', 
+      listingURL: '',
       user: '', 
       skills: '', 
       alert: false
@@ -32,9 +33,21 @@ class ListingPage extends React.Component {
     }); 
     this.setState ({
       listing: listing.data, 
+      listingAddressURL: listing.data.address.split(' ').join('+'),
+      listingCityURL: listing.data.city.split(' ').join('+'),
+      listingStateURL: listing.data.state,
       user: userId.data, 
       skills: skills.data
     })
+    
+    let geodata = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${this.state.listingAddressURL},+${this.state.listingCityURL},+${this.state.listingStateURL}&key=AIzaSyBvPqU7ldLdjnZvfEvXs9WIAJbbcodpfBE`)
+    let parsedGeoData = JSON.parse(geodata.request.responseText)
+    
+    this.setState({
+      lat: parsedGeoData.results[0].geometry.location.lat,
+      lng: parsedGeoData.results[0].geometry.location.lng
+    })
+
     let viewCount = await axios.post('http://localhost:3396/api/listing/updateListingViewCount', {
       params: {listingId: this.state.listingId}
     }); 
@@ -84,7 +97,7 @@ class ListingPage extends React.Component {
           </div>
           <div className="row">
             <div className="col align-self-center">
-              <Map />
+              <Mymap listing={this.state.listing} lat={this.state.lat} lng={this.state.lng}/>
             </div>
           </div>
         </div>
@@ -92,5 +105,7 @@ class ListingPage extends React.Component {
     )
   }
 }
+
+
 
 export default ListingPage;
