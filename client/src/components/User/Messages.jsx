@@ -13,7 +13,8 @@ class Messages extends React.Component {
       socket: null,
       author: null,
       messages: [],
-      room: null
+      room: null,
+      message: ''
     }
     this.sendMessage = this.sendMessage.bind(this);
   }
