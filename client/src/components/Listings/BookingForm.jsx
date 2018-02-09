@@ -15,18 +15,20 @@ class BookingForm extends React.Component {
 
   async componentDidMount() {
     try{
+      // GET USER ID FOR SCHEMA QUERIES
+      // const userId = await localStorage.getItem('activeId')
       const userId = await axios.get('http://localhost:3396/api/users/getUser', {
         params: {uid: localStorage.getItem('activeUid')}
-      })      
+      })
 
+      // GET SKILLS USING USER ID (currently using uid to do it... fix controller later)
       const skills = await axios.get('http://localhost:3396/api/listing/getUserSkills', {
         params: {uid: localStorage.getItem('activeUid')}
-      })
-              
+      })              
       const payload = []
       await skills.data.rows.map(skill => {
         payload.push({'id': skill.id, 'skill': skill.skill})
-      })
+      })      
       await this.setState({
         userId: userId.data.rows[0].id,
         skills: payload
@@ -34,18 +36,17 @@ class BookingForm extends React.Component {
     } catch(err) {
       throw new Error(err);
     }
-
   }
   
-  onChangeHandler(e) {
+  async onChangeHandler(e) {
     e.preventDefault();
     console.log(e.target.value)
     this.setState({
-      newSkill: e.target.value
+      [e.target.name]: e.target.value
     })
   }
   
-  onSubmitHandler(e) {
+  async onSubmitHandler(e) {
     e.preventDefault();
     console.log('booking requested');
   }
@@ -61,7 +62,6 @@ class BookingForm extends React.Component {
           uid: this.state.userId
         } 
       })
-
       const payload = []
       await response.data.rows.map(skill => {        
         payload.push({'id': skill.id, 'skill': skill.skill})
@@ -74,6 +74,7 @@ class BookingForm extends React.Component {
       throw new Error(err);
     }
   }
+
   async onAddSkillHandler(e) {
     e.preventDefault();
     console.log('skill added:', this.state.newSkill)
@@ -82,7 +83,6 @@ class BookingForm extends React.Component {
         uid: localStorage.getItem('activeUid'),
         skill: this.state.newSkill
       })
-
       const payload = []
       await response.data.rows.map(skill => {
         payload.push({'id': skill.id, 'skill': skill.skill})
@@ -90,32 +90,20 @@ class BookingForm extends React.Component {
       this.setState({
         skills: payload,
       })
-
     } catch(err) {
       throw new Error(err);
     }
   }
-  async onCheckHandler(e) {
-    // e.preventDefault()
 
-    // if checked doesn't have number
-    // console.log(e.target.id, typeof e.target.id)
+  async onCheckHandler(e) {
     if (!this.state.checked.includes(JSON.parse(e.target.id))) {
-      // console.log('doesnt exist')
-      // add it
-      // console.log(this.state.checked)
       const addPayload = this.state.checked;
       addPayload.push(JSON.parse(e.target.id))
-      // console.log(addPayload)
-      // set state
       this.setState({
         checked: addPayload
       })
       console.log('after add', this.state.checked)
-
     } else {
-      // console.log('does exist')
-      // console.log(this.state.checked)
       const deletePayload = this.state.checked
       console.log(e.target.id)
       deletePayload.splice(deletePayload.indexOf(JSON.parse(e.target.id)), 1)
@@ -125,20 +113,28 @@ class BookingForm extends React.Component {
       console.log('after delete', this.state.checked)
     }    
   }
+
   render() {
     return (
       <div>
         <h1> Request Booking </h1>
+
+        {/* Add new Skill */}
         <div> 
           <h5>Add a New Skill </h5>
           <form onSubmit={this.onAddSkillHandler.bind(this)}>
-            <input onChange={this.onChangeHandler.bind(this)} type="text"/>
+            <input name="newSkill" type="text" 
+              onChange={this.onChangeHandler.bind(this)} 
+            />
             <button>Add skill</button>
           </form>
-        </div>
+        </div>        
+
+        {/* FORM SUBMISSION */}
         <form onSubmit={this.onSubmitHandler.bind(this)}>
-          {/* map skills */}
           <div> 
+
+            {/* CHOOSE/DELETE SKILLS */}
             <h5>Choose Your Skills </h5>
               {
                 !this.state.skills
@@ -164,13 +160,14 @@ class BookingForm extends React.Component {
                   )
                 })                
               }              
-           
+            
+            {/* MESSAGE HOST */}
             <h5>Message to the host (optional):</h5>
-            <textarea name="info" id="" cols="30" rows="10" 
+            <textarea name="message" id="" cols="30" rows="10" 
               placeholder="Send your first message to the host!" 
-              defaultValue={this.state.message}
+              value={this.state.message}
+              onChange={this.onChangeHandler.bind(this)}
             ></textarea>
-            <br />
           </div>          
           <button>Request Booking</button>
         </form>
