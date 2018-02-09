@@ -45,8 +45,8 @@ class CreateListingForm extends React.Component {
       const data = await upload
       .post('http://localhost:3396/api/files/upload')
       .attach('theseNamesMustMatch', this.state.imageObj)
-      .field('keypath', 'profiles/' + window.localStorage.email + '/' + this.state.imageObj.name)
-      .field('endurl', 'profiles/' + encodeURIComponent(window.localStorage.email) + '/' + this.state.imageObj.name)
+      .field('keypath', 'profiles/' + window.localStorage.email + '/listingPic/' + this.state.imageObj.name)
+      .field('endurl', 'profiles/' + encodeURIComponent(window.localStorage.email) + '/listingPic/' + this.state.imageObj.name)
   
       this.setState({
         image: data.body.url
@@ -105,13 +105,13 @@ class CreateListingForm extends React.Component {
           <Dropzone 
             accept="image/jpeg, image/jpg, image/png"
             multiple={false}
-            onDropAccepted={ this._onDrop.bind(this) } maxSize={ 5000000 }
-            onDragLeave= {this._onDrop.bind(this) } maxSize={ 5000000 }
+            onDropAccepted={ this._onDrop.bind(this) } maxSize={ 2000000 }
+            onDragLeave= {this._onDrop.bind(this) } maxSize={ 2000000 }
             // onDropRejected = {can render a warning if we want}
             // className="dropzone"   <-- Daniel-san, add styles to .dropzone later! onegaishimasu
           >
             <div>
-              Click or drag photo here!
+              Click or drag photo here! Limit 2mb
                 {!this.state.imagePrev ? null : <div>Preview: <br/><img style={{maxHeight: '120px'}} src={this.state.imagePrev} /></div> }
             </div>
           </Dropzone>
