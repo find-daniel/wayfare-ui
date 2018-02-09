@@ -37,7 +37,7 @@ class UserPage extends React.Component {
                 <h1> {this.props.user_data.name} </h1>
               </div>
               <div>
-                <p>Guest</p>
+                <span className="badge badge-dark">Guest</span>
               </div>
               <div>
                 <button onClick={this.accountUpgradeHandler.bind(this)}>Switch to Host</button>
@@ -50,7 +50,7 @@ class UserPage extends React.Component {
                 <h1> {this.props.user_data.name} </h1>
               </div>
               <div>
-                <p>Host</p>
+              <span className="badge badge-dark">Host</span>
               </div>
               <div>
                 <button onClick={this.accountUpgradeHandler.bind(this)}>Switch to Guest</button>

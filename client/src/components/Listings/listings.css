@@ -26,6 +26,7 @@ a:hover {
 .hostBox{
   height: 130px;
   width: 100%; 
+  margin-top: 50px;
   padding: 10px; 
   background-color: rgb(180,180,180); 
 }
