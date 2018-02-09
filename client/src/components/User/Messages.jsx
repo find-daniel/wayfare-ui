@@ -36,6 +36,7 @@ class Messages extends React.Component {
         console.log('couldnt fetch err', err)
       }
       
+    
     socket.on('connect', () => {
       socket.emit('client.ready', this.state.room)
     })
@@ -96,7 +97,7 @@ class Messages extends React.Component {
                     <br/>
                     <input type="text" placeholder="Message"  value={this.state.message} onChange={e => this.setState({message: e.target.value})}/>
                     <br/>
-                    <button  onClick={(e) => this.sendMessage(e)}>Send</button>
+                    <button  onSubmit={(e) => this.sendMessage(e)}>Send</button>
                 </div>
           </div>  
       </div>
