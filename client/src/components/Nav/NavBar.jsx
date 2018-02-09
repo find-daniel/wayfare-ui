@@ -35,7 +35,7 @@ class NavBar extends React.Component {
     return (
       <div className="navbar nav bg-light" >
         <div>
-          <Link className="navbar-brand" to="/">Wayfare</Link>
+          <Link onClick={this.onSuccess} className="navbar-brand" to="/">Wayfare</Link>
         </div>
         <div className="" >
           <SearchBar />

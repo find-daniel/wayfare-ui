@@ -1,3 +1,11 @@
+.fixLink {
+  color: black;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
 .title{
   font-weight: bold;
   text-align: center; 

@@ -1,6 +1,6 @@
 export default (state=null, action) => {
   switch (action.type) {
-    case "GET_USER_DATA":
+    case 'SET_SEARCH_RESULTS':
       return action.payload;
       break;
   }
