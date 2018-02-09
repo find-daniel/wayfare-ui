@@ -57,7 +57,6 @@ class ListingInfo extends React.Component {
   render() {
     return (
       <div className="card hostInfo">
-<<<<<<< HEAD
         <div className="card">
 
           <div className="card-body body">
@@ -69,13 +68,6 @@ class ListingInfo extends React.Component {
                 <input type="text" placeholder={this.props.listing.city}></input>
               </div>
             : 
-||||||| merged common ancestors
-        <div className="card">
-          <div className="card-body body">
-=======
-        <div className="">
-          <div className="card-body">
->>>>>>> [publicpage] setup public user page
             <h4 className="card-title">{this.props.listing.startdate} - {this.props.listing.enddate}, {this.props.listing.city}</h4>
             }
             <hr/>
@@ -93,28 +85,10 @@ class ListingInfo extends React.Component {
 
             <hr/>
             <h6 className="skills"> Skills for Stay: </h6>
-<<<<<<< HEAD
 
             <div>
               {this.state.edit
               ?
-||||||| merged common ancestors
-              {this.props.skills.length > 0 
-                ? <ul>
-                    {this.props.skills.map(skill => {
-                      return  <li>{skill.skill}</li>
-                    })}
-                  </ul>
-                :
-=======
-              {this.props.skills.length > 0 
-                ? <ul>
-                    {this.props.skills.map(skill => {
-                      return  <li key={skill} >{skill.skill}</li>
-                    })}
-                  </ul>
-                :
->>>>>>> [publicpage] setup public user page
                 <div>
                   <input type="text" ref="skill" placeholder="Skill for stay"></input><button onClick={this.addSkill}>+</button>
                   <ul>
@@ -157,35 +131,11 @@ class ListingInfo extends React.Component {
             </div>
 
           </div>
-<<<<<<< HEAD
 
         <p></p>
 
 
-||||||| merged common ancestors
         </div>
-        <p></p>
-        <div className="card hostBox">
-          <span>
-            <img className="host-image" src={this.props.user.image}/>
-            <span className="hostInfoBox">
-              <Link className="hostInfoLink" to={`/${this.props.user.uid}`}>{this.props.user.name}</Link>
-            </span>
-          </span>
-=======
-          <div className="hostBox">
-          <span>
-            <img className="host-image" src={this.props.user.image}/>
-            <span className="hostInfoBox">
-              <Link className="hostInfoLink" to={{
-                pathname: `/user/public/${this.props.user.uid}`,
-                state: {hostId: this.props.user.id, hostUid: this.props.user.uid}
-                }}>{this.props.user.name}</Link>
-            </span>
-          </span>
->>>>>>> [publicpage] setup public user page
-        </div>
-<<<<<<< HEAD
          <div className="card hostBox">
            <span>
              <img className="host-image" src={this.props.user.image}/>
@@ -196,12 +146,6 @@ class ListingInfo extends React.Component {
          </div>
 
     </div>
-||||||| merged common ancestors
-      </div>
-=======
-        </div>
-      </div>
->>>>>>> [publicpage] setup public user page
     )
   }
 };
