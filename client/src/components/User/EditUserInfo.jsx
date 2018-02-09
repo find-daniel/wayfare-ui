@@ -25,10 +25,10 @@ class EditUserInfo extends React.Component {
       const data = await   upload
       .post('http://localhost:3396/api/files/upload')
       .attach('theseNamesMustMatch', this.state.imageObj)
-      .field('email', window.localStorage.email)
-      .field('imagename', this.state.imageObj.name)
-      .field('name', 'profilePictures/' + window.localStorage.email + '/' + this.state.imageObj.name)
+      .field('keypath', 'profiles/' + window.localStorage.email + '/prof-pic.' + this.state.imageObj.name.split('.').pop())
+      .field('endurl', 'profiles/' + encodeURIComponent(window.localStorage.email) + '/prof-pic.' + this.state.imageObj.name.split('.').pop())
   
+      // async issue here:
       this.setState({
         image: data.body.url
       })
