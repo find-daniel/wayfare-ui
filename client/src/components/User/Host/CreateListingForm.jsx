@@ -40,7 +40,7 @@ class CreateListingForm extends React.Component {
     }
 
     console.log('listingDetails', listingDetails); 
-    let listingId = await axios.put('http://localhost:3396/api/listing/createListing', {params: {listingDetails: listingDetails}}); 
+    let listingId = await axios.post('http://localhost:3396/api/listing/createListing', {params: {listingDetails: listingDetails}}); 
 
     listingId = listingId.data.rows[0].id;
 
@@ -56,7 +56,6 @@ class CreateListingForm extends React.Component {
         image: data.body.url
       })
 
-      // need to post image to our database here.
       try {
 
         let payload = {
@@ -74,9 +73,6 @@ class CreateListingForm extends React.Component {
     } catch (err) {
       console.log('error uploading to s3', err)
     }
-    let listingId = await axios.post('http://localhost:3396/api/listing/createListing', {params: {listingDetails: listingDetails}}); 
-    
-    listingId = listingId.data.rows[0].id; 
     for(let i = 0; i < this.state.skills.length; i++ ) {
       const data = await axios.post('http://localhost:3396/api/listing/addSkill', {
         params: {listingId: listingId, skill: this.state.skills[i]}
