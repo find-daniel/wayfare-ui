@@ -29,9 +29,11 @@ class EditUserInfo extends React.Component {
       .field('endurl', 'profiles/' + encodeURIComponent(window.localStorage.email) + '/prof-pic.' + this.state.imageObj.name.split('.').pop())
   
       // async issue here:
+
       this.setState({
         image: data.body.url
       })
+
     } catch (err) {
       console.log('error uploading to s3', err)
     }
@@ -53,6 +55,8 @@ class EditUserInfo extends React.Component {
 
       console.log('changes submitted', data);
       this.props.history.push('/user/:userId');
+      // refresh the page to load the new profile picture
+      window.location.reload(false);
     } catch (err) {
       console.error(err);
     }
