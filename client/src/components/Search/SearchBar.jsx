@@ -1,25 +1,57 @@
+import 'babel-polyfill';
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { setSearchResults } from '../../actions/actionCreators';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 class SearchBar extends React.Component {
-  onSubmitHandler(e) {
-    e.preventDefault();
-    e.target.reset();
-    console.log('submitted');
-    // this.props.history.push('/search/something'); //
+  constructor (props) {
+    super(props);
+
+    this.state = {
+      search: ''
+    }
     
-    // Setup axios request to fetch results
+    this.onChangeHandler = this.onChangeHandler.bind(this);
+    this.onClickHandler = this.onClickHandler.bind(this);
+  }
+
+  onClickHandler() {
+    window.location.reload(true);
+    this.props.setSearchResults('');
+  }
+
+  onChangeHandler (e) {
+    this.setState({
+      [e.target.name] : e.target.value
+    });
+    localStorage.setItem('searchQuery', e.target.value);
   }
 
   render() {
     return (
       <div>
-        <form className="form-inline" onSubmit={this.onSubmitHandler.bind(this)}>
-          <input className="form-control" type="text" placeholder="Search"/>
+        <form className="form-inline">
+          <input name="search" className="form-control" onChange={this.onChangeHandler} type="text" placeholder="Search"/>
+          <Link onClick={this.onClickHandler} style={{display: 'none'}} to={`/search/${localStorage.getItem('searchQuery')}`}><button>Submit</button></Link>
         </form>
       </div>
     )
   }
 }
 
-export default SearchBar;
+function mapStateToProps (state) {
+  return {
+    search_results: state.search_results
+  }
+};
+
+function matchDispatchToProps (dispatch) {
+  return bindActionCreators({
+    setSearchResults
+  }, dispatch);
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(SearchBar);

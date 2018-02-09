@@ -39,7 +39,7 @@ class App extends React.Component {
               <Route path="/login" component={Login} />
               <Route path="/signup" component={SignUp} />
               {/* Pass query into search request */}
-              <Route path='/search/:query' component={SearchResults} />
+              <Route path='/search/:search' component={SearchResults} />
               {/* Setup :listingId for specific listing */}
               <Route path='/listing/book/:listingId' component={BookingForm} />
               <Route path='/listing/:listingId' component={ListingPage} />
