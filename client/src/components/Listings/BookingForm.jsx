@@ -8,7 +8,8 @@ class BookingForm extends React.Component {
       userId: 0,
       checked: [],
       skills: [],
-      newSkill: ''
+      newSkill: '',
+      message: "Hi I would like to book"
     }
   }
 
@@ -16,20 +17,19 @@ class BookingForm extends React.Component {
     try{
       const userId = await axios.get('http://localhost:3396/api/users/getUser', {
         params: {uid: localStorage.getItem('activeUid')}
-      })
-      
+      })      
 
       const skills = await axios.get('http://localhost:3396/api/listing/getUserSkills', {
         params: {uid: localStorage.getItem('activeUid')}
       })
               
+      const payload = []
       await skills.data.rows.map(skill => {
-        const payload = this.state.skills
         payload.push({'id': skill.id, 'skill': skill.skill})
-        this.setState({
-          userId: userId.data.rows[0].id,
-          skills: payload
-        })
+      })
+      await this.setState({
+        userId: userId.data.rows[0].id,
+        skills: payload
       })
     } catch(err) {
       throw new Error(err);
@@ -62,12 +62,12 @@ class BookingForm extends React.Component {
         } 
       })
 
-      await response.data.rows.map(skill => {
-        const payload = this.state.skills
+      const payload = []
+      await response.data.rows.map(skill => {        
         payload.push({'id': skill.id, 'skill': skill.skill})
-        this.setState({
-          skills: payload
-        })
+      })
+      this.setState({
+        skills: payload
       })
 
     } catch(err) {
@@ -83,12 +83,12 @@ class BookingForm extends React.Component {
         skill: this.state.newSkill
       })
 
+      const payload = []
       await response.data.rows.map(skill => {
-        const payload = this.state.skills
         payload.push({'id': skill.id, 'skill': skill.skill})
-        this.setState({
-          skills: payload
-        })
+      })
+      this.setState({
+        skills: payload,
       })
 
     } catch(err) {
@@ -96,8 +96,34 @@ class BookingForm extends React.Component {
     }
   }
   async onCheckHandler(e) {
-    e.preventDefault()
-    console.log('checked')
+    // e.preventDefault()
+
+    // if checked doesn't have number
+    // console.log(e.target.id, typeof e.target.id)
+    if (!this.state.checked.includes(JSON.parse(e.target.id))) {
+      // console.log('doesnt exist')
+      // add it
+      // console.log(this.state.checked)
+      const addPayload = this.state.checked;
+      addPayload.push(JSON.parse(e.target.id))
+      // console.log(addPayload)
+      // set state
+      this.setState({
+        checked: addPayload
+      })
+      console.log('after add', this.state.checked)
+
+    } else {
+      // console.log('does exist')
+      // console.log(this.state.checked)
+      const deletePayload = this.state.checked
+      console.log(e.target.id)
+      deletePayload.splice(deletePayload.indexOf(JSON.parse(e.target.id)), 1)
+      this.setState({
+        checked: deletePayload
+      })
+      console.log('after delete', this.state.checked)
+    }    
   }
   render() {
     return (
@@ -119,15 +145,21 @@ class BookingForm extends React.Component {
                 ? null
                 : this.state.skills.map(skill => {
                   return (
-                    <div>
+                    <div key={skill.id}>
                       <label htmlFor={skill.id}> 
-                      <input key={skill.id} type="checkbox" id={skill.id} name="skill" 
-                        onClick={this.onCheckHandler.bind(this)} />
-                      {
-                        skill.skill
-                      } 
+                        <input type="checkbox" id={skill.id} name="skill" 
+                          checked={(()=> {
+                            this.state.checked.includes(skill.id)
+                            }).bind(this)
+                          }
+                          onChange={this.onCheckHandler.bind(this)} />
+                        {
+                          skill.skill
+                        } 
                       </label>
-                      <button id={skill.id} onClick={this.onDeleteHandler.bind(this)}>Delete</button>
+                      <button id={skill.id} 
+                        onClick={this.onDeleteHandler.bind(this)}
+                      >Delete</button>
                     </div>
                   )
                 })                
@@ -136,7 +168,7 @@ class BookingForm extends React.Component {
             <h5>Message to the host (optional):</h5>
             <textarea name="info" id="" cols="30" rows="10" 
               placeholder="Send your first message to the host!" 
-              defaultValue="Hi I would like to book"
+              defaultValue={this.state.message}
             ></textarea>
             <br />
           </div>          
