@@ -25,13 +25,15 @@ class EditUserInfo extends React.Component {
       const data = await   upload
       .post('http://localhost:3396/api/files/upload')
       .attach('theseNamesMustMatch', this.state.imageObj)
-      .field('email', window.localStorage.email)
-      .field('imagename', this.state.imageObj.name)
-      .field('name', 'profilePictures/' + window.localStorage.email + '/' + this.state.imageObj.name)
+      .field('keypath', 'profiles/' + window.localStorage.email + '/prof-pic.' + this.state.imageObj.name.split('.').pop())
+      .field('endurl', 'profiles/' + encodeURIComponent(window.localStorage.email) + '/prof-pic.' + this.state.imageObj.name.split('.').pop())
   
+      // async issue here:
+
       this.setState({
         image: data.body.url
       })
+
     } catch (err) {
       console.log('error uploading to s3', err)
     }
@@ -53,6 +55,8 @@ class EditUserInfo extends React.Component {
 
       console.log('changes submitted', data);
       this.props.history.push('/user/:userId');
+      // refresh the page to load the new profile picture
+      window.location.reload(false);
     } catch (err) {
       console.error(err);
     }
