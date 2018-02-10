@@ -28,7 +28,9 @@ console.log('this.state.inproowwe', this.state.inProgressListings)
     this.state.inProgressListings.map((listing, i) => {
       return (
         <div key={i}>
-          {listing.title}
+          <ul>  
+        {listing.title}
+          </ul>
         </div>
       )
 
