@@ -53,9 +53,9 @@ class NavBar extends React.Component {
         {
         !localStorage.getItem('activeUid') ?
           <div className="col-sm-2 d-flex justify-content-center" >
-            <Link to="/login"><button className="btn btn-outline-dark" id= "Login">Login</button></Link>
-            <p className="space" > or </p>
-            <Link to="/signup"><button className="btn btn-outline-dark" id="Signup">Signup</button></Link>
+            <Link to="/login"><button className="btn btn-outline-light" id= "Login">Login</button></Link>
+            <p className="space text-light" > or </p>
+            <Link to="/signup"><button className="btn btn-outline-light" id="Signup">Signup</button></Link>
           </div>
         :
           <div className="col-sm-2">

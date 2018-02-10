@@ -54,7 +54,7 @@ class EditUserInfo extends React.Component {
       // const skills = await axios.put('http://localhost:3396/api/editSkills');
 
       console.log('changes submitted', data);
-      this.props.history.push('/user/:userId');
+      this.props.history.push(`/user/${this.state.uid}`);
       // refresh the page to load the new profile picture
       // window.location.reload(false);
     } catch (err) {

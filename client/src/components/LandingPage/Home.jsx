@@ -49,7 +49,7 @@ class Home extends React.Component {
         <footer className="footer">
           <div className="text-muted">
             <span className="offset-sm-4 col-sm-3" >Made with sweat and tears by Chris, Eric, Shivani, Brian, and Daniel.</span>
-            <span className="offset-sm-3">Wayfare 2018</span>
+            <span className="offset-sm-2">Wayfare 2018</span>
           </div>
         </footer>
       </div>
