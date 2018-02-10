@@ -4,15 +4,24 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import firebase from 'firebase'
 import 'babel-polyfill';
+import axios from 'axios';
+import './NavBar.css'
 
 class NavBar extends React.Component {
   constructor() {
     super()
     this.onSuccess = this.onSuccess.bind(this);
+
+    this.state = {
+      img: ''
+    }
   }
 
   async componentDidMount () {
-    await this.props.active_user;
+    const data = await axios.get('http://localhost:3396/api/users/getUser', {params: {uid: localStorage.getItem('activeUid')}});
+    this.setState({
+      img: data.data.rows[0].image
+    });
   }
 
   onSuccess () {
@@ -33,24 +42,25 @@ class NavBar extends React.Component {
 
   render() {
     return (
-      <div className="navbar nav bg-light" >
-        <div>
-          <Link className="navbar-brand" to="/">Wayfare</Link>
+      <div className="navbar nav row background-nav" >
+        <div className="offset-sm-1 raleway" >
+          <Link className="navbar-brand removeAnchorStyles" to="/">Wayfare</Link>
         </div>
-        <div className="" >
+        <div className="col-sm-3 offset-sm-2">
           <SearchBar />
         </div>
         {/* Conditionally render depending if user is logged in */}
         {
         !localStorage.getItem('activeUid') ?
-          <div>
+          <div className="col-sm-2 d-flex justify-content-center" >
             <Link to="/login"><button className="btn btn-outline-dark" id= "Login">Login</button></Link>
+            <p className="space" > or </p>
             <Link to="/signup"><button className="btn btn-outline-dark" id="Signup">Signup</button></Link>
           </div>
         :
-          <div>
-            <Link to={`/user/${localStorage.getItem('activeUid')}/inbox`}><button>User Page</button></Link>
-            <button className="btn btn-outline-dark" onClick={this.onLogoutClickHandler.bind(this)}>Logout</button>
+          <div className="col-sm-2">
+            <Link to={`/user/${localStorage.getItem('activeUid')}/inbox`}> <img className="nav-profile-pic" src={this.state.img} alt=""/> </Link>
+            <button className="btn btn-outline-light" onClick={this.onLogoutClickHandler.bind(this)}>Logout</button>
           </div>
         }
       </div>

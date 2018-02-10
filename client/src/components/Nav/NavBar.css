@@ -1,0 +1,28 @@
+.nav-profile-pic {
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+  border-radius: 50%;
+  margin-top: 5px;
+  margin-right: 10%;
+  z-index: 2;
+  box-shadow: 0px 0px 3px 0px black;
+}
+
+.space {
+  margin-left: 1.5%;
+  margin-right: 1.5%;
+  margin-top: 6px;
+}
+
+.removeAnchorStyles {
+  color: white;
+}
+
+.raleway {
+  font-family: 'Raleway', sans-serif;
+}
+
+.background-nav {
+  background-color: #A9BBC5;
+}
