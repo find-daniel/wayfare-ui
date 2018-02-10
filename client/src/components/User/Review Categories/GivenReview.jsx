@@ -29,7 +29,7 @@ class GivenReviews extends React.Component {
             return (
               <div key={review.id}>
                 <div>
-                  {`Review By: ${review.commentee}`}
+                  {`Review By: ${review.commentor}`}
                 </div>
                 <div>
                   {`Rating: ${review.rating}`}

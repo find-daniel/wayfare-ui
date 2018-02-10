@@ -30,7 +30,7 @@ class ReceivedReview extends React.Component {
             return (
               <div key={review.id}>
                 <div>
-                  {`Review By: ${review.commentee}`}
+                  {`Review By: ${review.commentor}`}
                 </div>
                 <div>
                   {`Rating: ${review.rating}`}
@@ -38,6 +38,7 @@ class ReceivedReview extends React.Component {
                 <div>
                   {`Review: ${review.review}`}
                 </div>
+                <br />
               </div>              
             )
           })
