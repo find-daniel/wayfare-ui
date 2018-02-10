@@ -45,20 +45,20 @@ class ListingPage extends React.Component {
     })
     this.setState ({
       listing: listing.data, 
-      listingAddressURL: listing.data.address.split(' ').join('+'),
-      listingCityURL: listing.data.city.split(' ').join('+'),
-      listingStateURL: listing.data.state,
+      // listingAddressURL: listing.data.address.split(' ').join('+'),
+      // listingCityURL: listing.data.city.split(' ').join('+'),
+      // listingStateURL: listing.data.state,
       user: userId.data, 
       skills: skillsArr
     })
 
-    let geodata = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${this.state.listingAddressURL},+${this.state.listingCityURL},+${this.state.listingStateURL}&key=AIzaSyBvPqU7ldLdjnZvfEvXs9WIAJbbcodpfBE`)
-    let parsedGeoData = JSON.parse(geodata.request.responseText)
+    // let geodata = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${this.state.listingAddressURL},+${this.state.listingCityURL},+${this.state.listingStateURL}&key=AIzaSyBvPqU7ldLdjnZvfEvXs9WIAJbbcodpfBE`)
+    // let parsedGeoData = JSON.parse(geodata.request.responseText)
     
-    this.setState({
-      lat: parsedGeoData.results[0].geometry.location.lat,
-      lng: parsedGeoData.results[0].geometry.location.lng
-    })
+    // this.setState({
+    //   lat: parsedGeoData.results[0].geometry.location.lat,
+    //   lng: parsedGeoData.results[0].geometry.location.lng
+    // })
 
     //check if the active user is the listing owner
     let currUser = await axios.get('http://localhost:3396/api/users/getUser', {
@@ -139,7 +139,7 @@ class ListingPage extends React.Component {
           </div>
           <div className="row">
             <div className="col align-self-center">
-              <Mymap listing={this.state.listing} lat={this.state.lat} lng={this.state.lng}/>
+              <Mymap listing={this.props.match.params.listingId} />
             </div>
           </div>
         </div>
