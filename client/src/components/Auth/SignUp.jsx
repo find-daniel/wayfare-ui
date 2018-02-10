@@ -9,8 +9,10 @@ class Signup extends React.Component {
     super()
 
     this.state = {
+      name: '',
       email: '',
       password: '',
+      image: 'https://i.imgur.com/F18OMC9.png'
     }
   }
 
@@ -20,8 +22,10 @@ class Signup extends React.Component {
       const authData = await firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
       console.log('Local user signed up with Firebase.')
       let payload = {
+        name: this.state.name,
         email: authData.providerData[0].email,
-        uid: authData.uid
+        uid: authData.uid,
+        image: this.state.image
       }
       try {
         const data = await axios.post('http://localhost:3396/api/auth/signup', payload)
@@ -93,10 +97,12 @@ class Signup extends React.Component {
         <button onClick={this.onFacebookClickHandler.bind(this)}>Facebook</button>
         <hr/>
         <form action="submit" onSubmit={this.onSubmitHandler.bind(this)}>
-          email:
-          <input onChange={this.handleInputChange.bind(this)} type="text" id="email" placeholder="email"/>
-          password:
-          <input onChange={this.handleInputChange.bind(this)} type="text" id="password" placeholder="password"/>
+          Full Name:
+          <input onChange={this.handleInputChange.bind(this)} type="text" id="name" placeholder="Full Name"/> <br/>
+          Email:
+          <input onChange={this.handleInputChange.bind(this)} type="text" id="email" placeholder="E-mail"/> <br/>
+          Password:
+          <input onChange={this.handleInputChange.bind(this)} type="password" id="password" placeholder="Password"/>
           <button>Submit</button>
         </form>
       </div>
