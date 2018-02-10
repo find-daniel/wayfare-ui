@@ -39,20 +39,22 @@ class PublicUserPage extends React.Component {
   render () {
     return (
       <div className="container" >
-        <div className="card container" >
+        <div className="card" >
           <h1>{this.state.name}</h1>
           <img className="img-fluid profile-pic" src={this.state.img} alt=""/>
           <p>City: {this.state.city}</p>
           <p>Bio: {this.state.bio}</p>
         </div>
-        <div className="container" >
+        <div>
           <h1>inside reviews box</h1>
           <p>Host Rating: {this.state.hostRating}</p>
           <p>Guest Rating: {this.state.guestRating}</p>
           <p>Reviews</p>
-          {this.state.reviews.map(review => {
-            return <li key={review.id} > {review.review} </li>
-          })}
+          <ul className="list-group-flush">
+            {this.state.reviews.map(review => {
+              return <li className="list-group-item" key={review.id} > {review.review} </li>
+            })}
+          </ul>
         </div>
       </div>
     )

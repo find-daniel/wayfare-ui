@@ -19,7 +19,7 @@ class ListingPage extends React.Component {
       user: '', 
       skills: '', 
       alert: false, 
-      listingOwner: true, 
+      listingOwner: false, 
       edit: false
     }
 
@@ -51,7 +51,7 @@ class ListingPage extends React.Component {
       user: userId.data, 
       skills: skillsArr
     })
-    
+
     let geodata = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${this.state.listingAddressURL},+${this.state.listingCityURL},+${this.state.listingStateURL}&key=AIzaSyBvPqU7ldLdjnZvfEvXs9WIAJbbcodpfBE`)
     let parsedGeoData = JSON.parse(geodata.request.responseText)
     
