@@ -3,16 +3,55 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
+import './Home.css'
+import axios from 'axios';
+import ListingEntry from '../Listings/ListingEntry'
 
 class Home extends React.Component {
+  constructor (props) {
+    super(props);
+
+    this.state = {
+      topListings: []
+    }
+  }
+
+  async componentDidMount() {
+    const data = await axios.get('http://localhost:3396/api/listing/getSearchedListings', { 
+      params: { city: localStorage.getItem('searchQuery') }
+    });
+
+    this.setState({
+      topListings: data.data.rows
+    });
+
+    console.log('listings: ', this.state.topListings);
+  }
+
   render() {
     return (
-      <div>
-        <h1> Inside Home </h1>
-        {/* Links for development only ** for now ** */}
-        <Link to="/listing/:listingId"><button>Switch to listingPage</button></Link>
-        <Link to={`/user/${localStorage.getItem('activeUid')}/create-listing`}><button>Switch to createListingForm</button></Link>
-        <Link to="/listing/book/:listingId"><button>Switch to BookingForm</button></Link>
+      <div className="background">
+        <div className="jumbotron jumbotron-fluid jumbo" >
+          <div className="container text-center text-light" >
+            <h1 className="display-4">Wayfare</h1>
+            <p className="lead">Something witty</p>
+          </div>
+        </div>
+        <div className="offset-sm-1 col-sm-10 offset-sm-1 montserrat">
+          <h1>Top Listings</h1>
+          <hr/>
+          <div className="row card-columns">
+            {this.state.topListings.map(listing => {
+              return <ListingEntry key={listing.id} info={listing} />
+            })}
+          </div>
+        </div>
+        <footer className="footer">
+          <div className="text-muted">
+            <span className="offset-sm-4 col-sm-3" >Made with sweat and tears by Chris, Eric, Shivani, Brian, and Daniel.</span>
+            <span className="offset-sm-3">Wayfare 2018</span>
+          </div>
+        </footer>
       </div>
     )
   }

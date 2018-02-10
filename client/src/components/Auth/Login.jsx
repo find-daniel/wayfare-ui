@@ -18,6 +18,7 @@ class Login extends React.Component {
 
   onSuccess () {
     this.props.history.push('/');
+    window.location.reload(true);
   };
 
   async onSubmitHandler(e) {
