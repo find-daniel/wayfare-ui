@@ -33,23 +33,29 @@ class myMap extends React.PureComponent {
     super(props)
     this.state = {
       isMarkerShown: false,
-      
-      
+      lat: '', 
+      lng: ''
     }
   this.delayedShowMarker = this.delayedShowMarker.bind(this);
   this.handleMarkerClick = this.handleMarkerClick.bind(this)
   }
 
-  componentDidMount() {
-    console.log('prioppps', this.props)
+  async componentDidMount() {
+    let listing = await axios.get('http://localhost:3396/api/listing/getListing', {
+      params: {listingId: this.props.listing}
+    }); 
+
+    this.setState({
+      lat: Number(listing.data.latitude), 
+      lng: Number(listing.data.longitude)
+    })
+
     this.delayedShowMarker();
-    
   }
 
   delayedShowMarker() {
     
     setTimeout(() => {
-      console.log(this.props)
       this.setState({ isMarkerShown: true })
     }, 300)
   }
@@ -65,14 +71,14 @@ class myMap extends React.PureComponent {
     return (
       <div>
       {
-        !this.props.lat
+        !this.state.lat > 0
         ? null
         : (
           <MyMapComponent
           isMarkerShown={this.state.isMarkerShown}
           onMarkerClick={this.handleMarkerClick}
-          lng={this.props.lng}
-          lat={this.props.lat}
+          lng={this.state.lng}
+          lat={this.state.lat}
           />
         )
         

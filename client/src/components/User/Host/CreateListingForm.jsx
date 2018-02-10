@@ -26,20 +26,29 @@ class CreateListingForm extends React.Component {
     }); 
     userId = userId.data.rows[0].id; 
 
+    let listingAddressURL = this.refs.address.value.split(' ').join('+'); 
+    let listingCityURL = this.refs.city.value.split(' ').join('+'); 
+
+    let geodata = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${listingAddressURL},+${listingCityURL},+${this.refs.state.value}&key=AIzaSyBvPqU7ldLdjnZvfEvXs9WIAJbbcodpfBE`)
+    let parsedGeoData = JSON.parse(geodata.request.responseText)
+
+    let lat = parsedGeoData.results[0].geometry.location.lat; 
+    let lng = parsedGeoData.results[0].geometry.location.lng; 
 
     const listingDetails = {
       title: this.refs.title.value,
       startDate: this.refs.startDate.value, 
       endDate: this.refs.endDate.value,
-      latitude: 1.0,
-      longitude: 2.0,
-      address: this.refs.location.value,
-      city: this.refs.location.value,
+      latitude: lat,
+      longitude: lng,
+      address: this.refs.address.value,
+      city: this.refs.city.value,
+      state: this.refs.state.value,
+      country: this.refs.country.value,
       hostId: userId,
       description: this.refs.description.value 
     }
 
-    console.log('listingDetails', listingDetails); 
     let listingId = await axios.post('http://localhost:3396/api/listing/createListing', {params: {listingDetails: listingDetails}}); 
 
     listingId = listingId.data.rows[0].id;
@@ -64,7 +73,7 @@ class CreateListingForm extends React.Component {
         }
 
         const data = await axios.post('http://localhost:3396/api/listing/postPhoto', payload)
-        console.log('data from posting image to db:', data)
+        //console.log('data from posting image to db:', data)
         //
       } catch (err) {
         console.log('error posting image to sql table', err)
@@ -126,15 +135,20 @@ class CreateListingForm extends React.Component {
           <input type="date" ref="endDate" placeholder="End Date" required/>
           <br/>
           {/* Send to google geocoding api */}
-          <input type="text" ref="location" placeholder="Location" required/>
+          <input type="text" ref="address" placeholder="Address" required/>
+          <input type="text" ref="city" placeholder="City" required/>
+          <br/>
+          <input type="text" ref="state" placeholder="State" required/>
+          <input type="text" ref="country" placeholder="Country" required/>
+
           <br/>
           <input type="text" ref="skill" placeholder="Requested Skill"/><button onClick={this.addSkill}>+</button>
           {this.state.skills.length > 0
             ? <div>
                 <div>Skills: </div>
                 <ul>
-                {(this.state.skills.map(skill => {
-                  return <li>{skill}  <button onClick={() => {this.deleteSkill(skill)}}>-</button></li>
+                {(this.state.skills.map((skill, i) => {
+                  return <li key={i}>{skill}  <button onClick={() => {this.deleteSkill(skill)}}>-</button></li>
                 }))}
                 </ul>
               </div>

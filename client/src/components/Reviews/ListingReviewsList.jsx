@@ -31,8 +31,8 @@ class ListingReviewsList extends React.Component {
             ?
               <div/>
               :
-              this.state.reviews.map(review => {
-                return <div className="card-text"> <hr/> <ListingReviewEntry review={review}/> </div>
+              this.state.reviews.map((review, i) => {
+                return <div key={i} className="card-text"> <hr/> <ListingReviewEntry review={review}/> </div>
               })
           }
         </div>

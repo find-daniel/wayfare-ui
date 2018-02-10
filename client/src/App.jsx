@@ -31,10 +31,8 @@ class App extends React.Component {
       setTimeout(()=>{ 
         if (user) {
         this.props.setActiveUser(user);
-        console.log('user', user, 'user.uid', user.uid)
         axios.get('http://localhost:3396/api/users/getUser', {params: {uid: user.uid}})
           .then((data) => {
-            console.log(data); 
             localStorage.setItem('activeId', data.data.rows[0].id); 
           })
       } else {

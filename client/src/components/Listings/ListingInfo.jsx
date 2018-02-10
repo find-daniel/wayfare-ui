@@ -42,7 +42,6 @@ class ListingInfo extends React.Component {
 
   addSkill() {
     let arr = this.state.skills; 
-    console.log('arr', this.state.skills)
     arr.push(this.refs.skill.value); 
     this.setState({
       skills: arr
@@ -95,16 +94,16 @@ class ListingInfo extends React.Component {
                 <div>
                   <input type="text" ref="skill" placeholder="Skill for stay"></input><button onClick={this.addSkill}>+</button>
                   <ul>
-                      {this.props.skills.map(skill => {
-                        return  <li>{skill}<button onClick={this.deleteSkill}>-</button></li>
+                      {this.props.skills.map((skill, i) => {
+                        return  <li key={i}>{skill}<button onClick={this.deleteSkill}>-</button></li>
                       })}
                     </ul>
                 </div>
               :
                 this.props.skills.length > 0 
                   ? <ul>
-                      {this.props.skills.map(skill => {
-                        return  <li>{skill}</li>
+                      {this.props.skills.map((skill, i) => {
+                        return  <li key={i}>{skill}</li>
                       })}
                     </ul>
                   :
