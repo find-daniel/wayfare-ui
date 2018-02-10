@@ -14,8 +14,30 @@ class ReceivedReview extends React.Component {
       const response = await axios.get('http://localhost:3396/api/users/getReceivedReviews', {
         params: {userId: this.props.match.params.userId}
       });
-      console.log(response.data)
-      await this.setState({reviews: response.data})
+      const accountType = await localStorage.getItem('accountType')
+      console.log('AT', accountType)
+      console.log(response.data[0])
+      
+      const payload = []
+      if (accountType === '0') {
+        console.log('0')
+        response.data.map(review => {
+          console.log(review.type)
+          if (review.type === 'guest') {
+            payload.push(review)
+          }
+        })
+      } 
+      if (accountType === '1') {
+        console.log('1')
+        response.data.map(review => {
+          console.log(review.type)
+          if (review.type === 'host') {
+            payload.push(review)
+          }
+        })
+      }
+      await this.setState({reviews: payload})
     } catch(err) {
       throw new Error(err);
     }

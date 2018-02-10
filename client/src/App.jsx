@@ -30,19 +30,19 @@ class App extends React.Component {
       
       setTimeout(()=>{ 
         if (user) {
-        this.props.setActiveUser(user);
-        axios.get('http://localhost:3396/api/users/getUser', {params: {uid: user.uid}})
-          .then((data) => {
-            localStorage.setItem('activeId', data.data.rows[0].id); 
-          })
-      } else {
-        localStorage.setItem('activeUid', '');
-        localStorage.setItem('activeId', ''); 
-        localStorage.setItem('activeUser', ''); 
-        localStorage.setItem('email', ''); 
-        localStorage.setItem('accountType', ''); 
-      }
-    }, 1000); 
+          this.props.setActiveUser(user);
+          axios.get('http://localhost:3396/api/users/getUser', {params: {uid: user.uid}})
+            .then((data) => {
+              localStorage.setItem('activeId', data.data.rows[0].id); 
+            })
+        } else {
+          localStorage.setItem('activeUid', '');
+          localStorage.setItem('activeId', ''); 
+          localStorage.setItem('activeUser', ''); 
+          localStorage.setItem('email', ''); 
+          localStorage.setItem('accountType', ''); 
+        }
+      }, 1000); 
     });
   }
   
