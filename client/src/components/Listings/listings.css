@@ -11,6 +11,12 @@ a:hover {
   text-align: center; 
 }
 
+/* IMAGES */
+.card-listing-image {
+  height: 65%;
+  width: 100%;
+}
+
 .listingImage{
   height: 80%; 
   width: 100%; 
@@ -23,6 +29,7 @@ a:hover {
   padding:5%
 }
 
+/* HOST INFO */
 .hostBox{
   height: 130px;
   width: 100%; 
@@ -77,4 +84,8 @@ a:hover {
 
 .title-edit-box{
   padding-left: 5%
+}
+
+.fix-height {
+  margin-top: -4px;
 }

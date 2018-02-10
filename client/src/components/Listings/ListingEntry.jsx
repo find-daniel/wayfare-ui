@@ -28,14 +28,15 @@ class ListingEntry extends React.Component {
       <div className="col-sm-3">
         <Link to={`/listing/${this.props.info.id}`}>
           <div className="fixLink card" >
-            <img className="card-img-top img-fluid" src={this.state.img} alt=""/>
+            <img className="card-img-top card-listing-image" src={this.state.img} alt=""/>
             <div className="card-body">
-              <h5 className="card-title"> {this.props.info.title} </h5>
-              <div className="offset-sm-1 text-muted row">
+              <h5 className="card-title text-center"> {this.props.info.title} </h5>
+              <div className="d-flex justify-content-center text-muted row">
                 <p className="badge badge-secondary">{this.props.info.startdate}</p>
-                <span>-</span>
+                <span className="fix-height">-</span>
                 <p className="badge badge-secondary">{this.props.info.enddate}</p>
               </div>
+              <p className="card-footer text-muted">{this.props.info.city}</p>
             </div>
           </div>
         </Link>
