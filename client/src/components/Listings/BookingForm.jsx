@@ -1,11 +1,13 @@
 import React from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 class BookingForm extends React.Component {
   constructor() {
     super()
     this.state = {
-      userId: 0,
+      userId: '',
+      hostId: '',
       checked: [],
       skills: [],
       newSkill: '',
@@ -21,10 +23,18 @@ class BookingForm extends React.Component {
         params: {uid: localStorage.getItem('activeUid')}
       })
 
+      const listingData = await axios.get('http://localhost:3396/api/listing/getListing', {
+        params: {listingId: this.props.match.params.listingId}
+      })
+      this.setState({
+        hostId: listingData.data.hostid
+      })
+
       // GET SKILLS USING USER ID (currently using uid to do it... fix controller later)
       const skills = await axios.get('http://localhost:3396/api/listing/getUserSkills', {
         params: {uid: localStorage.getItem('activeUid')}
-      })              
+      })
+      
       const payload = []
       await skills.data.rows.map(skill => {
         payload.push({'id': skill.id, 'skill': skill.skill})
@@ -44,37 +54,8 @@ class BookingForm extends React.Component {
     this.setState({
       [e.target.name]: e.target.value
     })
-  }
+  }  
   
-  async onSubmitHandler(e) {
-    e.preventDefault();
-    console.log('booking requested');
-  }
-  
-  async onDeleteHandler(e) {
-    e.preventDefault();
-    console.log('skill delete requested', e.target.id)
-    console.log('userId', this.state.userId)    
-    try {
-      const response = await axios.delete('http://localhost:3396/api/listing/deleteUserSkills', {
-        params: { 
-          id: e.target.id,
-          uid: this.state.userId
-        } 
-      })
-      const payload = []
-      await response.data.rows.map(skill => {        
-        payload.push({'id': skill.id, 'skill': skill.skill})
-      })
-      this.setState({
-        skills: payload
-      })
-
-    } catch(err) {
-      throw new Error(err);
-    }
-  }
-
   async onAddSkillHandler(e) {
     e.preventDefault();
     console.log('skill added:', this.state.newSkill)
@@ -93,6 +74,7 @@ class BookingForm extends React.Component {
     } catch(err) {
       throw new Error(err);
     }
+    this.refs.reset.value = ''
   }
 
   async onCheckHandler(e) {
@@ -114,6 +96,44 @@ class BookingForm extends React.Component {
     }    
   }
 
+  async onDeleteHandler(e) {
+    e.preventDefault();
+    console.log('skill delete requested', e.target.id)
+    console.log('userId', this.state.userId)
+    try {
+      const response = await axios.delete('http://localhost:3396/api/listing/deleteUserSkills', {
+        params: { 
+          id: e.target.id,
+          uid: this.state.userId
+        } 
+      })
+      const payload = []
+      await response.data.rows.map(skill => {
+        payload.push({'id': skill.id, 'skill': skill.skill})
+      })
+      this.setState({
+        skills: payload
+      })
+
+    } catch(err) {
+      throw new Error(err);
+    }
+  }
+
+  async onBookingHandler(e) {
+    e.preventDefault();
+    console.log('booking requested');
+    try {
+      await axios.post('http://localhost:3396/api/listing/createRequestAndRequestSkills', {
+        guestId: this.state.userId,
+        listingId: this.props.match.params.listingId,
+        skillId: this.state.checked 
+      })
+    } catch(err) {
+      throw new Error(err);
+    }
+  }
+
   render() {
     return (
       <div>
@@ -123,7 +143,7 @@ class BookingForm extends React.Component {
         <div> 
           <h5>Add a New Skill </h5>
           <form onSubmit={this.onAddSkillHandler.bind(this)}>
-            <input name="newSkill" type="text" 
+            <input name="newSkill" type="text" ref="reset"
               onChange={this.onChangeHandler.bind(this)} 
             />
             <button>Add skill</button>
@@ -131,7 +151,7 @@ class BookingForm extends React.Component {
         </div>        
 
         {/* FORM SUBMISSION */}
-        <form onSubmit={this.onSubmitHandler.bind(this)}>
+        <form onSubmit={this.onBookingHandler.bind(this)}>
           <div> 
 
             {/* CHOOSE/DELETE SKILLS */}
@@ -169,7 +189,10 @@ class BookingForm extends React.Component {
               onChange={this.onChangeHandler.bind(this)}
             ></textarea>
           </div>          
-          <button>Request Booking</button>
+          <Link to={`/user/${localStorage.getItem('activeUid')}/inbox/${this.state.userId}_${this.state.hostId}_${this.props.match.params.listingId}`} 
+            type="button" 
+            className="btn btn-light col-sm-5" 
+          >Message Host</Link>
         </form>
       </div>
     )
