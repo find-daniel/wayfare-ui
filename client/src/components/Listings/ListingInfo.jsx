@@ -20,6 +20,9 @@ class ListingInfo extends React.Component {
 
   }
 
+  componentDidMount() {
+    console.log('this is the listing owner: ', this.props);
+  }
   
   editListing() {
     this.setState({
@@ -140,7 +143,10 @@ class ListingInfo extends React.Component {
            <span>
              <img className="host-image" src={this.props.user.image}/>
              <span className="hostInfoBox">
-               <Link className="hostInfoLink" to={`/${this.props.user.uid}`}>{this.props.user.name}</Link>
+               <Link className="hostInfoLink" to={{
+                pathname:`/user/public/${this.props.user.uid}`,
+                state: { hostUid: this.props.user.uid, hostId: this.props.user.id }
+                }}>{this.props.user.name}</Link>
              </span>
            </span>
          </div>

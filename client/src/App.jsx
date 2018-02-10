@@ -10,6 +10,7 @@ import SearchResults from './components/Search/SearchResultPage';
 import ListingPage from './components/Listings/ListingPage';
 import BookingForm from './components/Listings/BookingForm';
 import UserPage from "./components/User/UserPage"
+import PublicUserPage from './components/User/Public User/PublicUserPage'
 import CreateListingForm from './components/User/Host/CreateListingForm'
 import EditUserInfo from './components/User/EditUserInfo';
 import Login from './components/Auth/Login';
@@ -62,6 +63,7 @@ class App extends React.Component {
               <Route path='/listing/book/:listingId' component={BookingForm} />
               <Route path='/listing/:listingId' component={ListingPage} />
               {/* Setup :userId for specific user */}
+              <Route path='/user/public/:userId' component={PublicUserPage} />
               <Route path='/user/:userId/create-listing' component={CreateListingForm} />
               <Route path='/user/:userId/edit' component={EditUserInfo} />
               <Route path='/user/:userId' component={UserPage} />
