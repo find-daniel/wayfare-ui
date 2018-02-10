@@ -49,6 +49,7 @@ class CreateListingForm extends React.Component {
       description: this.refs.description.value 
     }
 
+    console.log('listingDetails', listingDetails); 
     let listingId = await axios.post('http://localhost:3396/api/listing/createListing', {params: {listingDetails: listingDetails}}); 
 
     listingId = listingId.data.rows[0].id;
@@ -155,7 +156,7 @@ class CreateListingForm extends React.Component {
             :
               <div/>
           }
-          <br/>
+          
           <textarea name="description" ref="description" id="" cols="30" rows="10" placeholder="Describe your listing" required></textarea>
           <br/>
 
