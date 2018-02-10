@@ -23,16 +23,19 @@ class App extends React.Component {
   
   componentDidMount(){
     firebase.auth().onAuthStateChanged((user) => {
-      setTimeout(()=>{ 
       if (user) {
-        this.props.setActiveUser(user);
         localStorage.setItem('activeUid', user.uid)
+      }
+      
+      setTimeout(()=>{ 
+        if (user) {
+        this.props.setActiveUser(user);
         console.log('user', user, 'user.uid', user.uid)
         axios.get('http://localhost:3396/api/users/getUser', {params: {uid: user.uid}})
           .then((data) => {
             console.log(data); 
             localStorage.setItem('activeId', data.data.rows[0].id); 
-          }) 
+          })
       } else {
         localStorage.setItem('activeUid', '');
         localStorage.setItem('activeId', ''); 
