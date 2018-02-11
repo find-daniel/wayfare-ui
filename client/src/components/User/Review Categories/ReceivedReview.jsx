@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import { Provider, connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 class ReceivedReview extends React.Component {
   constructor() {
@@ -11,28 +13,24 @@ class ReceivedReview extends React.Component {
   
   async componentDidMount() {
     try {
-      const response = await axios.get('http://localhost:3396/api/users/getReceivedReviews', {
+      const response = await axios.get('http://localhost:3396/api/users/getUserReviews', {
         params: {userId: localStorage.getItem('activeId')}
       });
+      const reviews = response.data.rows
       const accountType = await localStorage.getItem('accountType')
-      console.log('AT', accountType)
-      console.log(response.data)
-      
+      const activeUserName = await this.props.user_data.name
+
       const payload = []
       if (accountType === '0') {
-        console.log('0')
-        response.data.map(review => {
-          console.log(review.type)
-          if (review.type === 'host' //&& check if active user is commentor) {
+        reviews.map(review => {
+          if (review.type === 'host' && activeUserName === review.commentee) {
             payload.push(review)
           }
         })
       } 
       if (accountType === '1') {
-        console.log('1')
-        response.data.map(review => {
-          console.log(review.type)
-          if (review.type === 'guest' //&& check if active user is commentor) {
+        reviews.map(review => {
+          if (review.type === 'guest' && activeUserName === review.commentee) {
             payload.push(review)
           }
         })
@@ -70,4 +68,10 @@ class ReceivedReview extends React.Component {
   }
 };
 
-export default ReceivedReview;
+function mapStateToProps(state) {
+  return {
+    user_data: state.user_data
+  }
+}
+
+export default connect(mapStateToProps)(ReceivedReview);
