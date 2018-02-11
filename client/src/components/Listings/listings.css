@@ -80,6 +80,8 @@ a:hover {
 
 .title-edit {
   width: 90%; 
+  text-align: center; 
+  font-size: 200%
 }
 
 .title-edit-box{
