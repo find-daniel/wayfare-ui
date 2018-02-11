@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { setSearchResults } from '../../actions/actionCreators';
 import axios from 'axios'
 import ListingEntry from '../Listings/ListingEntry';
-import Map from '../Map/Map';
+import SearchMap from './SearchMap';
 import NavBar from '../Nav/NavBar';
 
 class SearchResultPage extends React.Component {
@@ -31,7 +31,7 @@ class SearchResultPage extends React.Component {
               </div>
             </div>
             <div className="col-sm-4" style={{border: '1px solid black'}} >
-              <Map />
+              <SearchMap />
             </div>
           </div>
         }
