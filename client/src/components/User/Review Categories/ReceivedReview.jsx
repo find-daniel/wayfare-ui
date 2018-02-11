@@ -12,18 +12,18 @@ class ReceivedReview extends React.Component {
   async componentDidMount() {
     try {
       const response = await axios.get('http://localhost:3396/api/users/getReceivedReviews', {
-        params: {userId: this.props.match.params.userId}
+        params: {userId: localStorage.getItem('activeId')}
       });
       const accountType = await localStorage.getItem('accountType')
       console.log('AT', accountType)
-      console.log(response.data[0])
+      console.log(response.data)
       
       const payload = []
       if (accountType === '0') {
         console.log('0')
         response.data.map(review => {
           console.log(review.type)
-          if (review.type === 'guest') {
+          if (review.type === 'host' //&& check if active user is commentor) {
             payload.push(review)
           }
         })
@@ -32,7 +32,7 @@ class ReceivedReview extends React.Component {
         console.log('1')
         response.data.map(review => {
           console.log(review.type)
-          if (review.type === 'host') {
+          if (review.type === 'guest' //&& check if active user is commentor) {
             payload.push(review)
           }
         })

@@ -19,7 +19,7 @@ class BookingForm extends React.Component {
     try{
 
       const userId = await localStorage.getItem('activeId')
-
+      console.log(userId)
       const listingData = await axios.get('http://localhost:3396/api/listing/getListing', {
         params: {listingId: this.props.match.params.listingId}
       })
@@ -28,7 +28,7 @@ class BookingForm extends React.Component {
         userId: userId,
         hostId: listingData.data.hostid
       })
-
+      console.log(this.state.userId)
       const skills = await axios.get('http://localhost:3396/api/listing/getUserSkills', {
         params: {userId: this.state.userId}
       })
@@ -118,7 +118,7 @@ class BookingForm extends React.Component {
   }
 
   async onBookingHandler(e) {
-    e.preventDefault();
+    // e.preventDefault();
     console.log('booking requested');
     try {
       await axios.post('http://localhost:3396/api/listing/createRequestAndRequestSkills', {
@@ -148,7 +148,7 @@ class BookingForm extends React.Component {
         </div>        
 
         {/* FORM SUBMISSION */}
-        <form onSubmit={this.onBookingHandler.bind(this)}>
+        <form>
           <div> 
 
             {/* CHOOSE/DELETE SKILLS */}
@@ -187,6 +187,7 @@ class BookingForm extends React.Component {
             ></textarea>
           </div>          
           <Link to={`/user/${localStorage.getItem('activeUid')}/inbox/${this.state.userId}_${this.state.hostId}_${this.props.match.params.listingId}`} 
+            onClick={this.onBookingHandler.bind(this)}
             type="button" 
             className="btn btn-light col-sm-5" 
           >Message Host</Link>
