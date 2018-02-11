@@ -16,6 +16,8 @@ class UserPage extends React.Component {
         uid: localStorage.getItem('activeUid'),
         type: this.props.user_data.type
       };
+
+      // toggles host/guest
       const data = await axios.put('http://localhost:3396/api/users/upgradeUser', payload);
       window.location.reload(true);
       console.log('data received after user upgrade: ', data);

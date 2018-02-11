@@ -11,6 +11,6 @@ import App from './App.jsx';
 import './index.css'
 
 const middleWare = applyMiddleware(thunk, createLogger());
-const store = createStore(reducers, middleWare);
+const store = createStore(reducers, middleWare, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 render(<App store={store} />, document.getElementById('app'));

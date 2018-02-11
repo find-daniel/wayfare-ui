@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import { Provider, connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 class ReceivedReview extends React.Component {
   constructor() {
@@ -11,11 +13,29 @@ class ReceivedReview extends React.Component {
   
   async componentDidMount() {
     try {
-      const response = await axios.get('http://localhost:3396/api/users/getReceivedReviews', {
-        params: {userId: this.props.match.params.userId}
+      const response = await axios.get('http://localhost:3396/api/users/getUserReviews', {
+        params: {userId: localStorage.getItem('activeId')}
       });
-      console.log(response.data)
-      await this.setState({reviews: response.data})
+      const reviews = response.data.rows
+      const accountType = await localStorage.getItem('accountType')
+      const activeUserName = await this.props.user_data.name
+
+      const payload = []
+      if (accountType === '0') {
+        reviews.map(review => {
+          if (review.type === 'host' && activeUserName === review.commentee) {
+            payload.push(review)
+          }
+        })
+      } 
+      if (accountType === '1') {
+        reviews.map(review => {
+          if (review.type === 'guest' && activeUserName === review.commentee) {
+            payload.push(review)
+          }
+        })
+      }
+      await this.setState({reviews: payload})
     } catch(err) {
       throw new Error(err);
     }
@@ -48,4 +68,10 @@ class ReceivedReview extends React.Component {
   }
 };
 
-export default ReceivedReview;
+function mapStateToProps(state) {
+  return {
+    user_data: state.user_data
+  }
+}
+
+export default connect(mapStateToProps)(ReceivedReview);

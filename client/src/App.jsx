@@ -23,28 +23,50 @@ class App extends React.Component {
   }
   
   componentDidMount(){
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        localStorage.setItem('activeUid', user.uid)
-      }
-      
-      setTimeout(()=>{ 
-        if (user) {
-        this.props.setActiveUser(user);
-        axios.get('http://localhost:3396/api/users/getUser', {params: {uid: user.uid}})
-          .then((data) => {
-            localStorage.setItem('activeId', data.data.rows[0].id); 
-          })
-      } else {
-        localStorage.setItem('activeUid', '');
-        localStorage.setItem('activeId', ''); 
-        localStorage.setItem('activeUser', ''); 
-        localStorage.setItem('email', ''); 
-        localStorage.setItem('accountType', ''); 
-      }
-    }, 1000); 
-    });
-  }
+     
+      firebase.auth().onAuthStateChanged(async (user) => {
+        try {
+          if (user) {
+            await localStorage.setItem('activeUid', user.uid)
+            await this.props.setActiveUser(user)
+            const data = await axios.get('http://localhost:3396/api/users/getUser', {params: {uid: user.uid}})
+            await localStorage.setItem('activeId', data.data.rows[0].id); 
+            
+          } else {
+            localStorage.setItem('activeUid', '');
+            localStorage.setItem('activeId', ''); 
+            localStorage.setItem('activeUser', ''); 
+            localStorage.setItem('email', ''); 
+            localStorage.setItem('accountType', ''); 
+          }
+        } catch(err) {
+          console.log(err)
+        }
+      });
+        
+      // firebase.auth().onAuthStateChanged((user) => {
+      //   if (user) {
+      //     localStorage.setItem('activeUid', user.uid)
+      //   }
+        
+      //   setTimeout(()=>{ 
+      //     if (user) {
+      //       this.props.setActiveUser(user);
+      //       axios.get('http://localhost:3396/api/users/getUser', {params: {uid: user.uid}})
+      //         .then((data) => {
+      //           localStorage.setItem('activeId', data.data.rows[0].id); 
+      //         })
+      //     } else {
+      //       localStorage.setItem('activeUid', '');
+      //       localStorage.setItem('activeId', ''); 
+      //       localStorage.setItem('activeUser', ''); 
+      //       localStorage.setItem('email', ''); 
+      //       localStorage.setItem('accountType', ''); 
+      //     }
+      //   }, 1000); 
+      // });
+        
+    }
   
  render () {
     return (

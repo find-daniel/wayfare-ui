@@ -17,22 +17,20 @@ class BookingForm extends React.Component {
 
   async componentDidMount() {
     try{
-      // GET USER ID FOR SCHEMA QUERIES
-      // const userId = await localStorage.getItem('activeId')
-      const userId = await axios.get('http://localhost:3396/api/users/getUser', {
-        params: {uid: localStorage.getItem('activeUid')}
-      })
 
+      const userId = await localStorage.getItem('activeId')
+      console.log(userId)
       const listingData = await axios.get('http://localhost:3396/api/listing/getListing', {
         params: {listingId: this.props.match.params.listingId}
       })
-      this.setState({
+      
+      await this.setState({
+        userId: userId,
         hostId: listingData.data.hostid
       })
-
-      // GET SKILLS USING USER ID (currently using uid to do it... fix controller later)
+      console.log(this.state.userId)
       const skills = await axios.get('http://localhost:3396/api/listing/getUserSkills', {
-        params: {uid: localStorage.getItem('activeUid')}
+        params: {userId: this.state.userId}
       })
       
       const payload = []
@@ -40,7 +38,6 @@ class BookingForm extends React.Component {
         payload.push({'id': skill.id, 'skill': skill.skill})
       })      
       await this.setState({
-        userId: userId.data.rows[0].id,
         skills: payload
       })
     } catch(err) {
@@ -61,14 +58,14 @@ class BookingForm extends React.Component {
     console.log('skill added:', this.state.newSkill)
     try {
       const response = await axios.post('http://localhost:3396/api/listing/createUserSkills', {
-        uid: localStorage.getItem('activeUid'),
+        userId: this.state.userId,
         skill: this.state.newSkill
       })
       const payload = []
       await response.data.rows.map(skill => {
         payload.push({'id': skill.id, 'skill': skill.skill})
       })
-      this.setState({
+      await this.setState({
         skills: payload,
       })
     } catch(err) {
@@ -80,16 +77,16 @@ class BookingForm extends React.Component {
   async onCheckHandler(e) {
     if (!this.state.checked.includes(JSON.parse(e.target.id))) {
       const addPayload = this.state.checked;
-      addPayload.push(JSON.parse(e.target.id))
-      this.setState({
+      await addPayload.push(JSON.parse(e.target.id))
+      await this.setState({
         checked: addPayload
       })
       console.log('after add', this.state.checked)
     } else {
       const deletePayload = this.state.checked
       console.log(e.target.id)
-      deletePayload.splice(deletePayload.indexOf(JSON.parse(e.target.id)), 1)
-      this.setState({
+      await deletePayload.splice(deletePayload.indexOf(JSON.parse(e.target.id)), 1)
+      await this.setState({
         checked: deletePayload
       })
       console.log('after delete', this.state.checked)
@@ -111,7 +108,7 @@ class BookingForm extends React.Component {
       await response.data.rows.map(skill => {
         payload.push({'id': skill.id, 'skill': skill.skill})
       })
-      this.setState({
+      await this.setState({
         skills: payload
       })
 
@@ -121,7 +118,7 @@ class BookingForm extends React.Component {
   }
 
   async onBookingHandler(e) {
-    e.preventDefault();
+    // e.preventDefault();
     console.log('booking requested');
     try {
       await axios.post('http://localhost:3396/api/listing/createRequestAndRequestSkills', {
@@ -151,7 +148,7 @@ class BookingForm extends React.Component {
         </div>        
 
         {/* FORM SUBMISSION */}
-        <form onSubmit={this.onBookingHandler.bind(this)}>
+        <form>
           <div> 
 
             {/* CHOOSE/DELETE SKILLS */}
@@ -190,6 +187,7 @@ class BookingForm extends React.Component {
             ></textarea>
           </div>          
           <Link to={`/user/${localStorage.getItem('activeUid')}/inbox/${this.state.userId}_${this.state.hostId}_${this.props.match.params.listingId}`} 
+            onClick={this.onBookingHandler.bind(this)}
             type="button" 
             className="btn btn-light col-sm-5" 
           >Message Host</Link>

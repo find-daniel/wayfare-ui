@@ -109,7 +109,7 @@ class Login extends React.Component {
           email:
           <input onChange={this.handleInputChange.bind(this)} type="text" id="email" placeholder="email"/>
           password:
-          <input onChange={this.handleInputChange.bind(this)} type="text" id="password" placeholder="password"/>
+          <input onChange={this.handleInputChange.bind(this)} type="password" id="password" placeholder="password"/>
           <button>Login</button>
         </form>
       </div>
