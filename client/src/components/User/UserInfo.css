@@ -25,3 +25,22 @@
   margin-bottom: 10px; 
   border-radius: 5px;
 }
+
+.wireframe {
+  border: 1px solid black;
+}
+
+.chat-messages {
+  height: 435px;
+}
+
+.chat {
+  height: 500px;
+}
+.chat-footer {
+  position: absolute;
+  bottom: 15px;
+  width: 100%
+}
+
+

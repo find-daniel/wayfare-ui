@@ -5,7 +5,9 @@ import { bindActionCreators } from 'redux';
 import io from 'socket.io-client';
 import { setActiveUser } from '../../actions/actionCreators';
 import axios from 'axios';
+import './UserInfo.css'
 
+// rename to Chat
 class Messages extends React.Component {
   constructor() {
     super()
@@ -86,34 +88,43 @@ class Messages extends React.Component {
 
   render() {
     return (
-      <div className="container">
-      <div>
-      {this.state.messages.length > 0
-      ?
-      this.state.messages.map((message, i) => {
-        return (<div key={i}>
-          <li>
-          <img style={{height: '50px'}} src={localStorage.getItem('profilePictureURL')} />
-          <span>({message.author}) : {message.message} </span>
-          </li>
-        </div>)
-      })
-      :
-      null
-      }
-      </div>  
-      <div className="card">
-        <div className="card-title">Chat</div>
-          <hr/>
-            <div className="messages">
-              </div>
-                <div className="footer">
-                    <br/>
-                    <input type="text" placeholder="Message"  value={this.state.message} onChange={e => this.setState({message: e.target.value})}/>
-                    <br/>
-                    <button  onClick={(e) => this.sendMessage(e)}>Send</button>
-                </div>
-          </div>  
+      <div className="row chat">
+        <div className="left col-sm-3 wireframe">
+          <div className="rooms">
+            <ul className="list-group">
+              <li className="list-group-item"> this will be a room </li>
+            </ul>
+          </div>
+        </div>
+        <div className="right col-sm-9 wireframe">
+          <div className="chat-messages wireframe">
+            <ul>
+              <li>these will be messages</li>
+              <li>these will be messages</li>
+              <li>these will be messages</li>
+            </ul>
+          </div>
+          <div className="row chat-footer input-group">
+            <input className="offset-sm-1 col-sm-8 form-control" type="text" placeholder="Message" value={this.state.message} onChange={e => this.setState({message: e.target.value})}/>
+            <button className="col-sm-2 input-group-append" onClick={(e) => this.sendMessage(e)}>Send</button>
+          </div>
+        </div>
+        {/* Mapping through messages */}
+        {/* <div>
+          {this.state.messages.length > 0
+          ?
+          this.state.messages.map((message, i) => {
+            return (<div key={i}>
+              <li>
+              <img src={message.authorImage} />
+              <span>({message.author}) : {message.message} </span>
+              </li>
+            </div>)
+          })
+          :
+          null
+          }
+        </div>   */}  
       </div>
   );
 }
