@@ -53,8 +53,20 @@ class ListingInfo extends React.Component {
   }
 
   messageHandler() {
-   //create a message room here
+    console.log('this.props',this.props)
+    
+
+    // create room in mongo db:
+    // let roomPayload = {roomId: localStorage.activeId+'_'+'10'+'_'+'5', guestId: localStorage.activeId, hostId: 10, listingId: 5}
+
+    // try {
+    //   const data = await axios.post('http://localhost:4155/api/room/createRoom', roomPayload)
+    // } catch (err) {
+    //   console.log('error creating a chat room in mongo', err)
+    // }
+
   }
+
 
   render() {
     return (

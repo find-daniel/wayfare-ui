@@ -60,13 +60,22 @@ class Messages extends React.Component {
   }
 
   sendMessage(e) {
+    console.log(
+      this.props
+    )
+
     e.preventDefault();
+
     this.setState({message: this.state.messages})
     this.state.socket.emit('client.message', {
       author: this.props.active_user.displayName,
       authorImage: this.props.active_user.photoURL,
       message: this.state.message,
       room: this.state.room
+    })
+
+    this.setState({
+      message: ''
     })
   }
 
@@ -80,7 +89,7 @@ class Messages extends React.Component {
       this.state.messages.map((message, i) => {
         return (<div key={i}>
           <li>
-          <img src={message.authorImage} />
+          <img style={{height: '50px'}} src={localStorage.getItem('profilePictureURL')} />
           <span>({message.author}) : {message.message} </span>
           </li>
         </div>)
@@ -98,7 +107,7 @@ class Messages extends React.Component {
                     <br/>
                     <input type="text" placeholder="Message"  value={this.state.message} onChange={e => this.setState({message: e.target.value})}/>
                     <br/>
-                    <button  onSubmit={(e) => this.sendMessage(e)}>Send</button>
+                    <button  onClick={(e) => this.sendMessage(e)}>Send</button>
                 </div>
           </div>  
       </div>
