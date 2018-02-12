@@ -106,7 +106,6 @@ class ListingInfo extends React.Component {
     }
   }
 
-
   render() {
     return (
       <div className="card hostInfo">
