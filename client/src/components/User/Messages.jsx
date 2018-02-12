@@ -72,7 +72,7 @@ class Messages extends React.Component {
     // will already be on this.state. no need to grab anything from localStorage or redux.
 
     this.state.socket.emit('client.message', {
-      guestName: this.props.active_user.displayName,
+      guestName: this.props.active_user.displayName || 'i need a name',
       guestImage: this.props.active_user.photoURL,
       message: this.state.message,
       room: this.state.room
