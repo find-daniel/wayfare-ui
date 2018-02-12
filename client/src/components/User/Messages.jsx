@@ -67,9 +67,13 @@ class Messages extends React.Component {
     e.preventDefault();
 
     this.setState({message: this.state.messages})
+
+    // by the time this component is loaded, information about the guest and the host
+    // will already be on this.state. no need to grab anything from localStorage or redux.
+
     this.state.socket.emit('client.message', {
-      author: this.props.active_user.displayName,
-      authorImage: this.props.active_user.photoURL,
+      guestName: this.props.active_user.displayName,
+      guestImage: this.props.active_user.photoURL,
       message: this.state.message,
       room: this.state.room
     })
