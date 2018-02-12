@@ -12,8 +12,7 @@ class ListingInfo extends React.Component {
     super(props); 
     this.state = {
       edit : false,
-      skills: this.props.skills,
-      room: ''
+      skills: this.props.skills
     }
     this.messageHandler = this.messageHandler.bind(this); 
     this.editListing = this.editListing.bind(this); 
@@ -53,18 +52,32 @@ class ListingInfo extends React.Component {
 
   deleteSkill() {
 
-  }
+  } 
 
   async messageHandler() {
+    let guestName = this.props.active_user.displayName || 'need display name';
+    let guestImage = localStorage.getItem('profilePictureURL');
     let guestId = localStorage.getItem('activeId');
+    let hostName = this.props.user.name;
     let hostId = this.props.listing.hostid;
+    let hostImage = this.props.user.image;
     let listingId = this.props.listing.id;
+    let listingTitle = this.props.listing.title;
     let roomId = `${guestId}_${hostId}_${listingId}`;
-    let roomPayload = {roomId: roomId, guestId: guestId, hostId: hostId, listingId: listingId}
+    let staticMessage = `Hello, ${hostName}! I am interested in your listing, ${listingTitle}.`
 
-    this.setState({
-      room: roomId
-    })
+    let roomPayload = {
+      roomId: roomId,
+      guestName: guestName,
+      guestImage: guestImage,
+      guestId: guestId,
+      hostName: hostName,
+      hostImage: hostImage,
+      hostId: hostId,
+      listingId: listingId,
+      listingTitle: listingTitle
+    }
+
     // create room in mongo db:
     try {
       const data = await axios.post('http://localhost:4155/api/rooms/createRoom', roomPayload)
@@ -72,11 +85,7 @@ class ListingInfo extends React.Component {
       console.log('error creating a chat room in mongo', err)
     }
 
-    let staticMessage = `Hello, ${this.props.user.name}! I am interested in your listing, ${this.props.listing.title}.`
-    let guestImage = localStorage.getItem('profilePictureURL');
-    let guestName = this.props.active_user.displayName || 'need display name';
-    let hostImage = this.props.user.image;
-    let hostName = this.props.user.name;
+
     let messagePayload = {
       guestName: guestName,
       guestImage: guestImage,
@@ -92,7 +101,6 @@ class ListingInfo extends React.Component {
     // create static message in mongo db:
     try {
       const data = await axios.post(`http://localhost:4155/api/chat/postStaticMessage`, messagePayload)
-
     } catch (err) {
       console.log('Error posting static message', err)
     }
@@ -170,7 +178,7 @@ class ListingInfo extends React.Component {
                 <div>
                   <Link to={`/listing/book/${this.props.listing.id}`} type="button" className="btn btn-light col-sm-5">Request Booking</Link>
                   <span className="col-sm-2"/>
-                  <Link to={`/user/${localStorage.getItem('activeUser')}/inbox/${this.state.room}`} type="button" className="btn btn-light col-sm-5" onClick={this.messageHandler}>Message Host</Link>
+                  <Link to={`/user/${localStorage.getItem('activeUser')}inbox/${localStorage.getItem('activeId')}_${this.props.listing.hostid}_${this.props.listing.id}`} type="button" className="btn btn-light col-sm-5" onClick={this.messageHandler}>Message Host</Link>
                 </div>
               }
             </div>
