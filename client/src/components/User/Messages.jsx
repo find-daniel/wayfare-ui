@@ -24,7 +24,12 @@ class Messages extends React.Component {
   }
 
   async componentDidMount () {
-    const data = await axios.get('http://localhost:4155/api/rooms/getRooms');
+    const data = await axios.get('http://localhost:4155/api/rooms/getRooms', {
+      params: {
+        id: localStorage.getItem('activeId'),
+        accountType: localStorage.getItem('accountType')
+      }
+    });
     console.log('these are the rooms', data);
 
     this.setState({
