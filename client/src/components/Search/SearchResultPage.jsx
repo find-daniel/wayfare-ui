@@ -15,6 +15,7 @@ class SearchResultPage extends React.Component {
     const data = await axios.get('http://localhost:3396/api/listing/getSearchedListings', { 
       params: { city: localStorage.getItem('searchQuery').split(',')[0] }
     });
+    console.log('queryy', localStorage.getItem('searchQuery').split(',')[0])
     console.log('dataaaa', data)
     this.props.setSearchResults(data.data.rows);
   }
