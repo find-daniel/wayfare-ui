@@ -11,6 +11,7 @@ class NavBar extends React.Component {
   constructor() {
     super()
     this.onSuccess = this.onSuccess.bind(this);
+    this.clickRefresh = this.clickRefresh.bind(this);
 
     this.state = {
       img: ''
@@ -40,6 +41,10 @@ class NavBar extends React.Component {
     }
   }
 
+  clickRefresh () {
+    window.location.reload(true);
+  }
+
   render() {
     return (
       <div className="navbar nav row background-nav" >
@@ -59,7 +64,10 @@ class NavBar extends React.Component {
           </div>
         :
           <div className="col-sm-2">
-            <Link to={`/user/${localStorage.getItem('activeUid')}/inbox`}> <img className="nav-profile-pic" src={this.state.img} alt=""/> </Link>
+            <Link onClick={this.clickRefresh} to={{
+              pathname:`/user/${localStorage.getItem('activeUid')}/inbox`,
+              state: { userAccountType: localStorage.getItem('accountType') }
+              }}> <img className="nav-profile-pic" src={this.state.img} alt=""/> </Link>
             <button className="btn btn-outline-light" onClick={this.onLogoutClickHandler.bind(this)}>Logout</button>
           </div>
         }
