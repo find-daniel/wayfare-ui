@@ -18,13 +18,17 @@ class Home extends React.Component {
   }
 
   async componentDidMount() {
-    const data = await axios.get(`${url.restServer}/api/listing/getTopListings`);
-    console.log(data)
+    const data = await axios.get('http://localhost:3396/api/listing/getTopListings');
+    let arr = []; 
+    data.data.forEach(listing => {
+      if (listing.id) {
+        arr.push(listing); 
+      }
+    })
     this.setState({
-      topListings: data.data
+      topListings: arr
     });
 
-    console.log('listings: ', this.state.topListings);
   }
 
   render() {

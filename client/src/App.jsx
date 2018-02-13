@@ -62,6 +62,7 @@ class App extends React.Component {
               <Route path='/user/:userId/leave-review' component={ReviewForm} />
               <Route path='/user/:userId/create-listing' component={CreateListingForm} />
               <Route path='/user/:userId/edit' component={EditUserInfo} />
+              <Route path='/user/:userId/review' component={ReviewForm} />
               <Route path='/user/:userId' component={UserPage} />
               <Route path='/' component={Home} />
             </Switch>
