@@ -36,7 +36,7 @@ class UserInfo extends React.Component {
       return null
     } else {
       return (
-        <div className="card card-box">
+        <div className="card card-box user-page-component">
           <div className="card-img-top img-background">
             <img className="img-fluid profile-pic" src={this.props.user_data.image} alt=""/>
           </div>

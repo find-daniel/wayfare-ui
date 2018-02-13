@@ -7,6 +7,7 @@ import firebase from 'firebase';
 import Dropzone from 'react-dropzone';
 import upload from 'superagent';
 import url from '../../config'
+import './EditUserInfo.css'
 
 class EditUserInfo extends React.Component {
   constructor () {
@@ -81,42 +82,69 @@ class EditUserInfo extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Edit Info</h1>
-        <div>
-          <form onSubmit={this.onSubmitHandler.bind(this)}>
-            {/* Location */}
-            <div>
-              <p>Location</p>
-              <input onChange={this.onChangeHandler.bind(this)} name='city' type="text" placeholder="City, State"/>
+      <div className="d-flex justify-content-center">
+        <div className="card box edit-user-component">
+          <div>
+            <div className="text-center edit-user-header">
+              <h1>Edit User Info</h1>
             </div>
-            {/* Profile Photo */}
-            <div>
-              <p>Profile Photo</p>
-            </div>
-            {/* Dropzone to add photos by click or dragging*/}
-            <div>
-              <Dropzone 
-                accept="image/jpeg, image/jpg, image/png"
-                multiple={false}
-                onDropAccepted={ this._onDrop.bind(this) } maxSize={ 2000000 }
-                onDragLeave= {this._onDrop.bind(this) } maxSize={ 2000000 }
-                // onDropRejected = {can render a warning if we want}
-                // className="dropzone"   <-- Daniel-san, add styles to .dropzone later! onegaishimasu
-              >
-                <div>
-                  Click or drag photo here! Limit 2mb.
-                    {!this.state.imagePrev ? null : <div>Preview: <br/><img style={{maxHeight: '120px'}} src={this.state.imagePrev} /></div> }
+            <div className="d-flex justify-content-center">
+              <form onSubmit={this.onSubmitHandler.bind(this)}>
+                {/* Location */}
+                <div className="input-spacing">
+                  <div className="text-center">
+                    <h5>Location</h5>
+                    <hr/>
+                  </div>
+                  <input className="form-control text-center" onChange={this.onChangeHandler.bind(this)} name='city' type="text" placeholder="City, State"/>
                 </div>
-              </Dropzone>
+                {/* Bio */}
+                <div className="input-spacing">
+                  <div className="text-center">
+                    <h5>Bio</h5>
+                    <hr/>
+                  </div>
+                  <textarea className="form-control text-center" onChange={this.onChangeHandler.bind(this)} name="bio" id="" cols="30" rows="2" placeholder="Tell us about yourself"></textarea>
+                </div>
+                {/* Profile Photo */}
+                {/* Dropzone to add photos by click or dragging*/}
+                <div>
+                  <div className="text-center">
+                    <h5>Profile Photo</h5>
+                    <hr/>
+                  </div>
+                  <div>
+                    <Dropzone
+                      className="card dropzone"
+                      accept="image/jpeg, image/jpg, image/png"
+                      multiple={false}
+                      onDropAccepted={ this._onDrop.bind(this) } maxSize={ 2000000 }
+                      onDragLeave= {this._onDrop.bind(this) } maxSize={ 2000000 }
+                      // onDropRejected = {can render a warning if we want}
+                    >
+                      <div className="">
+                        {!this.state.imagePrev ? 
+                          <div className="text-center">
+                            <p className="dropzone-text"> Click or drag photo </p> 
+                            <p> Limit 2mb </p>
+                          </div>
+                        :
+                          <div className="text-center">
+                            <div > <p> Preview </p> </div>
+                            <img className="dropzone-photo" src={this.state.imagePrev} />   
+                          </div>
+                        }
+                      </div>
+                    </Dropzone>
+                  </div>
+                </div>
+                {/* Submit */}
+                <div className="d-flex justify-content-center dropzone-submit">
+                  <button className="btn btn-outline-dark">Submit</button>
+                </div>
+              </form>
             </div>
-            {/* Bio */}
-            <div>
-              <p>Bio</p>
-              <textarea onChange={this.onChangeHandler.bind(this)} name="bio" id="" cols="30" rows="10" placeholder="Tell us about yourself"></textarea>
-            </div>
-            <button>Submit</button>
-          </form>
+          </div>
         </div>
       </div>
     )
