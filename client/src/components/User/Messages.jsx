@@ -8,7 +8,6 @@ import axios from 'axios';
 import { setActiveUser } from '../../actions/actionCreators';
 import MessageEntry from './MessageEntry';
 import './UserInfo.css'
-import { Link } from 'react-router-dom';
 import url from '../../config'
 
 // rename to Chat

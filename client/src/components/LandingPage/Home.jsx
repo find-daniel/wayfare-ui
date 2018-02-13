@@ -19,10 +19,7 @@ class Home extends React.Component {
 
   async componentDidMount() {
     const data = await axios.get(`${url.restServer}/api/listing/getTopListings`);
-    const data = await axios.get(`${url.restServer}/api/listing/getSearchedListings`, { 
-      params: { city: localStorage.getItem('searchQuery') }
-    });
-
+    console.log(data)
     this.setState({
       topListings: data.data
     });
