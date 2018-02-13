@@ -10,6 +10,7 @@ import url from '../../config'
 
 
 const MyMapComponent = compose(
+  
   withProps({
     googleMapURL: `https://maps.googleapis.com/maps/api/js?key=AIzaSyB_yMI7INqtmKuT8R4176-c1XvANlA73vg&v=3.exp&libraries=geometry,drawing,places`,
     loadingElement: <div style={{ height: '100%' }} />,
@@ -24,7 +25,11 @@ const MyMapComponent = compose(
       defaultZoom= {8}
       defaultCenter={{ lat: props.maplat, lng: props.maplng }}
       >
-      {props.isMarkerShown && <Marker position={{ lat: props.maplat, lng: props.maplng }} onClick={props.onMarkerClick}/>}
+      {props.isMarkerShown && props.listings.map((listing, i) => {
+        console.log('listinggggggg', listing)
+        return (<Marker key={i} position={{ lat: parseFloat(listing.latitude), lng: parseFloat(listing.longitude)}} onClick={props.onMarkerClick}/>)
+      })
+    } 
     </GoogleMap>
 ) 
 
