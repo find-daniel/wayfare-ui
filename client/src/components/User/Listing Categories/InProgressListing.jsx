@@ -1,43 +1,77 @@
 import React from 'react';
-import axios from 'axios'
+import axios from 'axios';
+import { Provider, connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 class InProgressListing extends React.Component {
   constructor () {
     super()
     this.state = {
-      inProgressListings: []
+      listings: []
     }
   }
 
-async componentDidMount() {
+  async componentDidMount() {
+    try {
+      const response = await axios.get('http://localhost:3396/api/listing/getListingsByStatus', {
+        params: {status: 'progress'}
+      })
+      const listings = response.data.rows
+      const accountType = await localStorage.getItem('accountType')
+      const activeId = await localStorage.getItem('activeId')
+      const activeUserName = await this.props.user_data.name      
 
+      const payload = []
+      if (accountType === '0') {
+        await listings.map(listing => {
+          if (activeId === JSON.stringify(listing.guestid)) {
+            payload.push(listing)
+          }
+        })
+      }
+      if (accountType === '1') {
+        await listings.map(listing => {          
+          if (activeId === JSON.stringify(listing.hostid)) {
+            payload.push(listing)
+          }
+        })
+      }
+      await this.setState({
+        listings: payload
+      })
+    } catch(err) {
+      throw new Error(err)
+    }
+  }  
 
-let inProgressListings = await axios.get('http://localhost:3396/api/listing/getListingsByStatus', {params: {status: 'IN PROGRESS'}})
-this.setState({
-  inProgressListings: inProgressListings.data.rows
-})
-  // catch (err) {
-  //   console.log('couldnt get listings', err);
-  // }
-console.log('this.state.inproowwe', this.state.inProgressListings)
-}
- 
-  render () {
-    return (this.state.inProgressListings.length > 0
-    ?
-    this.state.inProgressListings.map((listing, i) => {
-      return (
-        <div key={i}>
-          <ul>  
-        {listing.title}
-          </ul>
-        </div>
-      )
-
-    })
-    :
-    null)
+  render() {
+    return (
+      <div>
+        <h2>This is the host's in-progress listing</h2>
+        {
+          this.state.listings.map((listing, i) => {
+            return (
+              <div key={i}>
+                <div>
+                  {`Listing: ${listing.title}`}
+                </div>
+                <div>
+                  {`Status: ${listing.status}`}
+                </div>
+                <br/>            
+              </div>
+            )      
+          })
+        }
+      </div>
+    )      
   }
 };
 
-export default InProgressListing;
+function mapStateToProps(state) {
+  return {
+    user_data: state.user_data
+  }
+}
+
+export default connect(mapStateToProps)(InProgressListing);
