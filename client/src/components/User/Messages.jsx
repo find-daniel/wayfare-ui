@@ -5,7 +5,10 @@ import { bindActionCreators } from 'redux';
 import io from 'socket.io-client';
 import { setActiveUser } from '../../actions/actionCreators';
 import axios from 'axios';
+import './UserInfo.css'
+import { Link } from 'react-router-dom';
 
+// rename to Chat
 class Messages extends React.Component {
   constructor() {
     super()
@@ -14,9 +17,20 @@ class Messages extends React.Component {
       author: null,
       messages: [],
       room: null,
+      rooms: [],
       message: ''
     }
     this.sendMessage = this.sendMessage.bind(this);
+  }
+
+  async componentDidMount () {
+    const data = await axios.get('http://localhost:4155/api/rooms/getRooms');
+    console.log('these are the rooms', data);
+
+    this.setState({
+      rooms: data.data
+    })
+
   }
 
   async componentWillMount  () {
@@ -32,6 +46,9 @@ class Messages extends React.Component {
         this.setState({
           messages: data.data
         })
+
+        let chatBox = document.getElementById('chat-messages');
+        chatBox.scrollTop = chatBox.scrollHeight;
       } 
     catch (err) {
         console.log('couldnt fetch err', err)
@@ -52,6 +69,9 @@ class Messages extends React.Component {
          this.setState({
           messages: [...this.state.messages, lastmessage.data[0]]
         })
+        
+        let chatBox = document.getElementById('chat-messages');
+        chatBox.scrollTop = chatBox.scrollHeight;
       }
       catch (err) {
         console.log('couldnt get last message', err)
@@ -86,34 +106,40 @@ class Messages extends React.Component {
 
   render() {
     return (
-      <div className="container">
-      <div>
-      {this.state.messages.length > 0
-      ?
-      this.state.messages.map((message, i) => {
-        return (<div key={i}>
-          <li>
-          <img style={{height: '50px'}} src={localStorage.getItem('profilePictureURL')} />
-          <span>({message.author}) : {message.message} </span>
-          </li>
-        </div>)
-      })
-      :
-      null
-      }
-      </div>  
-      <div className="card">
-        <div className="card-title">Chat</div>
-          <hr/>
-            <div className="messages">
-              </div>
-                <div className="footer">
-                    <br/>
-                    <input type="text" placeholder="Message"  value={this.state.message} onChange={e => this.setState({message: e.target.value})}/>
-                    <br/>
-                    <button  onClick={(e) => this.sendMessage(e)}>Send</button>
-                </div>
-          </div>  
+      <div className="row chat">
+        <div className="left col-sm-3 wireframe">
+          <div className="rooms">
+            <ul className="list-group-flush col-sm-12">
+              {this.state.rooms.map((room) => {
+                return <Link key={room.roomId} to={`/user/${localStorage.getItem('activeUid')}/inbox/${room.roomId}`} ><li className="list-group-item">{room.listingTitle}</li></Link>
+              })}
+            </ul>
+          </div>
+        </div>
+        <div className="right col-sm-9 wireframe">
+          <div className="chat-messages" id="chat-messages">
+            <ul className="list-group-flush col-sm-12">
+            {this.state.messages.length > 0
+              ?
+              this.state.messages.map((message, i) => {
+                return (<div key={i}>
+                  <li className="list-group-item">
+                    <hr/>
+                    <img src={message.authorImage} />
+                    <p>({message.author}) : {message.message} </p>
+                  </li>
+                </div>)
+              })
+              :
+              null
+              }
+            </ul>
+          </div>
+          <div className="row chat-footer input-group">
+            <input className="offset-sm-1 col-sm-8 form-control" type="text" placeholder="Message" value={this.state.message} onChange={e => this.setState({message: e.target.value})}/>
+            <button className="col-sm-2 input-group-append btn-outline-dark d-flex justify-content-center" onClick={(e) => this.sendMessage(e)}>Send</button>
+          </div>
+        </div>
       </div>
   );
 }
