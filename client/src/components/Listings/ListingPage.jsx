@@ -19,7 +19,7 @@ class ListingPage extends React.Component {
       user: '', 
       skills: '', 
       alert: false, 
-      listingOwner: true, 
+      listingOwner: false, 
       edit: false
     }
 
