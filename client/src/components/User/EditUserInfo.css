@@ -1,0 +1,36 @@
+.edit-user-component {
+  /* background-color: #F9FBFC; */
+  font-family: 'Quicksand', sans-serif;
+}
+
+.box {
+  width: 40%;
+  margin-top: 50px;
+  /* box-shadow: 0px 0px 1px 0px black; */
+}
+
+.edit-user-header {
+  margin-top: 15px;
+}
+
+.dropzone {
+  height: 200px;
+}
+
+.dropzone-photo {
+  height: 150px;
+}
+
+.dropzone-text {
+  margin-top: 65px;
+}
+
+.dropzone-submit {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+.input-spacing {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
