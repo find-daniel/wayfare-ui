@@ -47,7 +47,7 @@ class InProgressListing extends React.Component {
   }  
 
   async completeListingHandler(listing) {
-    await axios.put('http://localhost:3396/api/listing/completeListing', {
+    await axios.put(`${url.restServer}/api/listing/completeListing`, {
       params: {listingId: listing.id}
     })
     this.componentDidMount(); 

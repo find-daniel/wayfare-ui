@@ -27,7 +27,7 @@ class CompletedListing extends React.Component {
       if (accountType === '0') {
         await listings.map(async (listing) => {
           if (activeId === JSON.stringify(listing.guestid)) {
-            const data = await axios.get('http://localhost:3396/api/users/getUserReviewsByListing', {
+            const data = await axios.get(`${url.restServer}/api/users/getUserReviewsByListing`, {
               params: {listingId: listing.id, userId: listing.guestid}
             })
             const bool = data.data.rows.length > 0; 
@@ -38,7 +38,7 @@ class CompletedListing extends React.Component {
       if (accountType === '1') {
         await listings.map(async (listing) => {          
           if (activeId === JSON.stringify(listing.hostid)) {
-            const data = await axios.get('http://localhost:3396/api/users/getUserReviewsByListing', {
+            const data = await axios.get(`${url.restServer}/api/users/getUserReviewsByListing`, {
               params: {listingId: listing.id, userId: listing.hostid}
             })
             const bool = data.data.rows.length > 0; 

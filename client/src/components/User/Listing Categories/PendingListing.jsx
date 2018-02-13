@@ -37,7 +37,7 @@ class PendingListing extends React.Component {
       const listingRequests = []; 
       //if the user is a guest, get all the listing requests made by them
       if (accountType === '0') {
-          const data = await axios.get('http://localhost:3396/api/listing/getRequestsByGuest', {
+          const data = await axios.get(`${url.restServer}/api/listing/getRequestsByGuest`, {
             params: {guestId: activeId}
           })
           await data.data.rows.map(request => {
@@ -50,7 +50,7 @@ class PendingListing extends React.Component {
         await listings.map( async listing => {          
           if (activeId === JSON.stringify(listing.hostid)) {
             payload.push(listing)
-            const data = await axios.get('http://localhost:3396/api/listing/getRequestsByListing', {
+            const data = await axios.get(`${url.restServer}/api/listing/getRequestsByListing`, {
               params: {listingId: listing.id}
             }); 
             data.data.rows.forEach(request => {
@@ -71,7 +71,7 @@ class PendingListing extends React.Component {
   }  
 
   async acceptRequestHandler(listingId, guestId) {
-    const response = await axios.put('http://localhost:3396/api/listing/acceptListing', {
+    const response = await axios.put(`${url.restServer}/api/listing/acceptListing`, {
       params: {listingId: listingId , guestId: guestId}
     })
     this.componentDidMount(); 
@@ -82,7 +82,7 @@ class PendingListing extends React.Component {
     const guestId = request === undefined ? activeId : request.guestid; 
     const accountType = await localStorage.getItem('accountType')
 
-    await axios.delete('http://localhost:3396/api/listing/rejectListing', {
+    await axios.delete(`${url.restServer}/api/listing/rejectListing`, {
         params: {listingId: listing.id , guestId: guestId}
       })
     this.componentDidMount(); 

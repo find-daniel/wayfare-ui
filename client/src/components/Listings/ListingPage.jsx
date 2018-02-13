@@ -94,7 +94,7 @@ class ListingPage extends React.Component {
     newInfo.latitude = Number(parsedGeoData.results[0].geometry.location.lat); 
     newInfo.longitude = Number(parsedGeoData.results[0].geometry.location.lng); 
         
-    let confirm = await axios.put(`http://localhost:3396/api/listing/updateListing`, {
+    let confirm = await axios.put(`${url.restServer}/api/listing/updateListing`, {
       params: {
         listingDetails : newInfo
       }});
@@ -115,7 +115,7 @@ class ListingPage extends React.Component {
     //add new skills to DB
     for (let i = 0; i< newSkills.length; i++ ) {
       if (newSkills[i] && !newSkills[i].id) {
-        let data = await axios.post('http://localhost:3396/api/listing/addSkill', {
+        let data = await axios.post(`${url.restServer}/api/listing/addSkill`, {
           params: {listingId: this.state.listingId, skill: newSkills[i].skill}
         })
         newSkills[i].id = data.data.rows[0].id; 
@@ -127,7 +127,7 @@ class ListingPage extends React.Component {
 
     //delete old skills from DB
     for (let i = 0; i < deletedSkills.length; i++ ) {
-      await axios.delete('http://localhost:3396/api/listing/deleteListingSkill', {
+      await axios.delete(`${url.restServer}/api/listing/deleteListingSkill`, {
           params: { skillId: deletedSkills[i].id}
         })
     }
