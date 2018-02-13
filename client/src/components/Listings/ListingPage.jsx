@@ -41,7 +41,7 @@ class ListingPage extends React.Component {
     });
     let skillsArr = []; 
     skills.data.forEach(skill => {
-      skillsArr.push(skill.skill);  
+      skillsArr.push({skill: skill.skill, id: skill.id});  
     })
     this.setState ({
       listing: listing.data, 
@@ -90,35 +90,47 @@ class ListingPage extends React.Component {
     let geodata = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${listingAddressURL},+${listingCityURL},+${newInfo.state}&key=AIzaSyBvPqU7ldLdjnZvfEvXs9WIAJbbcodpfBE`)
     let parsedGeoData = JSON.parse(geodata.request.responseText)
     
-    newInfo.latitude = parsedGeoData.results[0].geometry.location.lat; 
-    newInfo.longitude = parsedGeoData.results[0].geometry.location.lng; 
+    newInfo.latitude = Number(parsedGeoData.results[0].geometry.location.lat); 
+    newInfo.longitude = Number(parsedGeoData.results[0].geometry.location.lng); 
         
     let confirm = await axios.put(`http://localhost:3396/api/listing/updateListing`, {
       params: {
         listingDetails : newInfo
       }});
 
+    //rerender new info
+    newInfo.guestId = this.state.listing.guestid; 
+    newInfo.hostId = this.state.listing.hostid; 
+    newInfo.id = this.state.listing.id; 
+    newInfo.status = this.state.listing.status; 
+    newInfo.enddate = newInfo.endDate; 
+    newInfo.startdate = newInfo.startDate; 
 
-      console.log('newSkills', newSkills)
-      console.log('old skills', this.state.skills); 
+    this.setState({
+      listing: newInfo, 
+      listingId: newInfo.id
+    })
+    
+    //add new skills to DB
     for (let i = 0; i< newSkills.length; i++ ) {
-      if (!this.state.skills.includes(newSkills[i])) {
-       console.log('new skill: ', newSkills[i])
+      if (newSkills[i] && !newSkills[i].id) {
+        let data = await axios.post('http://localhost:3396/api/listing/addSkill', {
+          params: {listingId: this.state.listingId, skill: newSkills[i].skill}
+        })
+        newSkills[i].id = data.data.rows[0].id; 
       }
     }
-
-    for (let i = 0; i < deletedSkills.length; i++ ) {
-      console.log('deleted skills: ', deletedSkills[i]); 
-    }
-
-    newSkills.concat(this.state.skills); 
     this.setState({
       skills: newSkills
     })
-    //add new skills
-    //delete old skills 
 
-    //replace state with new info and re render
+    //delete old skills from DB
+    for (let i = 0; i < deletedSkills.length; i++ ) {
+      await axios.delete('http://localhost:3396/api/listing/deleteListingSkill', {
+          params: { skillId: deletedSkills[i].id}
+        })
+    }
+
   }
 
   render() {
@@ -137,7 +149,7 @@ class ListingPage extends React.Component {
           {this.state.edit 
           ?
           <div className="title-edit-box">
-            <textarea type="text" ref="title" className="title-edit" placeholder='EDIT THE FUCKING TITLE'></textarea> 
+            <textarea type="text" ref="title" className="title-edit" placeholder='Edit Title'></textarea> 
             </div>
           :
             <h2 className="title">{this.state.listing.title}</h2>
@@ -167,7 +179,7 @@ class ListingPage extends React.Component {
           <p></p>
           <div className="row">
             <div className="col align-self-center">
-              <Mymap listing={this.props.match.params.listingId} />
+              <Mymap listing={this.state.listingId} />
             </div>
           </div>
         </div>

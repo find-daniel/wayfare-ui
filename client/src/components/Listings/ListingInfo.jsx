@@ -13,6 +13,7 @@ class ListingInfo extends React.Component {
     this.state = {
       edit : false,
       skills: this.props.skills, 
+      newSkills: [],
       deletedSkills : []
     }
     this.messageHandler = this.messageHandler.bind(this); 
@@ -25,7 +26,6 @@ class ListingInfo extends React.Component {
 
   componentDidMount() {
     setTimeout(() => {
-      console.log('hea', this.props)
       this.setState ({
         skills: this.props.skills.slice(0)
       })
@@ -54,20 +54,22 @@ class ListingInfo extends React.Component {
       description: this.refs.description.value
     }
     this.props.submitInfo(newInfo, this.state.deletedSkills, this.state.skills); 
+
     this.setState({
-      skills: [], 
+      newSkills: [], 
       deletedSkills: []
     })
     //display new info? 
   }
 
   addSkill() {
-    let arr = this.state.skills; 
-    arr.push(this.refs.skill.value); 
-    this.refs.skill.value = ''; 
+    let skills = this.state.skills; 
+    skills.push({skill: this.refs.skill.value, id: null}); 
     this.setState({
-      skills: arr
+      skills: skills
     })
+    this.refs.skill.value = ''; 
+    console.log('info state', this.state.skills); 
   }
  
 
@@ -123,13 +125,16 @@ class ListingInfo extends React.Component {
   
   deleteSkill(skill) {
     let arr = this.state.skills; 
+    let deleteArr = this.state.deletedSkills; 
     arr.forEach((s, i) => {
-      if (s === skill) {
+      if (s.skill === skill && s.id === null) {
+        delete arr[i] ; 
+      }
+      else if (s.skill === skill) {
         delete arr[i]; 
+        deleteArr.push(s); 
       }
     })
-    let deleteArr = this.state.deletedSkills; 
-    deleteArr.push(skill); 
     this.setState({
       skills: arr, 
       deletedSkills : deleteArr
@@ -178,7 +183,7 @@ class ListingInfo extends React.Component {
                   <input type="text" ref="skill" placeholder="Skill for stay"></input><button onClick={this.addSkill}>+</button>
                   <ul>
                       {this.state.skills.map((skill, i) => {
-                        return  <li key={i}>{skill}<button onClick={() => {this.deleteSkill(skill)}}>-</button></li>
+                        return  <li key={i}>{skill.skill}<button onClick={() => {this.deleteSkill(skill.skill)}}>-</button></li>
                       })}
                     </ul>
                 </div>
@@ -186,7 +191,7 @@ class ListingInfo extends React.Component {
                 this.state.skills.length > 0 
                   ? <ul>
                       {this.state.skills.map((skill, i) => {
-                        return  <li key={i}>{skill}</li>
+                        return  <li key={i}>{skill.skill}</li>
                       })}
                     </ul>
                   :
