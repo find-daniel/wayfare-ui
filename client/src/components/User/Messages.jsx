@@ -2,11 +2,12 @@ import React from 'react';
 import 'babel-polyfill';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'; 
+import { Link, Route } from 'react-router-dom';
 import io from 'socket.io-client';
-import { setActiveUser } from '../../actions/actionCreators';
 import axios from 'axios';
+import { setActiveUser } from '../../actions/actionCreators';
+import MessageEntry from './MessageEntry';
 import './UserInfo.css'
-import { Link } from 'react-router-dom';
 
 // rename to Chat
 class Messages extends React.Component {
@@ -18,25 +19,21 @@ class Messages extends React.Component {
       messages: [],
       room: null,
       rooms: [],
-      message: ''
+      message: '',
+      currentUrl: ''
     }
     this.sendMessage = this.sendMessage.bind(this);
+    this.onClickRefresh = this.onClickRefresh.bind(this);
   }
 
-  // async componentDidMount () {
-
-
-  // }
-
   async componentDidMount () {
-
     const data = await axios.get('http://localhost:4155/api/rooms/getRooms', {
       params: {
         id: localStorage.getItem('activeId'),
         accountType: localStorage.getItem('accountType')
       }
     });
-    console.log('these are the rooms', data);
+    
     this.setState({
       rooms: data.data
     })
@@ -47,9 +44,9 @@ class Messages extends React.Component {
         roomId
       }
     });   
-    console.log('befpre', this.state.room);
+
     this.setState({ socket: socket, room: roomId });
-    console.log('after: ', this.state.room);
+
     try {
        const data = await axios.get(`http://localhost:4155/api/chat/getMessages`, { 
          params: {
@@ -58,13 +55,14 @@ class Messages extends React.Component {
            accountType: localStorage.getItem('accountType')
          }
         })
+
         this.setState({
           messages: data.data.reverse()
         })
 
         let chatBox = document.getElementById('chat-messages');
         chatBox.scrollTop = chatBox.scrollHeight;
-      } 
+      }
     catch (err) {
         console.log('couldnt fetch err', err)
       }
@@ -118,6 +116,11 @@ class Messages extends React.Component {
     })
   }
 
+  onClickRefresh () {
+    this.setState({
+      currentUrl: room.roomId
+    })
+  }
 
   render() {
     return (
@@ -127,7 +130,7 @@ class Messages extends React.Component {
             <ul className="list-group-flush col-sm-12">
               {!this.state.rooms ? null :
                 this.state.rooms.map((room) => {
-                return <Link key={room.roomId} to={`/user/${localStorage.getItem('activeUid')}/inbox/${room.roomId}`} ><li className="list-group-item clearLink">{room.listingTitle}</li></Link>
+                return <Link onClick={this.onClickRefresh} key={room.roomId} to={`/user/${localStorage.getItem('activeUid')}/inbox/${room.roomId}`} ><li className="list-group-item clearLink">{room.listingTitle}</li></Link>
               })}
             </ul>
           </div>
@@ -135,19 +138,10 @@ class Messages extends React.Component {
         <div className="right col-sm-9 wireframe">
           <div className="chat-messages" id="chat-messages">
             <ul className="list-group-flush col-sm-12">
-            {this.state.messages.length > 0
-              ?
-              this.state.messages.map((message, i) => {
-                return (<div key={i}>
-                  <li className="list-group-item">
-                    <hr/>
-                    <img style={{height: "60px"}} src={message.userImage} />
-                    <p>({message.userName}) : {message.message} </p>
-                  </li>
-                </div>)
-              })
-              :
-              null
+              {!this.state.messages.length > 0 ? null :
+                this.state.messages.map((message, i) => {
+                  return <MessageEntry key={i} message={message} />
+                })
               }
             </ul>
           </div>

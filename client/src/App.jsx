@@ -16,57 +16,35 @@ import EditUserInfo from './components/User/EditUserInfo';
 import Login from './components/Auth/Login';
 import SignUp from './components/Auth/SignUp';
 import NavBar from './components/Nav/NavBar';
+import ReviewForm from './components/Reviews/ReviewForm'
 
 class App extends React.Component {
   constructor(props){
     super(props)
   }
   
-  componentDidMount(){
-     
-      firebase.auth().onAuthStateChanged(async (user) => {
-        try {
-          if (user) {
-            await localStorage.setItem('activeUid', user.uid)
-            await this.props.setActiveUser(user)
-            const data = await axios.get('http://localhost:3396/api/users/getUser', {params: {uid: user.uid}})
-            await localStorage.setItem('activeId', data.data.rows[0].id); 
-            
-          } else {
-            localStorage.setItem('activeUid', '');
-            localStorage.setItem('activeId', ''); 
-            localStorage.setItem('activeUser', ''); 
-            localStorage.setItem('email', ''); 
-            localStorage.setItem('accountType', ''); 
-          }
-        } catch(err) {
-          console.log(err)
+  componentDidMount () {
+    firebase.auth().onAuthStateChanged(async (user) => {
+      try {
+        if (user) {
+          await localStorage.setItem('activeUid', user.uid)
+          await this.props.setActiveUser(user)
+          const data = await axios.get('http://localhost:3396/api/users/getUser', {params: {uid: user.uid}})
+          await localStorage.setItem('activeId', data.data.rows[0].id); 
+          
+        } else {
+          // localStorage.setItem('activeUid', '');
+          // localStorage.setItem('activeId', ''); 
+          // localStorage.setItem('activeUser', ''); 
+          // localStorage.setItem('email', ''); 
+          // localStorage.setItem('accountType', '');
+          localStorage.clear(); 
         }
-      });
-        
-      // firebase.auth().onAuthStateChanged((user) => {
-      //   if (user) {
-      //     localStorage.setItem('activeUid', user.uid)
-      //   }
-        
-      //   setTimeout(()=>{ 
-      //     if (user) {
-      //       this.props.setActiveUser(user);
-      //       axios.get('http://localhost:3396/api/users/getUser', {params: {uid: user.uid}})
-      //         .then((data) => {
-      //           localStorage.setItem('activeId', data.data.rows[0].id); 
-      //         })
-      //     } else {
-      //       localStorage.setItem('activeUid', '');
-      //       localStorage.setItem('activeId', ''); 
-      //       localStorage.setItem('activeUser', ''); 
-      //       localStorage.setItem('email', ''); 
-      //       localStorage.setItem('accountType', ''); 
-      //     }
-      //   }, 1000); 
-      // });
-        
-    }
+      } catch(err) {
+        console.log(err)
+      }
+    }); 
+  }
   
  render () {
     return (
@@ -84,6 +62,7 @@ class App extends React.Component {
               <Route path='/listing/:listingId' component={ListingPage} />
               {/* Setup :userId for specific user */}
               <Route path='/user/public/:userId' component={PublicUserPage} />
+              <Route path='/user/:userId/leave-review' component={ReviewForm} />
               <Route path='/user/:userId/create-listing' component={CreateListingForm} />
               <Route path='/user/:userId/edit' component={EditUserInfo} />
               <Route path='/user/:userId' component={UserPage} />
