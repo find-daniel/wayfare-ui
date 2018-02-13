@@ -12,7 +12,7 @@ class Signup extends React.Component {
       name: '',
       email: '',
       password: '',
-      image: 'https://i.imgur.com/F18OMC9.png'
+      image: 'https://i.pinimg.com/236x/17/a0/80/17a08083f73ab4e6b273c3a9857d38e2--invisible-ink--bit.jpg'
     }
   }
 

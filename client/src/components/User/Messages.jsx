@@ -79,6 +79,8 @@ class Messages extends React.Component {
     })
 
     socket.on('server.message', async (data) => {
+      // console.log('this.state',this.state)
+      // console.log('this.props',this.props)
       try {
         const lastmessage = await axios.get('http://localhost:4155/api/chat/getLastMessage')
          this.setState({
@@ -95,10 +97,7 @@ class Messages extends React.Component {
   }
 
   sendMessage(e) {
-    console.log(
-      this.props
-    )
-
+  
     e.preventDefault();
 
     this.setState({message: this.state.messages})
@@ -107,9 +106,9 @@ class Messages extends React.Component {
     // will already be on this.state. no need to grab anything from localStorage or redux.
 
     this.state.socket.emit('client.message', {
-      userId: localStorage.getItem('activeId'),
-      userName: this.props.active_user.displayName || 'i need a name',
-      userImage: this.props.active_user.photoURL,
+      userId: this.props.user_data.id,
+      userName: this.props.user_data.name,
+      userImage: this.props.user_data.image,
       message: this.state.message,
       room: this.state.room
     })
@@ -142,8 +141,8 @@ class Messages extends React.Component {
                 return (<div key={i}>
                   <li className="list-group-item">
                     <hr/>
-                    <img src={message.authorImage} />
-                    <p>({message.author}) : {message.message} </p>
+                    <img style={{height: "60px"}} src={message.userImage} />
+                    <p>({message.userName}) : {message.message} </p>
                   </li>
                 </div>)
               })
@@ -165,7 +164,8 @@ class Messages extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    active_user: state.active_user
+    active_user: state.active_user,
+    user_data: state.user_data
   }
 }
 

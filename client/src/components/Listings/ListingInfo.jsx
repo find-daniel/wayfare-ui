@@ -55,8 +55,8 @@ class ListingInfo extends React.Component {
   } 
 
   async messageHandler() {
-    let guestName = this.props.active_user.displayName || 'need display name';
-    let guestImage = localStorage.getItem('profilePictureURL');
+    let guestName = this.props.user_data.name || 'need display name';
+    let guestImage = localStorage.getItem('profilePictureURL') || this.props.user_data.image || 'https://i.pinimg.com/236x/17/a0/80/17a08083f73ab4e6b273c3a9857d38e2--invisible-ink--bit.jpg';
     let guestId = localStorage.getItem('activeId');
     let hostName = this.props.user.name;
     let hostId = this.props.listing.hostid;
@@ -204,7 +204,8 @@ class ListingInfo extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    active_user: state.active_user
+    active_user: state.active_user,
+    user_data: state.user_data
   }
 }
 
