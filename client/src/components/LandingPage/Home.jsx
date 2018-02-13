@@ -17,12 +17,9 @@ class Home extends React.Component {
   }
 
   async componentDidMount() {
-    const data = await axios.get('http://localhost:3396/api/listing/getSearchedListings', { 
-      params: { city: localStorage.getItem('searchQuery') }
-    });
-
+    const data = await axios.get('http://localhost:3396/api/listing/getTopListings');
     this.setState({
-      topListings: data.data.rows
+      topListings: data.data
     });
 
     console.log('listings: ', this.state.topListings);
@@ -41,8 +38,8 @@ class Home extends React.Component {
           <h1>Top Listings</h1>
           <hr/>
           <div className="row card-columns">
-            {this.state.topListings.map(listing => {
-              return <ListingEntry key={listing.id} info={listing} />
+            {this.state.topListings.map((listing, i) => {
+              return <ListingEntry key={i} info={listing} />
             })}
           </div>
         </div>
