@@ -55,7 +55,6 @@ class CompletedListing extends React.Component {
   }  
   
   reviewHandler(listing) {
-    console.log('review', listing); 
     //change review in listings to false
     //redirect to review page
   }
