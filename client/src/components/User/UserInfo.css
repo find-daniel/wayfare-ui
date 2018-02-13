@@ -15,6 +15,10 @@
   box-shadow: 0px 1px 1px 0px;
 }
 
+.sub-menu {
+  position: relative;
+}
+
 .img-background {
   height: 120px; 
   background-color: #B7C6CE; 
@@ -30,7 +34,7 @@
 }
 
 .user-name {
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 .user-body {
@@ -58,7 +62,7 @@
   overflow-x: hidden;
 }
 
-.chat-rooms {
+.clearLink {
   color: black
 }
 
