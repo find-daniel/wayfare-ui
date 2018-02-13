@@ -12,7 +12,9 @@ class ListingInfo extends React.Component {
     super(props); 
     this.state = {
       edit : false,
-      skills: this.props.skills
+      skills: this.props.skills, 
+      newSkills: [],
+      deletedSkills : []
     }
     this.messageHandler = this.messageHandler.bind(this); 
     this.editListing = this.editListing.bind(this); 
@@ -23,9 +25,13 @@ class ListingInfo extends React.Component {
   }
 
   componentDidMount() {
-    console.log('this is the listing owner: ', this.props);
+    setTimeout(() => {
+      this.setState ({
+        skills: this.props.skills.slice(0)
+      })
+    }, 150)
   }
-  
+
   editListing() {
     this.setState({
       edit : true
@@ -37,22 +43,35 @@ class ListingInfo extends React.Component {
     this.setState({
       edit : false
     })
-    //send request to save stuff
-    //reset fields 
-    this.props.submitInfo(); 
+   
+    let newInfo = {
+      startDate: this.refs.startdate.value,
+      endDate: this.refs.enddate.value,
+      address: this.refs.address.value,
+      city: this.refs.city.value,
+      state: this.refs.state.value,
+      country: this.refs.country.value,
+      description: this.refs.description.value
+    }
+    this.props.submitInfo(newInfo, this.state.deletedSkills, this.state.skills); 
+
+    this.setState({
+      newSkills: [], 
+      deletedSkills: []
+    })
+    //display new info? 
   }
 
   addSkill() {
-    let arr = this.state.skills; 
-    arr.push(this.refs.skill.value); 
+    let skills = this.state.skills; 
+    skills.push({skill: this.refs.skill.value, id: null}); 
     this.setState({
-      skills: arr
+      skills: skills
     })
+    this.refs.skill.value = ''; 
+    console.log('info state', this.state.skills); 
   }
-
-  deleteSkill() {
-
-  } 
+ 
 
   async messageHandler() {
     let guestName = this.props.user_data.name || 'need display name';
@@ -84,8 +103,9 @@ class ListingInfo extends React.Component {
     } catch (err) {
       console.log('error creating a chat room in mongo', err)
     }
+  
 
-
+    
     let messagePayload = {
       userName: guestName,
       userImage: guestImage,
@@ -94,7 +114,7 @@ class ListingInfo extends React.Component {
       message: staticMessage,
       room: roomId
     }
-
+    
     // create static message in mongo db:
     try {
       const data = await axios.post(`http://localhost:4155/api/chat/postStaticMessage`, messagePayload)
@@ -102,7 +122,25 @@ class ListingInfo extends React.Component {
       console.log('Error posting static message', err)
     }
   }
-
+  
+  deleteSkill(skill) {
+    let arr = this.state.skills; 
+    let deleteArr = this.state.deletedSkills; 
+    arr.forEach((s, i) => {
+      if (s.skill === skill && s.id === null) {
+        delete arr[i] ; 
+      }
+      else if (s.skill === skill) {
+        delete arr[i]; 
+        deleteArr.push(s); 
+      }
+    })
+    this.setState({
+      skills: arr, 
+      deletedSkills : deleteArr
+    })
+  }
+  
   render() {
     return (
       <div className="card hostInfo">
@@ -112,9 +150,12 @@ class ListingInfo extends React.Component {
             {this.state.edit 
             ?
               <div>
-                <input type="text" placeholder={this.props.listing.startdate}></input>
-                <input type="text" placeholder={this.props.listing.enddate}></input>
-                <input type="text" placeholder={this.props.listing.city}></input>
+                <input type="text" ref="startdate" defaultValue={this.props.listing.startdate}></input>
+                <input type="text" ref="enddate" defaultValue={this.props.listing.enddate}></input>
+                <input type="text" ref="address" defaultValue={this.props.listing.address}></input>
+                <input type="text" ref="city" defaultValue={this.props.listing.city}></input>
+                <input type="text" ref="state" defaultValue={this.props.listing.state}></input>
+                <input type="text" ref="country" defaultValue={this.props.listing.country}></input>
               </div>
             : 
             <h4 className="card-title">{this.props.listing.startdate} - {this.props.listing.enddate}, {this.props.listing.city}</h4>
@@ -124,7 +165,7 @@ class ListingInfo extends React.Component {
             {this.state.edit 
             ?
               <div>
-                <textarea className="descriptionInput" type="text" placeholder={this.props.listing.description}></textarea>
+                <textarea className="descriptionInput" type="text" ref="description" defaultValue={this.props.listing.description}></textarea>
               </div>
             : 
               <p className="card-text">
@@ -141,16 +182,16 @@ class ListingInfo extends React.Component {
                 <div>
                   <input type="text" ref="skill" placeholder="Skill for stay"></input><button onClick={this.addSkill}>+</button>
                   <ul>
-                      {this.props.skills.map((skill, i) => {
-                        return  <li key={i}>{skill}<button onClick={this.deleteSkill}>-</button></li>
+                      {this.state.skills.map((skill, i) => {
+                        return  <li key={i}>{skill.skill}<button onClick={() => {this.deleteSkill(skill.skill)}}>-</button></li>
                       })}
                     </ul>
                 </div>
               :
-                this.props.skills.length > 0 
+                this.state.skills.length > 0 
                   ? <ul>
-                      {this.props.skills.map((skill, i) => {
-                        return  <li key={i}>{skill}</li>
+                      {this.state.skills.map((skill, i) => {
+                        return  <li key={i}>{skill.skill}</li>
                       })}
                     </ul>
                   :
