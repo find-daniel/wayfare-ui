@@ -30,7 +30,7 @@ class CreateListingForm extends React.Component {
     let listingAddressURL = this.refs.address.value.split(' ').join('+'); 
     let listingCityURL = this.refs.city.value.split(' ').join('+'); 
 
-    let geodata = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${listingAddressURL},+${listingCityURL},+${this.refs.state.value}&key=AIzaSyBvPqU7ldLdjnZvfEvXs9WIAJbbcodpfBE`)
+    let geodata = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${listingAddressURL},+${listingCityURL},+${this.refs.state.value}&key=${process.env.GOOGLE_GEO_API}`)
     let parsedGeoData = JSON.parse(geodata.request.responseText)
 
     let lat = parsedGeoData.results[0].geometry.location.lat; 
@@ -75,7 +75,8 @@ class CreateListingForm extends React.Component {
         }
 
         const data = await axios.post(`${url.restServer}/api/listing/postPhoto`, payload)
-        //console.log('data from posting image to db:', data)
+        console.log('payloaadddd', payload)
+        console.log('data from posting image to db:', data)
         //
       } catch (err) {
         console.log('error posting image to sql table', err)

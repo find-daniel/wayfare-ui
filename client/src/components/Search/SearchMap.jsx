@@ -10,8 +10,9 @@ import url from '../../config'
 
 
 const MyMapComponent = compose(
+  
   withProps({
-    googleMapURL: `https://maps.googleapis.com/maps/api/js?key=AIzaSyB_yMI7INqtmKuT8R4176-c1XvANlA73vg&v=3.exp&libraries=geometry,drawing,places`,
+    googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_API}&v=3.exp&libraries=geometry,drawing,places`,
     loadingElement: <div style={{ height: '100%' }} />,
     containerElement: <div style={{ height: '400px'}} />,
     mapElement: <div style={{ height: '100%'}} />
@@ -24,7 +25,11 @@ const MyMapComponent = compose(
       defaultZoom= {8}
       defaultCenter={{ lat: props.maplat, lng: props.maplng }}
       >
-      {props.isMarkerShown && <Marker position={{ lat: props.maplat, lng: props.maplng }} onClick={props.onMarkerClick}/>}
+      {props.isMarkerShown && props.listings.map((listing, i) => {
+        console.log('listinggggggg', listing)
+        return (<Marker key={i} position={{ lat: parseFloat(listing.latitude), lng: parseFloat(listing.longitude)}} onClick={props.onMarkerClick}/>)
+      })
+    } 
     </GoogleMap>
 ) 
 
@@ -46,7 +51,7 @@ class SearchMap extends React.PureComponent {
   async componentDidMount() {
     
     let listingAddressURL = ''
-    let geodata = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${listingAddressURL},+${localStorage.getItem('searchQuery').split(',')[0].split(' ').join('+')},+${localStorage.getItem('searchQuery').split(',')[1]}&key=AIzaSyBvPqU7ldLdjnZvfEvXs9WIAJbbcodpfBE`)
+    let geodata = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${listingAddressURL},+${localStorage.getItem('searchQuery').split(',')[0].split(' ').join('+')},+${localStorage.getItem('searchQuery').split(',')[1]}&key=${process.env.GOOGLE_GEO_API}`)
     let parsedGeoData = JSON.parse(geodata.request.responseText)
     console.log('parsedd', parsedGeoData)
     this.setState({
@@ -87,6 +92,7 @@ class SearchMap extends React.PureComponent {
           onMarkerClick={this.handleMarkerClick}
           maplng={this.state.maplng}
           maplat={this.state.maplat}
+          listings={this.props.search_results}
           />
         )
         
@@ -98,7 +104,13 @@ class SearchMap extends React.PureComponent {
   }
 }
 
+function mapStateToProps (state) {
+  return {
+    search_results: state.search_results
+  }
+}
 
 
 
-export default SearchMap;
+
+export default connect(mapStateToProps)(SearchMap);
