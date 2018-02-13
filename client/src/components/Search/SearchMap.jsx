@@ -92,6 +92,7 @@ class SearchMap extends React.PureComponent {
           onMarkerClick={this.handleMarkerClick}
           maplng={this.state.maplng}
           maplat={this.state.maplat}
+          listings={this.props.search_results}
           />
         )
         
@@ -103,7 +104,13 @@ class SearchMap extends React.PureComponent {
   }
 }
 
+function mapStateToProps (state) {
+  return {
+    search_results: state.search_results
+  }
+}
 
 
 
-export default SearchMap;
+
+export default connect(mapStateToProps)(SearchMap);
