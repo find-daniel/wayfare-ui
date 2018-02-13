@@ -47,7 +47,13 @@ class Messages extends React.Component {
     this.setState({ socket: socket, room: roomId });
 
     try {
-       const data = await axios.get(`http://localhost:4155/api/chat/getMessages`)
+       const data = await axios.get(`http://localhost:4155/api/chat/getMessages`, { 
+         params: {
+           roomId: this.state.roomId,
+           userId: localStorage.getItem('activeId'),
+           accountType: localStorage.getItem('accountType')
+         }
+        })
         this.setState({
           messages: data.data
         })
@@ -117,7 +123,7 @@ class Messages extends React.Component {
             <ul className="list-group-flush col-sm-12">
               {!this.state.rooms ? null :
                 this.state.rooms.map((room) => {
-                return <Link key={room.roomId} to={`/user/${localStorage.getItem('activeUid')}/inbox/${room.roomId}`} ><li className="list-group-item">{room.listingTitle}</li></Link>
+                return <Link key={room.roomId} to={`/user/${localStorage.getItem('activeUid')}/inbox/${room.roomId}`} ><li className="list-group-item chat-rooms">{room.listingTitle}</li></Link>
               })}
             </ul>
           </div>
