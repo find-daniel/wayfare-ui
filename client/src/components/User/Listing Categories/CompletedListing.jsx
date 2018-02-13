@@ -1,30 +1,76 @@
 import React from 'react';
 import axios from 'axios';
+import { Provider, connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 class CompletedListing extends React.Component {
   constructor () {
     super()
     this.state = {
-      completedListings: []
+      listings: []
     }
   }
 
-async componentDidMount() {
+  async componentDidMount() {
+    try {
+      const response = await axios.get('http://localhost:3396/api/listing/getListingsByStatus', {
+        params: {status: 'complete'}
+      })
+      const listings = response.data.rows
+      const accountType = await localStorage.getItem('accountType')
+      const activeId = await localStorage.getItem('activeId')
 
-let completedListings = await axios.get('http://localhost:3396/api/listing/getListingsByStatus', {params: {status: 'COMPLETED'}})
-this.setState({
-  completedListings: completedListings.data.rows
-})
-console.log('this.state.cooieme', this.state.completedListings)
-}
+      const payload = []
+      if (accountType === '0') {
+        await listings.map(listing => {
+          if (activeId === JSON.stringify(listing.guestid)) {
+            payload.push(listing)
+          }
+        })
+      }
+      if (accountType === '1') {
+        await listings.map(listing => {          
+          if (activeId === JSON.stringify(listing.hostid)) {
+            payload.push(listing)
+          }
+        })
+      }
+      await this.setState({
+        listings: payload
+      })
+    } catch(err) {
+      throw new Error(err)
+    }
+  }  
   
-  
-  render () {
-    
+  render() {
     return (
-      <h2>This is a completed listing</h2>
-    )
+      <div>
+        <h2>This is the host's complete listing</h2>
+        {
+          this.state.listings.map((listing, i) => {
+            return (
+              <div key={i}>
+                <div>
+                  {`Listing: ${listing.title}`}
+                </div>
+                <div>
+                  {`Status: ${listing.status}`}
+                </div>
+                <br/>            
+              </div>
+            )      
+          })
+        }
+      </div>
+    )      
   }
 };
 
-export default CompletedListing;
+function mapStateToProps(state) {
+  return {
+    user_data: state.user_data
+  }
+}
+
+export default connect(mapStateToProps)(CompletedListing);
