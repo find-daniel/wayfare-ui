@@ -31,7 +31,6 @@ class Messages extends React.Component {
       }
     });
     console.log('these are the rooms', data);
-
     this.setState({
       rooms: data.data
     })
@@ -39,12 +38,13 @@ class Messages extends React.Component {
   }
 
   async componentWillMount  () {
+    const roomId = location.pathname.substr(location.pathname.lastIndexOf('/') + 1);
     const socket = io('http://localhost:4155', {
       query: {
-        roomId: location.pathname.slice(1)
+        roomId
       }
     });   
-    this.setState({ socket: socket, room: location.pathname.slice(1) });
+    this.setState({ socket: socket, room: roomId });
 
     try {
        const data = await axios.get(`http://localhost:4155/api/chat/getMessages`)
@@ -115,7 +115,8 @@ class Messages extends React.Component {
         <div className="left col-sm-3 wireframe">
           <div className="rooms">
             <ul className="list-group-flush col-sm-12">
-              {this.state.rooms.map((room) => {
+              {!this.state.rooms ? null :
+                this.state.rooms.map((room) => {
                 return <Link key={room.roomId} to={`/user/${localStorage.getItem('activeUid')}/inbox/${room.roomId}`} ><li className="list-group-item">{room.listingTitle}</li></Link>
               })}
             </ul>
