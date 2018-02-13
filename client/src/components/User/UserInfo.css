@@ -37,10 +37,8 @@
   overflow-x: hidden;
 }
 
-/* Hides scrollbar */
-::-webkit-scrollbar {
-  width: 0px;
-  background: transparent;
+.chat-rooms {
+  color: black
 }
 
 .chat-ul {
@@ -56,4 +54,8 @@
   width: 100%
 }
 
-
+/* Hides scrollbar */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
