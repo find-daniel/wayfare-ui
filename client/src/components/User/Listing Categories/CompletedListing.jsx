@@ -9,6 +9,8 @@ class CompletedListing extends React.Component {
     this.state = {
       listings: []
     }
+    
+    this.reviewHandler = this.reviewHandler.bind(this); 
   }
 
   async componentDidMount() {
@@ -22,16 +24,24 @@ class CompletedListing extends React.Component {
 
       const payload = []
       if (accountType === '0') {
-        await listings.map(listing => {
+        await listings.map(async (listing) => {
           if (activeId === JSON.stringify(listing.guestid)) {
-            payload.push(listing)
+            const data = await axios.get('http://localhost:3396/api/users/getUserReviewsByListing', {
+              params: {listingId: listing.id, userId: listing.guestid}
+            })
+            const bool = data.data.rows.length > 0; 
+            payload.push([listing, bool])
           }
         })
       }
       if (accountType === '1') {
-        await listings.map(listing => {          
+        await listings.map(async (listing) => {          
           if (activeId === JSON.stringify(listing.hostid)) {
-            payload.push(listing)
+            const data = await axios.get('http://localhost:3396/api/users/getUserReviewsByListing', {
+              params: {listingId: listing.id, userId: listing.hostid}
+            })
+            const bool = data.data.rows.length > 0; 
+            payload.push([listing, bool])
           }
         })
       }
@@ -43,6 +53,12 @@ class CompletedListing extends React.Component {
     }
   }  
   
+  reviewHandler(listing) {
+    console.log('review', listing); 
+    //change review in listings to false
+    //redirect to review page
+  }
+
   render() {
     return (
       <div>
@@ -52,11 +68,17 @@ class CompletedListing extends React.Component {
             return (
               <div key={i}>
                 <div>
-                  {`Listing: ${listing.title}`}
+                  {`Listing: ${listing[0].title}`}
                 </div>
                 <div>
-                  {`Status: ${listing.status}`}
+                  {`Status: ${listing[0].status}`}
                 </div>
+                {listing[1] 
+                ?
+                  <div/>
+                :
+                  <button type='button' className="btn btn-outline-secondary btn-sm" onClick={() => {this.reviewHandler(listing)}}>Review</button>
+                }
                 <br/>            
               </div>
             )      
