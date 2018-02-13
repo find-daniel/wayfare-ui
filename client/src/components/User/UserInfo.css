@@ -30,8 +30,21 @@
   border: 1px solid black;
 }
 
+/* CHAT STYLES */
 .chat-messages {
   height: 435px;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+/* Hides scrollbar */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+.chat-ul {
+  max-height: 435px;
 }
 
 .chat {
