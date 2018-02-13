@@ -19,7 +19,6 @@ class PendingListing extends React.Component {
       const listings = response.data.rows
       const accountType = await localStorage.getItem('accountType')
       const activeId = await localStorage.getItem('activeId')
-      const activeUserName = await this.props.user_data.name      
 
       const payload = []
       if (accountType === '0') {

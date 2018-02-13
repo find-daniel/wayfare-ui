@@ -17,7 +17,6 @@ class GivenReviews extends React.Component {
         params: {userId: localStorage.getItem('activeId')}
       });
       const reviews = response.data.rows
-      console.log(reviews)
       const accountType = await localStorage.getItem('accountType')
       const activeUserName = await this.props.user_data.name
       
