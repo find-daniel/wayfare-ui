@@ -87,12 +87,9 @@ class ListingInfo extends React.Component {
 
 
     let messagePayload = {
-      guestName: guestName,
-      guestImage: guestImage,
-      guestId: guestId,
-      hostName: hostName,
-      hostImage: hostImage,
-      hostId: hostId,
+      userName: guestName,
+      userImage: guestImage,
+      userId: guestId,
       listingId: listingId,
       message: staticMessage,
       room: roomId

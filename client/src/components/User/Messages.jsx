@@ -23,7 +23,13 @@ class Messages extends React.Component {
     this.sendMessage = this.sendMessage.bind(this);
   }
 
+  // async componentDidMount () {
+
+
+  // }
+
   async componentDidMount () {
+
     const data = await axios.get('http://localhost:4155/api/rooms/getRooms', {
       params: {
         id: localStorage.getItem('activeId'),
@@ -35,9 +41,6 @@ class Messages extends React.Component {
       rooms: data.data
     })
 
-  }
-
-  async componentWillMount  () {
     const roomId = location.pathname.substr(location.pathname.lastIndexOf('/') + 1);
     const socket = io('http://localhost:4155', {
       query: {
@@ -49,13 +52,13 @@ class Messages extends React.Component {
     try {
        const data = await axios.get(`http://localhost:4155/api/chat/getMessages`, { 
          params: {
-           roomId: this.state.roomId,
+           roomId: this.state.room,
            userId: localStorage.getItem('activeId'),
            accountType: localStorage.getItem('accountType')
          }
         })
         this.setState({
-          messages: data.data
+          messages: data.data.reverse()
         })
 
         let chatBox = document.getElementById('chat-messages');
@@ -103,8 +106,9 @@ class Messages extends React.Component {
     // will already be on this.state. no need to grab anything from localStorage or redux.
 
     this.state.socket.emit('client.message', {
-      guestName: this.props.active_user.displayName || 'i need a name',
-      guestImage: this.props.active_user.photoURL,
+      userId: localStorage.getItem('activeId'),
+      userName: this.props.active_user.displayName || 'i need a name',
+      userImage: this.props.active_user.photoURL,
       message: this.state.message,
       room: this.state.room
     })
