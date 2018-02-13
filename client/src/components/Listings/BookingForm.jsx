@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import url from '../../config'
 
 class BookingForm extends React.Component {
   constructor() {
@@ -20,7 +21,7 @@ class BookingForm extends React.Component {
 
       const userId = await localStorage.getItem('activeId')
       console.log(userId)
-      const listingData = await axios.get('http://localhost:3396/api/listing/getListing', {
+      const listingData = await axios.get(`${url.restServer}/api/listing/getListing`, {
         params: {listingId: this.props.match.params.listingId}
       })
       
@@ -29,7 +30,7 @@ class BookingForm extends React.Component {
         hostId: listingData.data.hostid
       })
       console.log(this.state.userId)
-      const skills = await axios.get('http://localhost:3396/api/listing/getUserSkills', {
+      const skills = await axios.get(`${url.restServer}/api/listing/getUserSkills`, {
         params: {userId: this.state.userId}
       })
       
@@ -57,7 +58,7 @@ class BookingForm extends React.Component {
     e.preventDefault();
     console.log('skill added:', this.state.newSkill)
     try {
-      const response = await axios.post('http://localhost:3396/api/listing/createUserSkills', {
+      const response = await axios.post(`${url.restServer}/api/listing/createUserSkills`, {
         userId: this.state.userId,
         skill: this.state.newSkill
       })
@@ -98,7 +99,7 @@ class BookingForm extends React.Component {
     console.log('skill delete requested', e.target.id)
     console.log('userId', this.state.userId)
     try {
-      const response = await axios.delete('http://localhost:3396/api/listing/deleteUserSkills', {
+      const response = await axios.delete(`${url.restServer}/api/listing/deleteUserSkills`, {
         params: { 
           id: e.target.id,
           uid: this.state.userId
@@ -121,7 +122,7 @@ class BookingForm extends React.Component {
     // e.preventDefault();
     console.log('booking requested');
     try {
-      await axios.post('http://localhost:3396/api/listing/createRequestAndRequestSkills', {
+      await axios.post(`${url.restServer}/api/listing/createRequestAndRequestSkills`, {
         guestId: this.state.userId,
         listingId: this.props.match.params.listingId,
         skillId: this.state.checked 

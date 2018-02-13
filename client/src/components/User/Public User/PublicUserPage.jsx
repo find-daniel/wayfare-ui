@@ -2,6 +2,7 @@ import 'babel-polyfill';
 import React from 'react';
 import axios from 'axios';
 import '../UserInfo.css'
+import url from '../../../config'
 
 class PublicUserPage extends React.Component {
   constructor (props) {
@@ -19,8 +20,8 @@ class PublicUserPage extends React.Component {
   }
 
   async componentDidMount () {
-    const data = await axios.get('http://localhost:3396/api/users/getUser', {params: {uid: this.props.location.state.hostUid}});
-    const reviewsData = await axios.get('http://localhost:3396/api/users/getUserReviews', {
+    const data = await axios.get(`${url.restServer}/api/users/getUser`, {params: {uid: this.props.location.state.hostUid}});
+    const reviewsData = await axios.get(`${url.restServer}/api/users/getUserReviews`, {
       params: {userId: this.props.location.state.hostId}
     });
     const reviews = reviewsData.data.rows;

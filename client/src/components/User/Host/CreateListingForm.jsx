@@ -3,6 +3,7 @@ import axios from 'axios';
 import Dropzone from 'react-dropzone';
 import upload from 'superagent';
 import "babel-polyfill";
+import url from '../../../config'
 
 class CreateListingForm extends React.Component {
   constructor(props) {
@@ -21,7 +22,7 @@ class CreateListingForm extends React.Component {
 
   async onSubmitHandler(e) {
     e.preventDefault();
-    let userId = await axios.get('http://localhost:3396/api/users/getUser', {
+    let userId = await axios.get(`${url.restServer}/api/users/getUser`, {
       params: {uid: this.props.match.params.userId}
     }); 
     userId = userId.data.rows[0].id; 
@@ -50,14 +51,14 @@ class CreateListingForm extends React.Component {
     }
 
     console.log('listingDetails', listingDetails); 
-    let listingId = await axios.post('http://localhost:3396/api/listing/createListing', {params: {listingDetails: listingDetails}}); 
+    let listingId = await axios.post(`${url.restServer}/api/listing/createListing`, {params: {listingDetails: listingDetails}}); 
 
     listingId = listingId.data.rows[0].id;
 
     // upload image to s3:
     try {
       const data = await upload
-      .post('http://localhost:3396/api/files/upload')
+      .post(`${url.restServer}/api/files/upload`)
       .attach('theseNamesMustMatch', this.state.imageObj)
       .field('keypath', 'profiles/' + window.localStorage.email + '/listingPic/' + this.state.imageObj.name)
       .field('endurl', 'profiles/' + encodeURIComponent(window.localStorage.email) + '/listingPic/' + this.state.imageObj.name)
@@ -73,7 +74,7 @@ class CreateListingForm extends React.Component {
           url: this.state.image
         }
 
-        const data = await axios.post('http://localhost:3396/api/listing/postPhoto', payload)
+        const data = await axios.post(`${url.restServer}/api/listing/postPhoto`, payload)
         //console.log('data from posting image to db:', data)
         //
       } catch (err) {
@@ -84,7 +85,7 @@ class CreateListingForm extends React.Component {
       console.log('error uploading to s3', err)
     }
     for(let i = 0; i < this.state.skills.length; i++ ) {
-      const data = await axios.post('http://localhost:3396/api/listing/addSkill', {
+      const data = await axios.post(`${url.restServer}/api/listing/addSkill`, {
         params: {listingId: listingId, skill: this.state.skills[i]}
       })
     };  

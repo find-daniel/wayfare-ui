@@ -1,6 +1,7 @@
 import React from 'react';
 import ListingReviewEntry from './ListingReviewEntry';
 import axios from 'axios'
+import url from '../../config'
 
 
 class ListingReviewsList extends React.Component {
@@ -14,7 +15,7 @@ class ListingReviewsList extends React.Component {
   }
 
   async componentDidMount() {
-    let reviews = await axios.get('http://localhost:3396/api/users/getUserReviews', {
+    let reviews = await axios.get(`${url.restServer}/api/users/getUserReviews`, {
       params: {userId: this.props.hostId}
     }); 
     this.setState({

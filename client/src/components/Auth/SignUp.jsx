@@ -3,6 +3,7 @@ import firebase from '../../lib.js';
 import {googleProvider, facebookProvider} from '../../lib.js';
 import axios from 'axios';
 import 'babel-polyfill';
+import url from '../../config'
 
 class Signup extends React.Component {
   constructor() {
@@ -28,7 +29,7 @@ class Signup extends React.Component {
         image: this.state.image
       }
       try {
-        const data = await axios.post('http://localhost:3396/api/auth/signup', payload)
+        const data = await axios.post(`${url.restServer}/api/auth/signup`, payload)
         console.log('Local user saved to sql db.')
       } catch (err) {
         console.log('Error saving local user to sql db. Err: ', err)
@@ -50,7 +51,7 @@ class Signup extends React.Component {
         image: authData.user.photoURL
       }
       try {
-        const data = await axios.post('http://localhost:3396/api/auth/signup', payload)
+        const data = await axios.post(`${url.restServer}/api/auth/signup`, payload)
         console.log('Google user saved to sql db.')
       } catch (err) {
         console.log('Error saving Google user to sql db. Err: ', err)
@@ -72,7 +73,7 @@ class Signup extends React.Component {
         image: data.additionalUserInfo.profile.picture.data.url
       }
       try {
-        const data = await axios.post('http://localhost:3396/api/auth/signup', payload)
+        const data = await axios.post(`${url.restServer}/api/auth/signup`, payload)
         console.log('Facebook user saved to sql db.')
       } catch (err) {
         console.log('Error saving Facebook user to sql db. Err: ', err)

@@ -4,7 +4,6 @@ import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 import { applyMiddleware, createStore } from 'redux';
 import reducers from './reducers';
-// React Router
 
 // Import components
 import App from './App.jsx';

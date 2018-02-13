@@ -7,11 +7,12 @@ import axios from 'axios'
 import ListingEntry from '../Listings/ListingEntry';
 import SearchMap from './SearchMap';
 import NavBar from '../Nav/NavBar';
+import url from '../../config'
 
 class SearchResultPage extends React.Component {
   async componentDidMount () {
     // Setup axios request to fetch results
-    const data = await axios.get('http://localhost:3396/api/listing/getSearchedListings', { 
+    const data = await axios.get(`${url.restServer}/api/listing/getSearchedListings`, { 
       params: { city: localStorage.getItem('searchQuery') }
     });
     this.props.setSearchResults(data.data.rows);

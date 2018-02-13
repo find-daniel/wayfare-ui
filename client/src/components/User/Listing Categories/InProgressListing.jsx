@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Provider, connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import url from '../../../config'
 
 class InProgressListing extends React.Component {
   constructor () {
@@ -15,7 +16,7 @@ class InProgressListing extends React.Component {
 
   async componentDidMount() {
     try {
-      const response = await axios.get('http://localhost:3396/api/listing/getListingsByStatus', {
+      const response = await axios.get(`${url.restServer}/api/listing/getListingsByStatus`, {
         params: {status: 'progress'}
       })
       const listings = response.data.rows
@@ -46,7 +47,7 @@ class InProgressListing extends React.Component {
   }  
 
   async completeListingHandler(listing) {
-    await axios.put('http://localhost:3396/api/listing/completeListing', {
+    await axios.put(`${url.restServer}/api/listing/completeListing`, {
       params: {listingId: listing.id}
     })
     this.componentDidMount(); 

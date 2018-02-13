@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import './listings.css'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'; 
+import url from '../../config'
 
 
 class ListingInfo extends React.Component {
@@ -99,7 +100,7 @@ class ListingInfo extends React.Component {
 
     // create room in mongo db:
     try {
-      const data = await axios.post('http://localhost:4155/api/rooms/createRoom', roomPayload)
+      const data = await axios.post(`${url.socketServer}/api/rooms/createRoom`, roomPayload)
     } catch (err) {
       console.log('error creating a chat room in mongo', err)
     }
@@ -117,7 +118,7 @@ class ListingInfo extends React.Component {
     
     // create static message in mongo db:
     try {
-      const data = await axios.post(`http://localhost:4155/api/chat/postStaticMessage`, messagePayload)
+      const data = await axios.post(`${url.socketServer}/api/chat/postStaticMessage`, messagePayload)
     } catch (err) {
       console.log('Error posting static message', err)
     }

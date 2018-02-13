@@ -6,6 +6,7 @@ import firebase from 'firebase'
 import 'babel-polyfill';
 import axios from 'axios';
 import './NavBar.css'
+import url from '../../config'
 
 class NavBar extends React.Component {
   constructor() {
@@ -19,7 +20,7 @@ class NavBar extends React.Component {
   }
 
   async componentDidMount () {
-    const data = await axios.get('http://localhost:3396/api/users/getUser', {params: {uid: localStorage.getItem('activeUid')}});
+    const data = await axios.get(`${url.restServer}/api/users/getUser`, {params: {uid: localStorage.getItem('activeUid')}});
     this.setState({
       img: data.data.rows[0].image
     });

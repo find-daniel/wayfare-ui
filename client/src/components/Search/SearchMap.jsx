@@ -6,6 +6,7 @@ import axios from 'axios';
 import { GoogleMap, Marker, withGoogleMap, withScriptjs } from 'react-google-maps';
 import { compose, withProps } from 'recompose';
 import { setTimeout } from 'timers';
+import url from '../../config'
 
 
 const MyMapComponent = compose(
