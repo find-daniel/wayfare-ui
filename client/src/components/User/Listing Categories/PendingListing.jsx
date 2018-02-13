@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Provider, connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Link } from 'react-router-dom'
 
 class PendingListing extends React.Component {
   constructor () {
@@ -80,28 +81,6 @@ class PendingListing extends React.Component {
     const guestId = request === undefined ? activeId : request.guestid; 
     const accountType = await localStorage.getItem('accountType')
 
-    //if (accountType === '0') {
-    //   let tempGuestListings = this.state.guestListings; 
-    //   tempGuestListings.forEach((guestListing, i) => {
-    //     if (guestListing.id === listing.id) {
-    //       delete tempGuestListings[i]; 
-    //     }
-    //   })
-    //   this.setState({
-    //     guestListings: tempGuestListings
-    //   })
-    // } else {
-    //   let tempListingRequests = this.state.listingRequests; 
-    //   tempListingRequests.forEach((listingRequest, i) => {
-    //     if (listingRequest.id === request.id) {
-    //       delete tempListingRequests[i]; 
-    //     }
-    //   }); 
-    //   this.setState({
-    //     listingRequests: tempListingRequests
-    //   })
-    // }
-
     await axios.delete('http://localhost:3396/api/listing/rejectListing', {
         params: {listingId: listing.id , guestId: guestId}
       })
@@ -125,7 +104,7 @@ class PendingListing extends React.Component {
                   <div>
                     {`Status: ${listing.status}`}
                   </div>
-                    <button type='button' className="btn btn-outline-secondary" onClick={() => {this.rejectRequestHandler(listing)}}>REJECT</button>
+                    <button type='button' className="btn btn-outline-secondary btn-sm" onClick={() => {this.rejectRequestHandler(listing)}}>REJECT</button>
                   <br/>            
                 </div>
               )      
@@ -149,7 +128,7 @@ class PendingListing extends React.Component {
                       if (listing.id === request.listingid) {
                         return (
                         <dd key={i}>
-                          <span>{request.name}</span>
+                          <Link to={{pathname:`/user/public/${request.uid}`}} style={{color:'black'}}>{request.name}</Link>
                           <button type='button' className="btn btn-outline-primary btn-sm" onClick={() => {this.acceptRequestHandler(listing.id, request.guestid)}}>ACCEPT</button>
                           <button type='button' className="btn btn-outline-secondary btn-sm" onClick={() => {this.rejectRequestHandler(listing, request)}}>REJECT</button>
                         </dd>

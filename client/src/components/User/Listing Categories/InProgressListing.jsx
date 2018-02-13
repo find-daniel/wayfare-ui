@@ -9,6 +9,8 @@ class InProgressListing extends React.Component {
     this.state = {
       listings: []
     }
+
+    this.completeListingHandler = this.completeListingHandler.bind(this); 
   }
 
   async componentDidMount() {
@@ -43,6 +45,13 @@ class InProgressListing extends React.Component {
     }
   }  
 
+  async completeListingHandler(listing) {
+    await axios.put('http://localhost:3396/api/listing/completeListing', {
+      params: {listingId: listing.id}
+    })
+    this.componentDidMount(); 
+  }
+
   render() {
     return (
       <div>
@@ -57,6 +66,7 @@ class InProgressListing extends React.Component {
                 <div>
                   {`Status: ${listing.status}`}
                 </div>
+                <button type='button' className="btn btn-outline-secondary btn-sm" onClick={() => {this.completeListingHandler(listing)}}>Complete</button>
                 <br/>            
               </div>
             )      
