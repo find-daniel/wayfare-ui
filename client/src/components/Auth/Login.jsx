@@ -4,6 +4,9 @@ import {googleProvider, facebookProvider} from '../../lib.js';
 import axios from 'axios';
 import 'babel-polyfill';
 
+import url from '../../config'
+
+
 class Login extends React.Component {
   constructor() {
     super()
@@ -31,7 +34,7 @@ class Login extends React.Component {
         uid: authData.uid
       }
       try {
-        const data = await axios.post('http://localhost:3396/api/auth/login', payload)
+        const data = await axios.post(`${url.restServer}/api/auth/login`, payload)
         console.log('Local user data from sql db. Data: ', data)
         localStorage.setItem('email', data.data.email);
         this.onSuccess();
@@ -56,7 +59,7 @@ class Login extends React.Component {
         image: authData.user.photoURL
       }
       try {
-        const data = await axios.post('http://localhost:3396/api/auth/signup', payload)
+        const data = await axios.post(`${url.restServer}/api/auth/signup`, payload)
         console.log('Google user saved to sql db.')
         this.onSuccess();
       } catch (err) {
@@ -80,7 +83,7 @@ class Login extends React.Component {
         image: data.additionalUserInfo.profile.picture.data.url
       }
       try {
-        const data = await axios.post('http://localhost:3396/api/auth/signup', payload)
+        const data = await axios.post(`${url.restServer}/api/auth/signup`, payload)
         console.log('Facebook user saved to sql db.')
         this.onSuccess();
       } catch (err) {

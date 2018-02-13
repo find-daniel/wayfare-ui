@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Provider, connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom'
+import url from '../../../config'
 
 class PendingListing extends React.Component {
   constructor () {
@@ -19,7 +20,7 @@ class PendingListing extends React.Component {
 
   async componentDidMount() {
     try {
-      const response = await axios.get('http://localhost:3396/api/listing/getListingsByStatus', {
+      const response = await axios.get(`${url.restServer}/api/listing/getListingsByStatus`, {
         params: {status: 'pending'}
       })
       const listings = response.data.rows

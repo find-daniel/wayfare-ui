@@ -7,6 +7,7 @@ import ListingReviewsList from '../Reviews/ListingReviewsList';
 import axios from 'axios'; 
 import "babel-polyfill";
 import './listings.css'
+import url from '../../config'
 
 class ListingPage extends React.Component {
 
@@ -28,15 +29,15 @@ class ListingPage extends React.Component {
   }
   async componentDidMount() {
     //get listing information
-    let listing = await axios.get('http://localhost:3396/api/listing/getListing', {
+    let listing = await axios.get(`${url.restServer}/api/listing/getListing`, {
       params: {listingId: this.state.listingId}
     }); 
     //get the host information 
-    let userId = await axios.get('http://localhost:3396/api/users/getUserData', {
+    let userId = await axios.get(`${url.restServer}/api/users/getUserData`, {
       params: {userId: listing.data.hostid}
     }); 
     //get listing skills
-    let skills = await axios.get('http://localhost:3396/api/listing/getListingSkills', {
+    let skills = await axios.get(`${url.restServer}/api/listing/getListingSkills`, {
       params: {listingId: this.state.listingId}
     });
     let skillsArr = []; 
@@ -50,7 +51,7 @@ class ListingPage extends React.Component {
     })
 
     //check if the active user is the listing owner
-    let currUser = await axios.get('http://localhost:3396/api/users/getUser', {
+    let currUser = await axios.get(`${url.restServer}/api/users/getUser`, {
       params: {uid: localStorage.getItem('activeUid')}
     })
     currUser = currUser.data.rows[0].id; 
@@ -60,7 +61,7 @@ class ListingPage extends React.Component {
       })
     }
     //increment view count for listing
-    let viewCount = await axios.post('http://localhost:3396/api/listing/updateListingViewCount', {
+    let viewCount = await axios.post(`${url.restServer}/api/listing/updateListingViewCount`, {
       params: {listingId: this.state.listingId}
     }); 
     viewCount = viewCount.data.rows[0].viewcount; 

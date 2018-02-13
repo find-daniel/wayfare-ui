@@ -6,6 +6,7 @@ import axios from 'axios';
 import { GoogleMap, Marker, withGoogleMap, withScriptjs } from 'react-google-maps';
 import { compose, withProps } from 'recompose';
 import { setTimeout } from 'timers';
+import url from '../../config'
 
 
 const MyMapComponent = compose(
@@ -41,7 +42,7 @@ class myMap extends React.PureComponent {
   }
 
   async componentDidMount() {
-    let listing = await axios.get('http://localhost:3396/api/listing/getListing', {
+    let listing = await axios.get(`${url.restServer}/api/listing/getListing`, {
       params: {listingId: this.props.listing}
     }); 
 

@@ -8,6 +8,8 @@ import axios from 'axios';
 import { setActiveUser } from '../../actions/actionCreators';
 import MessageEntry from './MessageEntry';
 import './UserInfo.css'
+import { Link } from 'react-router-dom';
+import url from '../../config'
 
 // rename to Chat
 class Messages extends React.Component {
@@ -27,7 +29,8 @@ class Messages extends React.Component {
   }
 
   async componentDidMount () {
-    const data = await axios.get('http://localhost:4155/api/rooms/getRooms', {
+
+    const data = await axios.get(`${url.socketServer}/api/rooms/getRooms`, {
       params: {
         id: localStorage.getItem('activeId'),
         accountType: localStorage.getItem('accountType')
@@ -39,7 +42,7 @@ class Messages extends React.Component {
     })
 
     const roomId = location.pathname.substr(location.pathname.lastIndexOf('/') + 1);
-    const socket = io('http://localhost:4155', {
+    const socket = io(`${url.socketServer}`, {
       query: {
         roomId
       }
@@ -48,7 +51,7 @@ class Messages extends React.Component {
     this.setState({ socket: socket, room: roomId });
 
     try {
-       const data = await axios.get(`http://localhost:4155/api/chat/getMessages`, { 
+       const data = await axios.get(`${url.socketServer}/api/chat/getMessages`, { 
          params: {
            roomId: this.state.room,
            userId: localStorage.getItem('activeId'),
@@ -80,7 +83,7 @@ class Messages extends React.Component {
       // console.log('this.state',this.state)
       // console.log('this.props',this.props)
       try {
-        const lastmessage = await axios.get('http://localhost:4155/api/chat/getLastMessage')
+        const lastmessage = await axios.get(`${url.socketServer}/api/chat/getLastMessage`)
          this.setState({
           messages: [...this.state.messages, lastmessage.data[0]]
         })

@@ -6,6 +6,8 @@ import axios from 'axios';
 import firebase from 'firebase';
 import Dropzone from 'react-dropzone';
 import upload from 'superagent';
+import url from '../../config'
+
 class EditUserInfo extends React.Component {
   constructor () {
     super();
@@ -23,7 +25,7 @@ class EditUserInfo extends React.Component {
     e.preventDefault();
     try {
       const data = await   upload
-      .post('http://localhost:3396/api/files/upload')
+      .post(`${url.restServer}/api/files/upload`)
       .attach('theseNamesMustMatch', this.state.imageObj)
       .field('keypath', 'profiles/' + window.localStorage.email + '/profilePic/' + this.state.imageObj.name)
       .field('endurl', 'profiles/' + encodeURIComponent(window.localStorage.email) + '/profilePic/' + this.state.imageObj.name)
@@ -48,10 +50,10 @@ class EditUserInfo extends React.Component {
       };
 
       // update user info
-      const data = await axios.put('http://localhost:3396/api/users/editUser', payload);
+      const data = await axios.put(`${url.restServer}/api/users/editUser`, payload);
 
       // update user skills
-      // const skills = await axios.put('http://localhost:3396/api/editSkills');
+      // const skills = await axios.put(`${url.restServer}/api/editSkills`);
 
       console.log('changes submitted', data);
       this.props.history.push(`/user/${this.state.uid}`);

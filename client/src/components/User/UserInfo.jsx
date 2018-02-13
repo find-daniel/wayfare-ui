@@ -6,10 +6,11 @@ import { Link } from 'react-router-dom';
 import { setUserData } from '../../actions/actionCreators';
 import axios from 'axios';
 import './UserInfo.css';
+import url from '../../config'
 
 class UserInfo extends React.Component {
   async componentDidMount() {
-    const data = await axios.get('http://localhost:3396/api/users/getUser', {params: {uid: localStorage.getItem('activeUid')}});
+    const data = await axios.get(`${url.restServer}/api/users/getUser`, {params: {uid: localStorage.getItem('activeUid')}});
     this.props.setUserData(data.data.rows[0])
     localStorage.setItem('accountType', this.props.user_data.type);
     // console.log('this is the user data: ', data.data.rows[0]);
@@ -22,7 +23,7 @@ class UserInfo extends React.Component {
         type: this.props.user_data.type
       };
       // toggles host/guest
-      const data = await axios.put('http://localhost:3396/api/users/upgradeUser', payload);
+      const data = await axios.put(`${url.restServer}/api/users/upgradeUser`, payload);
       window.location.reload(true);
       console.log('data received after user upgrade: ', data);
     } catch (err) {

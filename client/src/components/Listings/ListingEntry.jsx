@@ -3,6 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom'
 import './listings.css'
+import url from '../../config'
 
 class ListingEntry extends React.Component {
   constructor(props) {  
@@ -14,7 +15,7 @@ class ListingEntry extends React.Component {
   }
 
   async componentDidMount () {
-    const data = await axios.get('http://localhost:3396/api/listing/getPhoto', {
+    const data = await axios.get(`${url.restServer}/api/listing/getPhoto`, {
       params: { listingId: this.props.info.id }
     });
 

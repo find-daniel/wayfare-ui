@@ -1,4 +1,6 @@
 const path = require('path');
+const webpack = require('webpack');
+require('dotenv').config()
 
 module.exports = {
   entry: path.resolve('./src/index.jsx'),
@@ -49,5 +51,18 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx']
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+        'REST_SERVER_URL': JSON.stringify(process.env.REST_SERVER_URL),
+        'SOCKET_SERVER_URL': JSON.stringify(process.env.SOCKET_SERVER_URL),
+        'DEV_REST_SERVER_URL': JSON.stringify(process.env.DEV_REST_SERVER_URL),
+        'DEV_SOCKET_SERVER_URL': JSON.stringify(process.env.DEV_SOCKET_SERVER_URL),
+        'GOOGLE_MAPS_API': JSON.stringify(process.env.GOOGLE_MAPS_API),
+        'GOOGLE_GEO_API': JSON.stringify(process.env.GOOGLE_GEO_API)
+      }
+    }),
+  ]
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Provider, connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import url from '../../../config'
 
 class ReceivedReview extends React.Component {
   constructor() {
@@ -13,7 +14,7 @@ class ReceivedReview extends React.Component {
   
   async componentDidMount() {
     try {
-      const response = await axios.get('http://localhost:3396/api/users/getUserReviews', {
+      const response = await axios.get(`${url.restServer}/api/users/getUserReviews`, {
         params: {userId: localStorage.getItem('activeId')}
       });
       const reviews = response.data.rows

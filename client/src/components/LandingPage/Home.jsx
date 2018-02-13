@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import './Home.css'
 import axios from 'axios';
 import ListingEntry from '../Listings/ListingEntry'
+import url from '../../config'
 
 class Home extends React.Component {
   constructor (props) {
@@ -17,7 +18,11 @@ class Home extends React.Component {
   }
 
   async componentDidMount() {
-    const data = await axios.get('http://localhost:3396/api/listing/getTopListings');
+    const data = await axios.get(`${url.restServer}/api/listing/getTopListings`);
+    const data = await axios.get(`${url.restServer}/api/listing/getSearchedListings`, { 
+      params: { city: localStorage.getItem('searchQuery') }
+    });
+
     this.setState({
       topListings: data.data
     });

@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios'; 
 import "babel-polyfill";
 import './listings.css'
+import url from '../../config'
 
 class Pictures extends React.Component {
 
@@ -14,7 +15,7 @@ class Pictures extends React.Component {
 
     async componentDidMount() {
       //console.log('sup... i am listingId', this.props.listingId)
-    let img = await axios.get('http://localhost:3396/api/listing/getPhoto', {
+    let img = await axios.get(`${url.restServer}/api/listing/getPhoto`, {
       params: {listingId: this.props.listingId}
     }); 
     //console.log('i am img...', img)
