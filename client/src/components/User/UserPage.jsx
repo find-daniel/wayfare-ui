@@ -9,53 +9,34 @@ import UserListingsList from './UserListingsList';
 import axios from 'axios';
 
 class UserPage extends React.Component {
-
-  async accountUpgradeHandler () {
-    try {
-      const payload = {
-        uid: localStorage.getItem('activeUid'),
-        type: this.props.user_data.type
-      };
-
-      // toggles host/guest
-      const data = await axios.put('http://localhost:3396/api/users/upgradeUser', payload);
-      window.location.reload(true);
-      console.log('data received after user upgrade: ', data);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
   render() {
     return (
       <div>
-        <div className="offset-md-1">
+        <div className="user-header">
           {/* Check whether user is guest or host */}
           {!this.props.user_data ? null :
             this.props.user_data.type === 0 ?
             // If user is a GUEST
-            <div>
-              <div>
-                <h1> {this.props.user_data.name} </h1>
-              </div>
-              <div>
-                <span className="badge badge-dark">Guest</span>
-              </div>
-              <div>
-                <button onClick={this.accountUpgradeHandler.bind(this)}>Switch to Host</button>
+            <div className="row d-flex justify-content-around">
+              <div className="row user-name">
+                <div>
+                  <h1> {this.props.user_data.name} </h1>
+                </div>
+                <div className="user-badge">
+                  <span className="badge badge-pill badge-secondary">Guest</span>
+                </div>
               </div>
             </div>
             :
             //If user is a HOST
-            <div>
-              <div>
-                <h1> {this.props.user_data.name} </h1>
-              </div>
-              <div>
-              <span className="badge badge-dark">Host</span>
-              </div>
-              <div>
-                <button onClick={this.accountUpgradeHandler.bind(this)}>Switch to Guest</button>
+            <div className="row d-flex justify-content-around">
+              <div className="row user-name">
+                <div>
+                  <h1> {this.props.user_data.name} </h1>
+                </div>
+                <div className="user-badge">
+                  <span className="badge badge-pill badge-primary">Host</span>
+                </div>
               </div>
             </div>
           }

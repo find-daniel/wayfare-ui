@@ -47,8 +47,9 @@ class Messages extends React.Component {
         roomId
       }
     });   
+    console.log('befpre', this.state.room);
     this.setState({ socket: socket, room: roomId });
-
+    console.log('after: ', this.state.room);
     try {
        const data = await axios.get(`http://localhost:4155/api/chat/getMessages`, { 
          params: {

@@ -1,3 +1,7 @@
+.wireframe {
+  border: 1px solid black;
+}
+
 .profile-pic {
   display: inline-block;
   position: relative;
@@ -17,6 +21,18 @@
   z-index: 1;
 }
 
+.switch-button {
+  margin-top: 23px;
+}
+
+.user-header {
+  height: 60px;
+}
+
+.user-name {
+  margin-top: 10px;
+}
+
 .user-body {
   margin-top: 25px; 
   background-color: #D8D8D8; 
@@ -26,8 +42,13 @@
   border-radius: 5px;
 }
 
-.wireframe {
-  border: 1px solid black;
+.user-badge {
+  margin-top: 16px;
+}
+
+.card-box {
+  margin-top: 55px;
+  height: 500px;
 }
 
 /* CHAT STYLES */

@@ -15,32 +15,63 @@ class UserInfo extends React.Component {
     // console.log('this is the user data: ', data.data.rows[0]);
   }
 
+  async accountUpgradeHandler () {
+    try {
+      const payload = {
+        uid: localStorage.getItem('activeUid'),
+        type: this.props.user_data.type
+      };
+      // toggles host/guest
+      const data = await axios.put('http://localhost:3396/api/users/upgradeUser', payload);
+      window.location.reload(true);
+      console.log('data received after user upgrade: ', data);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   render() {
     if (!this.props.user_data) {
       return null
     } else {
       return (
-        <div className="card">
+        <div className="card card-box">
           <div className="card-img-top img-background">
             <img className="img-fluid profile-pic" src={this.props.user_data.image} alt=""/>
           </div>
           <div className="card-body user-body">
-            <div style={{marginTop: '25px'}} >
-              <h6>Rating:</h6>
-              <p>{this.props.user_data.guestrating}</p>
-            </div>
             <div>
-              <h6>City:</h6>
-              <p>{this.props.user_data.city}</p>
-            </div>
-            <div>
-              <h6>Bio:</h6>
-              <p>{this.props.user_data.bio}</p>
+              <div style={{marginTop: '20px'}} >
+                <h6>Rating:</h6>
+                <p>{this.props.user_data.guestrating}</p>
+              </div>
+              <div>
+                <h6>City:</h6>
+                <p>{this.props.user_data.city}</p>
+              </div>
+              <div>
+                <h6>Bio:</h6>
+                <p>{this.props.user_data.bio}</p>
+              </div>
             </div>
             {/* Check for active_user */}
-            <div>
-              <Link to={`/user/${localStorage.getItem('activeUid')}/edit`}><button className="btn-outline-dark">Edit</button></Link>
-            </div> 
+            <div className="">
+              <div className="col-sm-5">
+                <Link to={`/user/${localStorage.getItem('activeUid')}/edit`}><button className="btn btn-sm btn-outline-dark">Edit</button></Link>
+              </div>
+              <div className="col-sm-5">
+                {!this.props.user_data ? null :
+                this.props.user_data.type === 0 ? 
+                  <div>
+                    <button className="btn btn-outline-dark btn-sm switch-button" onClick={this.accountUpgradeHandler.bind(this)}>Switch to Host</button>
+                  </div>
+                  :
+                  <div>
+                    <button className="btn btn-outline-dark btn-sm switch-button" onClick={this.accountUpgradeHandler.bind(this)}>Switch to Guest</button>
+                  </div>
+                }
+              </div>
+            </div>
           </div>
         </div>
       )
