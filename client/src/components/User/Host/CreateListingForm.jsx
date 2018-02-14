@@ -140,6 +140,7 @@ class CreateListingForm extends React.Component {
               <div className="input-spacing">
                 <input className="form-control text-center" type="text" ref="title" placeholder="Title" required/>
               </div>
+<<<<<<< HEAD
               {/* Start Date */}
               <div className="input-spacing input-group">
                 <div className="input-group-prepend">
@@ -228,6 +229,31 @@ class CreateListingForm extends React.Component {
             </form>
           </div>
         </div>
+=======
+            :
+              <div/>
+          }
+          
+          <textarea name="description" ref="description" id="" cols="30" rows="10" placeholder="Describe your listing" required></textarea>
+          <br/>
+
+          <Dropzone 
+            accept="image/jpeg, image/jpg, image/png"
+            multiple={false}
+            onDropAccepted={ this._onDrop.bind(this) } maxSize={ 2000000 }
+            onDragLeave= {this._onDrop.bind(this) } maxSize={ 2000000 }
+            // onDropRejected = {can render a warning if we want}
+            // className="dropzone"   <-- Daniel-san, add styles to .dropzone later! onegaishimasu
+          >
+            <div>
+              Click or drag photo here! Limit 2mb
+                {!this.state.imagePrev ? <div><br/>Photo is required</div> : <div>Preview: <br/><img style={{maxHeight: '120px'}} src={this.state.imagePrev} /></div> }
+            </div>
+          </Dropzone>
+
+          <button>Create</button>
+        </form>
+>>>>>>> [add] fixing messages...
       </div>
     )
   }

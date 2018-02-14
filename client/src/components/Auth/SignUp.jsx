@@ -4,6 +4,7 @@ import {googleProvider, facebookProvider} from '../../lib.js';
 import axios from 'axios';
 import 'babel-polyfill';
 import url from '../../config'
+import { Link } from 'react-router-dom';
 
 class Signup extends React.Component {
   constructor() {
@@ -15,6 +16,11 @@ class Signup extends React.Component {
       password: '',
       image: 'https://i.pinimg.com/236x/17/a0/80/17a08083f73ab4e6b273c3a9857d38e2--invisible-ink--bit.jpg'
     }
+  }
+
+  async onSuccess() {
+    this.props.history.push('/login');
+
   }
 
   async onSubmitHandler(e) {
@@ -31,6 +37,8 @@ class Signup extends React.Component {
       try {
         const data = await axios.post(`${url.restServer}/api/auth/signup`, payload)
         console.log('Local user saved to sql db.')
+        this.onSuccess()
+        //
       } catch (err) {
         console.log('Error saving local user to sql db. Err: ', err)
       }
