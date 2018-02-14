@@ -101,12 +101,7 @@ class Messages extends React.Component {
         console.log('couldnt get last message', err)
       }
     })
-<<<<<<< HEAD
-
-    console.log('rooms', this.state.rooms);
-=======
     
->>>>>>> [add] fixing messages...
   }
 
   sendMessage(e) {
