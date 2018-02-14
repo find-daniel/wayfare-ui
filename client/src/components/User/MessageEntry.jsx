@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 class MessageEntry extends React.Component {
   constructor (props) {
@@ -14,23 +15,23 @@ class MessageEntry extends React.Component {
         <li className="list-group-item">
           <div className="row">
             <div className="col-sm-3">
-              <img style={{height: '30px'}} src={message.userImage} alt=""/>
-              {message.userName}
+              <Link to={`/user/public/${message.userId}`} ><img className="chat-profile-pic" src={message.userImage} alt=""/></Link>
+              {/* <span className="badge badge-secondary">{message.userName}</span> */}
             </div>
-            <div className="col-sm-9 d-flex justify-content-start">
-              {message.message}
+            <div className="col-sm-9 d-flex justify-content-center otherMessage">
+              <p className="text-center text-div">{message.message}</p>
             </div>
           </div>
         </li>
       :
         <li className="list-group-item">
           <div className="row">
-            <div className="col-sm-9 d-flex justify-content-end">
-              {message.message}
+            <div className="col-sm-9 d-flex justify-content-center userMessage">
+              <p className="text-center text-div">{message.message}</p>
             </div>
             <div className="col-sm-3">
-              <img style={{height: '30px'}} src={message.userImage} alt=""/>
-              {message.userName}
+              <img className="chat-profile-pic" src={message.userImage} alt=""/>
+              {/* <span className="badge badge-secondary">{message.userName}</span> */}
             </div>
           </div>
         </li>

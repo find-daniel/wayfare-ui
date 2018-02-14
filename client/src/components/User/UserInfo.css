@@ -1,3 +1,7 @@
+body {
+  overflow-x: hidden;
+}
+
 .user-page-component {
   font-family: 'Open Sans', sans-serif;
 }
@@ -59,11 +63,32 @@
   height: 500px;
 }
 
+.room {
+  margin-bottom: 10px;
+  box-shadow: 1px 1px 1px 0px;
+}
+
+.rooms-header {
+  margin-top: 10px;
+}
+
+.rooms-list {
+  height: 435px;
+  overflow: hidden;
+}
+
+.rooms-list:hover {
+  overflow-y: scroll;
+}
+
 /* CHAT STYLES */
 .chat-messages {
   height: 435px;
-  overflow: scroll;
-  overflow-x: hidden;
+  overflow: hidden;
+}
+
+.chat-messages:hover {
+  overflow-y: scroll;
 }
 
 .clearLink {
@@ -76,15 +101,54 @@
 
 .chat {
   height: 500px;
+  /* box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); */
 }
+
 .chat-footer {
   position: absolute;
   bottom: 15px;
   width: 100%
 }
 
+.list-group-item {
+  border: none;
+}
+
+.otherMessage {
+  background-color: rgb(231, 231, 231);
+  border-radius: 25px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.userMessage {
+  background-color: #B7C6CE;
+  border-radius: 25px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.text-div {
+  margin-top: 15px;
+  color: #4e4e4e;
+}
+
+.chat-profile-pic {
+  display: inline-block;
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  overflow: hidden;
+  border-radius: 50%;
+  z-index: 2;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
 /* Hides scrollbar */
 ::-webkit-scrollbar {
-  width: 0px;
+  width: 1px;
   background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(185, 185, 185);
+  border-radius: 10px;
 }

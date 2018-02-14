@@ -94,6 +94,8 @@ class Messages extends React.Component {
         console.log('couldnt get last message', err)
       }
     })
+
+    console.log('rooms', this.state.rooms);
   }
 
   sendMessage(e) {
@@ -127,17 +129,40 @@ class Messages extends React.Component {
   render() {
     return (
       <div className="row chat">
-        <div className="left col-sm-3 wireframe">
+        <div className="left col-sm-3 card">
           <div className="rooms">
-            <ul className="list-group-flush col-sm-12">
-              {!this.state.rooms ? null :
-                this.state.rooms.map((room) => {
-                return <Link onClick={this.onClickRefresh} key={room.roomId} to={`/user/${localStorage.getItem('activeUid')}/inbox/${room.roomId}`} ><li className="list-group-item clearLink">{room.listingTitle}</li></Link>
-              })}
-            </ul>
+            <div className="rooms-header" >
+              <h6 className="text-center">Chats</h6>
+              <hr/>
+            </div>
+            <div className="rooms-list">
+              <ul className="d-flex justify-content-center list-group">
+                {!this.state.rooms ? null :
+                  !this.props.user_data ? null :
+                  this.state.rooms.map((room) => {
+                   return room.guestId !== this.props.user_data.id ? 
+                    <Link className="card" onClick={this.onClickRefresh} key={room.roomId} to={`/user/${localStorage.getItem('activeUid')}/inbox/${room.roomId}`} >
+                      <li className="list-group-item clearLink text-center">
+                        <span className="badge badge-dark">{room.guestName}</span>
+                        <hr/>
+                        <p>  {room.listingTitle} </p>
+                      </li>
+                    </Link>
+                  :
+                    <Link className="card" onClick={this.onClickRefresh} key={room.roomId} to={`/user/${localStorage.getItem('activeUid')}/inbox/${room.roomId}`} >
+                      <li className="list-group-item clearLink text-center room-card">
+                        <span className="badge badge-dark">{room.hostName}</span>
+                        <hr/>
+                        <p>  {room.listingTitle} </p>
+                      </li>
+                    </Link>
+                   
+                })}
+              </ul>
+            </div>
           </div>
         </div>
-        <div className="right col-sm-9 wireframe">
+        <div className="right col-sm-9 card">
           <div className="chat-messages" id="chat-messages">
             <ul className="list-group-flush col-sm-12">
               {!this.state.messages.length > 0 ? null :
@@ -149,7 +174,7 @@ class Messages extends React.Component {
           </div>
           <div className="row chat-footer input-group">
             <input className="offset-sm-1 col-sm-8 form-control" type="text" placeholder="Message" value={this.state.message} onChange={e => this.setState({message: e.target.value})}/>
-            <button className="col-sm-2 input-group-append btn-outline-dark d-flex justify-content-center" onClick={(e) => this.sendMessage(e)}>Send</button>
+            <button className="col-sm-2 input-group-append btn btn-outline-dark d-flex justify-content-center" onClick={(e) => this.sendMessage(e)}>Send</button>
           </div>
         </div>
       </div>
