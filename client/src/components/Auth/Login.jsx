@@ -48,9 +48,6 @@ class Login extends React.Component {
         await localStorage.setItem('profilePictureURL', data.data.rows[0].image)
 
         await this.props.setActiveUser(data.data.rows[0])
-        // const data = await axios.get(`${url.restServer}/api/users/getUser`, {params: {uid: user.uid}})
-        // await localStorage.setItem('activeId', data.data.rows[0].id); 
-
         await this.props.setUserData(data.data.rows[0])
         setTimeout(()=>{this.onSuccess()}, 1000)
         // this.onSuccess();
@@ -67,7 +64,8 @@ class Login extends React.Component {
     try {
       const authData = await firebase.auth().signInWithPopup(googleProvider)
       console.log('User signed in with Firebase->Google.');
-      localStorage.setItem('email', authData.user.email);
+      await localStorage.setItem('activeUid', authData.user.uid);
+
       let payload = {
         email: authData.user.email,
         name: authData.user.displayName,
@@ -76,8 +74,22 @@ class Login extends React.Component {
       }
       try {
         const data = await axios.post(`${url.restServer}/api/auth/signup`, payload)
-        console.log('Google user saved to sql db.')
-        this.onSuccess();
+        console.log('Google user saved to sql db.', data)
+        try {
+           const data = await axios.get(`${url.restServer}/api/users/getUser`, {params: {uid: localStorage.getItem('activeUid')}})
+           console.log('data from getUSer request in psql via fb login', data)
+           await localStorage.setItem('activeUid', data.data.rows[0].uid)
+           await localStorage.setItem('activeId', data.data.rows[0].id)
+           await localStorage.setItem('name', data.data.rows[0].name)
+           await localStorage.setItem('email', data.data.rows[0].email)
+           await localStorage.setItem('accountType', data.data.rows[0].type)
+           await localStorage.setItem('profilePictureURL', data.data.rows[0].image)
+           await this.props.setActiveUser(data.data.rows[0])
+           await this.props.setUserData(data.data.rows[0])
+           setTimeout(()=>{this.onSuccess()}, 1000)
+        } catch (err) {
+          console.log('error...', err)
+        }
       } catch (err) {
         console.log('Error saving Google user to sql db. Err: ', err)
       }
@@ -91,7 +103,8 @@ class Login extends React.Component {
     try {
       const data = await firebase.auth().signInWithPopup(facebookProvider);
       console.log('User signed in with Firebase->Facebook.');
-      localStorage.setItem('email', data.user.email);
+      await localStorage.setItem('activeUid', data.user.uid);
+
       let payload = {
         email: data.user.email,
         name: data.user.displayName,
@@ -101,7 +114,21 @@ class Login extends React.Component {
       try {
         const data = await axios.post(`${url.restServer}/api/auth/signup`, payload)
         console.log('Facebook user saved to sql db.')
-        this.onSuccess();
+        try {
+           const data = await axios.get(`${url.restServer}/api/users/getUser`, {params: {uid: localStorage.getItem('activeUid')}})
+           await localStorage.setItem('activeUid', data.data.rows[0].uid)
+           await localStorage.setItem('activeId', data.data.rows[0].id)
+           await localStorage.setItem('name', data.data.rows[0].name)
+           await localStorage.setItem('email', data.data.rows[0].email)
+           await localStorage.setItem('accountType', data.data.rows[0].type)
+           await localStorage.setItem('profilePictureURL', data.data.rows[0].image)
+           await this.props.setActiveUser(data.data.rows[0])
+           await this.props.setUserData(data.data.rows[0])
+           setTimeout(()=>{this.onSuccess()}, 1000)
+
+        } catch (err) {
+          console.log('error...', err)
+        }
       } catch (err) {
         console.log('Error saving Facebook user to sql db. Err: ', err)
       }
