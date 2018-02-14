@@ -4,6 +4,7 @@ import { Provider, connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import url from '../../../config'
 import { Link } from 'react-router-dom';
+import './ListingCategories.css'
 
 
 class CompletedListing extends React.Component {
@@ -59,36 +60,41 @@ class CompletedListing extends React.Component {
 
   render() {
     return (
-      <div>
-        <h2>This is the host's complete listing</h2>
+      <ul className="list-group">
         {
           this.state.listings.map((listing, i) => {
             return (
-              <div key={i}>
-                <div>
-                  {`Listing: ${listing[0].title}`}
+              <li key={i} className="list-group-item listing-box d-flex justify-content-around">
+                <div className="col-sm-4 text-center">
+                  <h6>Listing</h6>
+                  <hr/>
+                  <h4><span className="badge badge-secondary">{`${listing[0].title}`}</span></h4>
                 </div>
-                <div>
-                  {`Status: ${listing[0].status}`}
+                <div className="col-sm-4 text-center">
+                  <h6>Status</h6>
+                  <hr/>
+                  <h4><span className="badge badge-success">{`${listing[0].status}`}</span></h4>
                 </div>
                 {listing[1] 
                 ?
-                  <div/>
+                  null
                 :
-                <Link type='button' className="btn btn-outline-secondary btn-sm" to={{
-                  pathname:`/user/${this.props.match.params.userId}/review`,
-                  state: { commentor: (this.state.type === '0' ? listing[0].guestid : listing[0].hostid), 
-                      commentee: (this.state.type === '1' ? listing[0].guestid : listing[0].hostid), 
-                      listingId: listing[0].id,
-                      type: (this.state.type === '0' ? 'guest' : 'host')}
-                  }}>Review</Link>
-                }
-                <br/>            
-              </div>
+                <div className="col-sm-2 completed-review-button">
+                  <Link to={{
+                    pathname:`/user/${this.props.match.params.userId}/review`,
+                    state: { commentor: (this.state.type === '0' ? listing[0].guestid : listing[0].hostid), 
+                        commentee: (this.state.type === '1' ? listing[0].guestid : listing[0].hostid), 
+                        listingId: listing[0].id,
+                        type: (this.state.type === '0' ? 'guest' : 'host')}
+                    }}><button className="btn btn-outline-primary"> Review </button>
+                  </Link>
+                </div>
+                }         
+              </li>
             )      
           })
         }
-      </div>
+      </ul>
     )      
   }
 };
