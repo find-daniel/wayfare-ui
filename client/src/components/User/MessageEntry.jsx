@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 class MessageEntry extends React.Component {
   constructor (props) {
     super(props);
-    console.log(props);
   }
 
   render () {
@@ -30,7 +29,7 @@ class MessageEntry extends React.Component {
               <p className="text-center text-div">{message.message}</p>
             </div>
             <div className="col-sm-3">
-              <img className="chat-profile-pic" src={message.userImage} alt=""/>
+              <img className="chat-profile-pic" src={localStorage.getItem('profilePictureURL')} alt=""/>
               {/* <span className="badge badge-secondary">{message.userName}</span> */}
             </div>
           </div>

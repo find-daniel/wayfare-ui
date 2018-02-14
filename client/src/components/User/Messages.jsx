@@ -86,8 +86,6 @@ class Messages extends React.Component {
     })
 
     socket.on('server.message', async (data) => {
-      // console.log('this.state',this.state)
-      // console.log('this.props',this.props)
       try {
         const lastmessage = await axios.get(`${url.socketServer}/api/chat/getLastMessage`)
          this.setState({
@@ -101,6 +99,8 @@ class Messages extends React.Component {
         console.log('couldnt get last message', err)
       }
     })
+    let chatBox = document.getElementById('chat-messages');
+    chatBox.scrollTop = chatBox.scrollHeight;
     
   }
 
@@ -116,7 +116,8 @@ class Messages extends React.Component {
       userUid: localStorage.getItem('activeUid'),
       message: this.state.message,
       room: this.state.room,
-      accountType: localStorage.getItem('accountType')
+      listingId: JSON.parse(location.pathname.substr(location.pathname.lastIndexOf('_') + 1)),
+      accountType: JSON.parse(localStorage.getItem('accountType'))
     })
 
     this.setState({
@@ -180,8 +181,8 @@ class Messages extends React.Component {
             </ul>
           </div>
           <div className="row chat-footer input-group">
-            <input className="offset-sm-1 col-sm-8 form-control" type="text" placeholder="Message" value={this.state.message} onChange={e => this.setState({message: e.target.value})}/>
-            <button className="col-sm-2 input-group-append btn btn-outline-dark d-flex justify-content-center" onClick={(e) => this.sendMessage(e)}>Send</button>
+            <input className="offset-sm-1 col-sm-8 form-control" type="text" placeholder="Message" value={this.state.message} onKeyPress={(e)=>{e.charCode === 13 && this.state.message ? this.sendMessage(e) : null}} onChange={e => this.setState({message: e.target.value})}/>
+            <button className="col-sm-2 input-group-append btn btn-outline-dark d-flex justify-content-center"  onClick={(e) => this.sendMessage(e)}>Send</button>
           </div>
         </div>
       </div>
