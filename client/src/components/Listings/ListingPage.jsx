@@ -54,6 +54,7 @@ class ListingPage extends React.Component {
     let currUser = await axios.get(`${url.restServer}/api/users/getUser`, {
       params: {uid: localStorage.getItem('activeUid')}
     })
+    
     currUser = currUser.data.rows[0].id; 
     if (currUser === listing.data.hostid) {
       this.setState ({

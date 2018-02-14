@@ -124,15 +124,17 @@ class BookingForm extends React.Component {
 
     // e.preventDefault();
     console.log('booking requested');
-    // try {
-    //   await axios.post(`${url.restServer}/api/listing/createRequestAndRequestSkills`, {
-    //     guestId: this.state.userId,
-    //     listingId: this.props.match.params.listingId,
-    //     skillId: this.state.checked 
-    //   })
-    // } catch(err) {
-    //   throw new Error(err);
-    // }    
+    try {
+      await axios.post(`${url.restServer}/api/listing/createRequestAndRequestSkills`, {
+        guestId: JSON.parse(this.state.userId),
+        listingId: JSON.parse(this.props.match.params.listingId),
+        skillId: this.state.checked 
+      })
+    } catch(err) {
+      throw new Error(err);
+    }    
+
+    console.log('made it after making skills.......')
 
     const {guestName, guestImage, guestId, guestUid, hostName, hostImage, hostId, listingId, listingTitle, roomId, accountType} = this.props.location.state;
     const message = this.state.message;
@@ -230,16 +232,12 @@ class BookingForm extends React.Component {
               onChange={this.onChangeHandler.bind(this)}
             ></textarea>
           </div>  
-
-{/* 
           <Link onClick={this.onBookingHandler.bind(this)} to={`/user/${localStorage.getItem('activeUid')}/inbox/${this.state.userId}_${this.state.hostId}_${this.props.match.params.listingId}`} 
             type="button" 
             className="btn btn-light col-sm-5" 
-          >Request Booking</Link> */}
+          >Request Booking</Link>
 
         </form>
-        <button onClick = {this.onBookingHandler.bind(this)}>Request booking no link.</button>
-
       </div>
     )
   }
