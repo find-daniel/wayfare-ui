@@ -4,6 +4,7 @@ import Dropzone from 'react-dropzone';
 import upload from 'superagent';
 import "babel-polyfill";
 import url from '../../../config'
+import './CreateListingForm.css'
 
 class CreateListingForm extends React.Component {
   constructor(props) {
@@ -17,7 +18,8 @@ class CreateListingForm extends React.Component {
     }
 
     this.addSkill = this.addSkill.bind(this); 
-    this.deleteSkill = this.deleteSkill.bind(this); 
+    this.deleteSkill = this.deleteSkill.bind(this);
+    this.onSubmitHandler = this.onSubmitHandler.bind(this);
   }
 
   async onSubmitHandler(e) {
@@ -127,57 +129,105 @@ class CreateListingForm extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Create Listing</h1>
-        <br/>
-        <form onSubmit={this.onSubmitHandler.bind(this)} >
-          <input type="text" ref="title" placeholder="Title" required/>
-          <br/>
-          <input type="date" ref="startDate" placeholder="Start Date" required/>
-          <br/>
-          <input type="date" ref="endDate" placeholder="End Date" required/>
-          <br/>
-          {/* Send to google geocoding api */}
-          <input type="text" ref="address" placeholder="Address" required/>
-          <input type="text" ref="city" placeholder="City" required/>
-          <br/>
-          <input type="text" ref="state" placeholder="State" required/>
-          <input type="text" ref="country" placeholder="Country" required/>
-
-          <br/>
-          <input type="text" ref="skill" placeholder="Requested Skill"/><button onClick={this.addSkill}>+</button>
-          {this.state.skills.length > 0
-            ? <div>
-                <div>Skills: </div>
-                <ul>
-                {(this.state.skills.map((skill, i) => {
-                  return <li key={i}>{skill}  <button onClick={() => {this.deleteSkill(skill)}}>-</button></li>
-                }))}
-                </ul>
+      <div className="d-flex justify-content-center create-listing-component">
+        <div className="box card">
+          <div className="text-center create-listing-header">
+            <h1>Create Listing</h1>
+          </div>
+          <div className="d-flex justify-content-center">
+            <form onSubmit={this.onSubmitHandler.bind(this)} >
+              {/* Title */}
+              <div className="input-spacing">
+                <input className="form-control text-center" type="text" ref="title" placeholder="Title" required/>
               </div>
-            :
-              <div/>
-          }
-          
-          <textarea name="description" ref="description" id="" cols="30" rows="10" placeholder="Describe your listing" required></textarea>
-          <br/>
-
-          <Dropzone 
-            accept="image/jpeg, image/jpg, image/png"
-            multiple={false}
-            onDropAccepted={ this._onDrop.bind(this) } maxSize={ 2000000 }
-            onDragLeave= {this._onDrop.bind(this) } maxSize={ 2000000 }
-            // onDropRejected = {can render a warning if we want}
-            // className="dropzone"   <-- Daniel-san, add styles to .dropzone later! onegaishimasu
-          >
-            <div>
-              Click or drag photo here! Limit 2mb
-                {!this.state.imagePrev ? null : <div>Preview: <br/><img style={{maxHeight: '120px'}} src={this.state.imagePrev} /></div> }
-            </div>
-          </Dropzone>
-
-          <button>Create</button>
-        </form>
+              {/* Start Date */}
+              <div className="input-spacing input-group">
+                <div className="input-group-prepend">
+                  <span className="input-group-text"> Start Date </span>
+                </div>
+                <input className="form-control text-center" type="date" ref="startDate" placeholder="Start Date" required/>
+              </div>
+              {/* End Date */}
+              <div className="input-spacing input-group">
+                <div className="input-group-prepend">
+                  <span className="input-group-text"> End Date </span>
+                </div>
+                <input className="form-control text-center" type="date" ref="endDate" placeholder="End Date" required/>
+              </div>
+              {/* Send to google geocoding api */}
+              {/* Location */}
+              <div>
+                <div className="input-spacing input-group">
+                  <input className="form-control text-center" type="text" ref="address" placeholder="Address" required/>
+                  <input className="form-control text-center" type="text" ref="city" placeholder="City" required/>
+                </div>
+                <div className="input-spacing input-group">
+                  <input className="form-control text-center" type="text" ref="state" placeholder="State" required/>
+                  <input className="form-control text-center" type="text" ref="country" placeholder="Country" required/>
+                </div>
+              </div>
+              {/* Skills */}
+              <div className="input-spacing input-group">
+                <div className="input-group">
+                  <input className="form-control text-center" type="text" ref="skill" placeholder="Requested Skill"/>
+                  <div className="input-group-append">
+                    <button className="btn btn-sm btn-outline-dark" onClick={this.addSkill}>+</button>
+                  </div>
+                  <div className="input-group">
+                    {this.state.skills.length > 0
+                      ? <div className="input-spacing">
+                          <div>
+                            <p>Skills</p>
+                          </div>
+                          <hr/>
+                          <ul className="list-group">
+                            {(this.state.skills.map((skill, i) => {
+                              return <li className="list-group-item" key={i}>{skill} <button className="btn btn-sm btn-outline-dark" onClick={() => {this.deleteSkill(skill)}}>-</button></li>
+                            }))}
+                          </ul>
+                        </div>
+                      :
+                        null
+                    }
+                  </div>
+                </div>
+              </div>
+              {/* Listing Description */}
+              <div className="input-spacing input-group">
+                <textarea className="form-control text-center" name="description" ref="description" id="" cols="30" rows="5" placeholder="Describe your listing" required></textarea>
+              </div>
+              {/* Image Dropzone */}
+              <div>
+                <Dropzone
+                className="card dropzone"
+                accept="image/jpeg, image/jpg, image/png"
+                multiple={false}
+                onDropAccepted={ this._onDrop.bind(this) } maxSize={ 2000000 }
+                onDragLeave= {this._onDrop.bind(this) } maxSize={ 2000000 }
+                // onDropRejected = {can render a warning if we want}
+                >
+                  <div className="">
+                    {!this.state.imagePrev ? 
+                      <div className="text-center text-muted">
+                        <p className="dropzone-text"> Click or drag photo </p> 
+                        <p> Limit 2mb </p>
+                      </div>
+                    :
+                      <div className="text-center">
+                        <div > <p> Preview </p> </div>
+                        <img className="dropzone-photo" src={this.state.imagePrev} />   
+                      </div>
+                    }
+                  </div>
+                </Dropzone>
+              </div>
+              {/* Submit */}
+              <div className="d-flex justify-content-center create-listing-submit">
+                <button onSubmit={this.onSubmitHandler.bind(this)} className="btn btn-outline-dark">Create</button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     )
   }
