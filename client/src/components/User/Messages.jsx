@@ -41,7 +41,6 @@ class Messages extends React.Component {
     })
 
     const roomId = location.pathname.substr(location.pathname.lastIndexOf('/') + 1);
-    console.log('i am roodId', roomId)
     const socket = io(`${url.socketServer}`, {
       query: {
         roomId
@@ -87,8 +86,6 @@ class Messages extends React.Component {
     })
 
     socket.on('server.message', async (data) => {
-      // console.log('this.state',this.state)
-      // console.log('this.props',this.props)
       try {
         const lastmessage = await axios.get(`${url.socketServer}/api/chat/getLastMessage`)
          this.setState({
@@ -106,24 +103,9 @@ class Messages extends React.Component {
   }
 
   sendMessage(e) {
-    console.log('this.props', this.props)
-    console.log('this.state', this.state)
     e.preventDefault();
 
     this.setState({message: this.state.messages})
-
-    let testy = {
-      userId: this.props.user_data.id,
-      userName: this.props.user_data.name,
-      userImage: localStorage.getItem('profilePictureURL'),
-      userUid: localStorage.getItem('activeUid'),
-      message: this.state.message,
-      room: this.state.room,
-      listingId: JSON.parse(location.pathname.substr(location.pathname.lastIndexOf('_') + 1)),
-      accountType: JSON.parse(localStorage.getItem('accountType'))
-    }
-
-    console.log('testy!', testy)
 
     this.state.socket.emit('client.message', {
       userId: this.props.user_data.id,

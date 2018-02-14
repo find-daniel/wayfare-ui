@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 class MessageEntry extends React.Component {
   constructor (props) {
     super(props);
-    console.log(props);
   }
 
   render () {
