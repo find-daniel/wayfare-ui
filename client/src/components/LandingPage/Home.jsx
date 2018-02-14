@@ -18,6 +18,7 @@ class Home extends React.Component {
   }
 
   async componentDidMount() {
+
     const data = await axios.get('http://localhost:3396/api/listing/getTopListings');
     let arr = []; 
     data.data.forEach(listing => {
@@ -62,7 +63,10 @@ class Home extends React.Component {
 
 function mapStateToProps (state) {
   return {
-    active_user: state.active_user
+    
+    active_user: state.active_user,
+    user_data: state.user_data
+
   }
 };
 

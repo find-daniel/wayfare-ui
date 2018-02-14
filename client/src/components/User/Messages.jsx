@@ -58,12 +58,19 @@ class Messages extends React.Component {
          }
         })
 
-        this.setState({
-          messages: data.data.reverse()
-        })
-
         let chatBox = document.getElementById('chat-messages');
         chatBox.scrollTop = chatBox.scrollHeight;
+
+
+        try {
+          await this.setState({
+            messages: data.data.reverse()
+          })
+  
+        } catch (err) {
+
+        }
+
       }
     catch (err) {
         console.log('couldnt fetch err', err)
@@ -94,25 +101,22 @@ class Messages extends React.Component {
         console.log('couldnt get last message', err)
       }
     })
-
-    console.log('rooms', this.state.rooms);
+    
   }
 
   sendMessage(e) {
-  
     e.preventDefault();
 
     this.setState({message: this.state.messages})
 
-    // by the time this component is loaded, information about the guest and the host
-    // will already be on this.state. no need to grab anything from localStorage or redux.
-
     this.state.socket.emit('client.message', {
       userId: this.props.user_data.id,
       userName: this.props.user_data.name,
-      userImage: this.props.user_data.image,
+      userImage: localStorage.getItem('profilePictureURL'),
+      userUid: localStorage.getItem('activeUid'),
       message: this.state.message,
-      room: this.state.room
+      room: this.state.room,
+      accountType: localStorage.getItem('accountType')
     })
 
     this.setState({
@@ -167,7 +171,10 @@ class Messages extends React.Component {
             <ul className="list-group-flush col-sm-12">
               {!this.state.messages.length > 0 ? null :
                 this.state.messages.map((message, i) => {
-                  return <MessageEntry key={i} message={message} />
+                  // if (message.accountType.toString() === localStorage.getItem('accountType')) {
+                  //   console.log('message',message)
+                    return <MessageEntry key={i} message={message} />
+                  // }
                 })
               }
             </ul>

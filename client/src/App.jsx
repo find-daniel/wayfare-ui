@@ -3,7 +3,8 @@ import axios from 'axios';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import { Provider, connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { setActiveUser } from './actions/actionCreators';
+import { setActiveUser, setUserData } from './actions/actionCreators';
+
 import firebase from './lib.js';
 import Home from './components/LandingPage/Home';
 import SearchResults from './components/Search/SearchResultPage';
@@ -29,11 +30,11 @@ class App extends React.Component {
       firebase.auth().onAuthStateChanged(async (user) => {
         try {
           if (user) {
-            await localStorage.setItem('activeUid', user.uid)
-            await this.props.setActiveUser(user)
-            const data = await axios.get(`${url.restServer}/api/users/getUser`, {params: {uid: user.uid}})
-            await localStorage.setItem('activeId', data.data.rows[0].id); 
-            
+            // await localStorage.setItem('activeUid', user.uid)
+            // await this.props.setActiveUser(user)
+            // const data = await axios.get(`${url.restServer}/api/users/getUser`, {params: {uid: user.uid}})
+            // await localStorage.setItem('activeId', data.data.rows[0].id); 
+            // await this.props.setUserData(data.data.rows[0])
           } else {
             localStorage.clear(); 
           }

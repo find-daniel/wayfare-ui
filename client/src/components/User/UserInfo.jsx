@@ -24,6 +24,12 @@ class UserInfo extends React.Component {
       };
       // toggles host/guest
       const data = await axios.put(`${url.restServer}/api/users/upgradeUser`, payload);
+      if (localStorage.getItem('accountType'), 0) {
+        localStorage.setItem('accountType', 1)
+      } else {
+        localStorage.setItem('accountType', 0);
+      }
+
       window.location.reload(true);
       console.log('data received after user upgrade: ', data);
     } catch (err) {

@@ -22,6 +22,7 @@ class ListingInfo extends React.Component {
     this.saveListing = this.saveListing.bind(this); 
     this.addSkill = this.addSkill.bind(this); 
     this.deleteSkill = this.deleteSkill.bind(this); 
+    this.refresh = this.refresh.bind(this);
 
   }
 
@@ -75,7 +76,7 @@ class ListingInfo extends React.Component {
  
 
   async messageHandler() {
-    let guestName = this.props.user_data.name || 'need display name';
+    let guestName = localStorage.getItem('name') || 'need display name';
     let guestImage = localStorage.getItem('profilePictureURL') || this.props.user_data.image || 'https://i.pinimg.com/236x/17/a0/80/17a08083f73ab4e6b273c3a9857d38e2--invisible-ink--bit.jpg';
     let guestId = localStorage.getItem('activeId');
     let hostName = this.props.user.name;
@@ -85,6 +86,7 @@ class ListingInfo extends React.Component {
     let listingTitle = this.props.listing.title;
     let roomId = `${guestId}_${hostId}_${listingId}`;
     let staticMessage = `Hello, ${hostName}! I am interested in your listing, ${listingTitle}.`
+    let accountType = localStorage.getItem('accountType')
 
     let roomPayload = {
       roomId: roomId,
@@ -109,11 +111,13 @@ class ListingInfo extends React.Component {
     
     let messagePayload = {
       userName: guestName,
-      userImage: guestImage,
+      userImage: localStorage.getItem('profilePictureURL'),
       userId: guestId,
+      userUid: localStorage.getItem('activeUid'),
       listingId: listingId,
       message: staticMessage,
-      room: roomId
+      room: roomId,
+      accountType: accountType
     }
     
     // create static message in mongo db:
@@ -122,6 +126,11 @@ class ListingInfo extends React.Component {
     } catch (err) {
       console.log('Error posting static message', err)
     }
+  }
+
+  refresh() {
+    // not working
+    // window.location.reload(true);
   }
   
   deleteSkill(skill) {
@@ -231,7 +240,7 @@ class ListingInfo extends React.Component {
            <span>
              <img className="host-image" src={this.props.user.image}/>
              <span className="hostInfoBox">
-               <Link className="hostInfoLink" to={{
+               <Link onClick={this.refresh} className="hostInfoLink" to={{
                 pathname:`/user/public/${this.props.user.uid}`,
                 state: { hostUid: this.props.user.uid, hostId: this.props.user.id }
                 }}>{this.props.user.name}</Link>
