@@ -1,0 +1,36 @@
+.wireframe {
+  border: 1px solid black;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.search-result-box {
+  background-color: #F9FBFC;
+  height: 82vh;
+  overflow-y: hidden;
+}
+
+.search-result-box:hover {
+  overflow-y: scroll;
+}
+
+.header {
+  margin-top: 25px;
+}
+
+.search-map {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+/* Hides scrollbar */
+::-webkit-scrollbar {
+  width: 1px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(185, 185, 185);
+  border-radius: 10px;
+}

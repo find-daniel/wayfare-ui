@@ -6,7 +6,8 @@ import axios from 'axios';
 import { GoogleMap, Marker, withGoogleMap, withScriptjs } from 'react-google-maps';
 import { compose, withProps } from 'recompose';
 import { setTimeout } from 'timers';
-import url from '../../config'
+import url from '../../config';
+import styles from '../Search/MapStyles';
 
 
 const MyMapComponent = compose(
@@ -23,6 +24,7 @@ const MyMapComponent = compose(
     <GoogleMap
       defaultZoom= {8}
       defaultCenter={{ lat: props.lat, lng: props.lng }}
+      defaultOptions={{ styles: styles }}
       >
       {props.isMarkerShown && <Marker position={{ lat: props.lat, lng: props.lng }} onClick={props.onMarkerClick}/>}
     </GoogleMap>
