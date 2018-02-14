@@ -68,7 +68,7 @@ class NavBar extends React.Component {
             <Link onClick={this.clickRefresh} to={{
               pathname:`/user/${localStorage.getItem('activeUid')}/inbox`,
               state: { userAccountType: localStorage.getItem('accountType') }
-              }}> <img className="nav-profile-pic" src={this.state.img} alt=""/> </Link>
+              }}> <img className="nav-profile-pic" src={localStorage.getItem('profilePictureURL')} alt=""/> </Link>
             <button className="btn btn-outline-light" onClick={this.onLogoutClickHandler.bind(this)}>Logout</button>
           </div>
         }

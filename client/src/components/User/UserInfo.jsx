@@ -1,6 +1,6 @@
 import 'babel-polyfill';
 import React from 'react';
-import { connect } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import { setUserData } from '../../actions/actionCreators';
@@ -30,11 +30,12 @@ class UserInfo extends React.Component {
         localStorage.setItem('accountType', 0);
       }
 
-      window.location.reload(true);
       console.log('data received after user upgrade: ', data);
     } catch (err) {
       console.error(err);
     }
+    
+    window.location.reload(true);
   }
 
   render() {
@@ -70,11 +71,11 @@ class UserInfo extends React.Component {
                 {!this.props.user_data ? null :
                 this.props.user_data.type === 0 ? 
                   <div>
-                    <button className="btn btn-outline-dark btn-sm switch-button" onClick={this.accountUpgradeHandler.bind(this)}>Switch to Host</button>
+                    <Link onClick={this.accountUpgradeHandler.bind(this)} to={`/user/${localStorage.getItem('activeUid')}/`}><button className="btn btn-outline-dark btn-sm switch-button">Switch to Host</button></Link>
                   </div>
                   :
                   <div>
-                    <button className="btn btn-outline-dark btn-sm switch-button" onClick={this.accountUpgradeHandler.bind(this)}>Switch to Guest</button>
+                    <Link onClick={this.accountUpgradeHandler.bind(this)} to={`/user/${localStorage.getItem('activeUid')}/`}><button className="btn btn-outline-dark btn-sm switch-button">Switch to Guest</button></Link>
                   </div>
                 }
               </div>
