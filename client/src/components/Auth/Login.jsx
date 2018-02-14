@@ -8,6 +8,7 @@ import { Provider, connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import url from '../../config'
 import { setTimeout } from 'timers';
+import './Auth.css';
 
 
 class Login extends React.Component {
@@ -145,19 +146,38 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div>
-        Inside Login
-        <br/>
-        <button onClick={this.onGoogleClickHandler.bind(this)}>Google</button>
-        <button onClick={this.onFacebookClickHandler.bind(this)}>Facebook</button>
-        <hr/>
-        <form action="submit" onSubmit={this.onSubmitHandler.bind(this)} >
-          email:
-          <input onChange={this.handleInputChange.bind(this)} type="text" id="email" placeholder="email"/>
-          password:
-          <input onChange={this.handleInputChange.bind(this)} type="password" id="password" placeholder="password"/>
-          <button>Login</button>
-        </form>
+      <div className="container login-box col-sm-4">
+        {/* Header */}
+        <div className="d-flex justify-content-center header">
+          <div className="col-sm-3 text-center">
+            <h2>Login</h2>
+            <hr/>
+          </div>
+        </div>
+        {/* OAuth */}
+        <div className="container text-center ">
+          <div className="google input-spacing ">
+            <button className="btn btn-danger col-sm-5 " onClick={this.onGoogleClickHandler.bind(this)}>Google</button>
+          </div>
+          <div className="facebook input-spacing">
+            <button className="btn btn-primary col-sm-5" onClick={this.onFacebookClickHandler.bind(this)}>Facebook</button>
+          </div>
+        </div>
+        <hr className="login-split"/>
+        {/* Email/Password */}
+        <div className="container text-center">
+          <form action="submit" onSubmit={this.onSubmitHandler.bind(this)} >
+            <div className="input-spacing d-flex justify-content-center">
+              <input className="form-control col-sm-5 text-center" onChange={this.handleInputChange.bind(this)} type="text" id="email" placeholder="Email"/>
+            </div>
+            <div className="input-spacing d-flex justify-content-center">
+              <input className="form-control col-sm-5 text-center" onChange={this.handleInputChange.bind(this)} type="password" id="password" placeholder="Password"/>
+            </div>
+            <div className="input-spacing">
+              <button className="btn btn-outline-dark col-sm-2">Login</button>
+            </div>
+          </form>
+        </div>
       </div>
     )
   }
