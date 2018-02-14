@@ -99,6 +99,8 @@ class Messages extends React.Component {
         console.log('couldnt get last message', err)
       }
     })
+    let chatBox = document.getElementById('chat-messages');
+    chatBox.scrollTop = chatBox.scrollHeight;
     
   }
 
