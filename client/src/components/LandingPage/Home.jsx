@@ -21,7 +21,7 @@ class Home extends React.Component {
     const data = await axios.get('http://localhost:3396/api/listing/getTopListings');
     let arr = []; 
     data.data.forEach(listing => {
-      if (listing.id) {
+      if (listing.id !== null) {
         arr.push(listing); 
       }
     })

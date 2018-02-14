@@ -3,15 +3,16 @@ import axios from 'axios';
 import { Provider, connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import url from '../../../config'
+import { Link } from 'react-router-dom';
+
 
 class CompletedListing extends React.Component {
   constructor () {
     super()
     this.state = {
-      listings: []
+      listings: [], 
+      type: 0
     }
-    
-    this.reviewHandler = this.reviewHandler.bind(this); 
   }
 
   async componentDidMount() {
@@ -47,17 +48,14 @@ class CompletedListing extends React.Component {
         })
       }
       await this.setState({
-        listings: payload
+        listings: payload, 
+        type: accountType
       })
     } catch(err) {
       throw new Error(err)
     }
   }  
   
-  reviewHandler(listing) {
-    //change review in listings to false
-    //redirect to review page
-  }
 
   render() {
     return (
@@ -77,7 +75,13 @@ class CompletedListing extends React.Component {
                 ?
                   <div/>
                 :
-                  <button type='button' className="btn btn-outline-secondary btn-sm" onClick={() => {this.reviewHandler(listing)}}>Review</button>
+                <Link type='button' className="btn btn-outline-secondary btn-sm" to={{
+                  pathname:`/user/${this.props.match.params.userId}/review`,
+                  state: { commentor: (this.state.type === '0' ? listing[0].guestid : listing[0].hostid), 
+                      commentee: (this.state.type === '1' ? listing[0].guestid : listing[0].hostid), 
+                      listingId: listing[0].id,
+                      type: (this.state.type === '0' ? 'guest' : 'host')}
+                  }}>Review</Link>
                 }
                 <br/>            
               </div>
