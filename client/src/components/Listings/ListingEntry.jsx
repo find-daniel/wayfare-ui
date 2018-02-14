@@ -28,7 +28,7 @@ class ListingEntry extends React.Component {
     return (
       <div className="col-sm-3">
         <Link to={`/listing/${this.props.info.id}`}>
-          <div className="fixLink card" >
+          <div className="fixLink card listing-card" >
             <img className="card-img-top card-listing-image" src={this.state.img} alt=""/>
             <div className="card-body">
               <h5 className="card-title text-center"> {this.props.info.title} </h5>
