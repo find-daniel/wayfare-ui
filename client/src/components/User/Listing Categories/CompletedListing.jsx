@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import 'babel-polyfill';
 import { Provider, connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import url from '../../../config'
@@ -16,7 +17,7 @@ class CompletedListing extends React.Component {
     }
   }
 
-  async componentDidMount() {
+  async componentWillMount() {
     try {
       const response = await axios.get(`${url.restServer}/api/listing/getListingsByStatus`, {
         params: {status: 'complete'}
@@ -27,36 +28,37 @@ class CompletedListing extends React.Component {
 
       const payload = []
       if (accountType === '0') {
-        await listings.map(async (listing) => {
-          if (activeId === JSON.stringify(listing.guestid)) {
+        for (let i = 0; i < listings.length; i++) {
+          if (activeId === JSON.stringify(listings[i].guestid)) {
             const data = await axios.get(`${url.restServer}/api/users/getUserReviewsByListing`, {
-              params: {listingId: listing.id, userId: listing.guestid}
+              params: {listingId: listings[i].id, userId: listings[i].guestid}
             })
             const bool = data.data.rows.length > 0; 
-            payload.push([listing, bool])
+            payload.push([listings[i], bool])
           }
-        })
+        }
+
       }
       if (accountType === '1') {
-        await listings.map(async (listing) => {          
-          if (activeId === JSON.stringify(listing.hostid)) {
+        for (let i = 0; i < listings.length; i++ ) {
+          if (activeId === JSON.stringify(listings[i].hostid)) {
             const data = await axios.get(`${url.restServer}/api/users/getUserReviewsByListing`, {
-              params: {listingId: listing.id, userId: listing.hostid}
+              params: {listingId: listings[i].id, userId: listings[i].hostid}
             })
             const bool = data.data.rows.length > 0; 
-            payload.push([listing, bool])
+            payload.push([listings[i], bool])
           }
-        })
+        }
       }
       await this.setState({
-        listings: payload, 
+        listings: [...payload, ...this.state.listings], 
         type: accountType
       })
     } catch(err) {
       throw new Error(err)
     }
   }  
-  
+
 
   render() {
     return (
@@ -68,7 +70,7 @@ class CompletedListing extends React.Component {
                 <div className="col-sm-4 text-center">
                   <h6>Listing</h6>
                   <hr/>
-                  <h4><span className="badge badge-secondary">{`${listing[0].title}`}</span></h4>
+                  <h4><Link to={{pathname:`/listing/${listing[0].id}`}} className="badge badge-secondary link">{listing[0].title}</Link></h4>
                 </div>
                 <div className="col-sm-4 text-center">
                   <h6>Status</h6>

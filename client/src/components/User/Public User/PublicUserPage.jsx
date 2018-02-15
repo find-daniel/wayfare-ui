@@ -26,6 +26,13 @@ class PublicUserPage extends React.Component {
     });
     const reviews = reviewsData.data.rows;
     const info = data.data.rows[0];
+    const result = []
+    reviews.forEach(review => {
+      if (JSON.stringify(review.commentee) === JSON.stringify(info.name)) {
+        result.push(review); 
+      }
+    })
+
     this.setState({ 
       name: info.name,
       city: info.city,
@@ -33,7 +40,7 @@ class PublicUserPage extends React.Component {
       img: info.image,
       hostRating: info.hostrating,
       guestRating: info.guestrating,
-      reviews
+      reviews: result
     });
   }
 
@@ -53,7 +60,7 @@ class PublicUserPage extends React.Component {
           <p>Reviews</p>
           <ul className="list-group-flush">
             {this.state.reviews.map(review => {
-              return <li className="list-group-item" key={review.id} > {review.review} </li>
+              return <li className="list-group-item" key={review.id} >{review.rating}/5  {review.review} -{this.state.name}</li>
             })}
           </ul>
         </div>

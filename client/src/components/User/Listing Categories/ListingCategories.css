@@ -11,3 +11,11 @@
 .completed-review-button {
   margin-top: 30px;
 }
+
+.link:hover{
+  color: blue
+}
+
+.link{
+  color:black; 
+}

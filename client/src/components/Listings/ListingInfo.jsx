@@ -23,6 +23,7 @@ class ListingInfo extends React.Component {
     this.addSkill = this.addSkill.bind(this); 
     this.deleteSkill = this.deleteSkill.bind(this); 
     this.refresh = this.refresh.bind(this);
+    this.deleteHandler = this.deleteHandler.bind(this); 
 
   }
 
@@ -71,7 +72,6 @@ class ListingInfo extends React.Component {
       skills: skills
     })
     this.refs.skill.value = ''; 
-    console.log('info state', this.state.skills); 
   }
  
 
@@ -134,19 +134,25 @@ class ListingInfo extends React.Component {
   deleteSkill(skill) {
     let arr = this.state.skills; 
     let deleteArr = this.state.deletedSkills; 
-    arr.forEach((s, i) => {
-      if (s.skill === skill && s.id === null) {
-        delete arr[i] ; 
-      }
-      else if (s.skill === skill) {
+    for (let i = 0; i < arr.length; i++ ) {
+      if (arr[i].skill === skill && arr[i].id === null) {
         delete arr[i]; 
-        deleteArr.push(s); 
       }
-    })
+      else if (arr[i].skill === skill) {
+        delete arr[i]; 
+        deleteArr.push(arr[i])
+      }
+    }
     this.setState({
       skills: arr, 
       deletedSkills : deleteArr
     })
+  }
+
+  async deleteHandler() {
+    let listing = await axios.delete(`${url.restServer}/api/listing/deleteListing`, {
+      params: {listingId: this.props.listing.id}
+    }); 
   }
   
   render() {
@@ -251,7 +257,9 @@ class ListingInfo extends React.Component {
                         <button onClick={this.editListing} type="button" className="btn btn-outline-dark col-sm-12">Edit Listing</button>
                       </div>
                       <div className="col-sm-5">
-                        <button className="btn btn-outline-danger col-sm-12"> Delete </button>
+                        <Link to={{pathname:'/'}}>
+                        <button className="btn btn-outline-danger col-sm-12" onClick={this.deleteHandler}> Delete </button>
+                        </Link>
                       </div>
                     </div>
                   }
