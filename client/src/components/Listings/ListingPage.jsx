@@ -161,7 +161,7 @@ class ListingPage extends React.Component {
             this.state.edit 
             ?
               <div className="title-edit-box">
-                <textarea type="text" ref="title" className="title-edit" placeholder='Edit Title'></textarea> 
+                <textarea type="text" ref="title" className="title-edit form-control" placeholder={this.state.listing.title}></textarea> 
               </div>
             :
               <h2 className="title">{this.state.listing.title}</h2>
