@@ -257,28 +257,36 @@ class ListingInfo extends React.Component {
                   }
                 </div>
               :
-                <div>
-
-                  <Link className="btn btn-light col-sm-5" to={{
-                  pathname:`/listing/book/${this.props.listing.id}`,
-                  state: {
-                    guestName: localStorage.getItem('name') || 'need display name',
-                    guestImage: localStorage.getItem('profilePictureURL'),
-                    guestId: localStorage.getItem('activeId'),
-                    guestUid: localStorage.getItem('activeUid'),
-                    hostName: this.props.user.name,
-                    hostId: this.props.listing.hostid,
-                    hostImage: this.props.user.image,
-                    listingId: this.props.listing.id,
-                    listingTitle: this.props.listing.title,
-                    roomId: `${localStorage.getItem('activeId')}_${this.props.listing.hostid}_${this.props.listing.id}`,
-                    accountType: localStorage.getItem('accountType')
-                  }
-                  }}>Request Booking</Link>              
-                  
-                  {/* <Link to={`/listing/book/${this.props.listing.id}`} type="button" className="btn btn-light col-sm-5">Request Booking</Link>
-                  <span className="col-sm-2"/> */}
-                  <Link to={`/user/${localStorage.getItem('activeUid')}/inbox/${localStorage.getItem('activeId')}_${this.props.listing.hostid}_${this.props.listing.id}`} type="button" className="btn btn-light col-sm-5" onClick={this.messageHandler}>Message Host</Link>
+                <div className="d-flex justify-content-around">
+                  <div className="col-sm-5">
+                    <Link to={{
+                    pathname:`/listing/book/${this.props.listing.id}`,
+                    state: {
+                      guestName: localStorage.getItem('name') || 'need display name',
+                      guestImage: localStorage.getItem('profilePictureURL'),
+                      guestId: localStorage.getItem('activeId'),
+                      guestUid: localStorage.getItem('activeUid'),
+                      hostName: this.props.user.name,
+                      hostId: this.props.listing.hostid,
+                      hostImage: this.props.user.image,
+                      listingId: this.props.listing.id,
+                      listingTitle: this.props.listing.title,
+                      roomId: `${localStorage.getItem('activeId')}_${this.props.listing.hostid}_${this.props.listing.id}`,
+                      accountType: localStorage.getItem('accountType')
+                    }
+                    }}>
+                      <button className="btn btn-outline-dark col-sm-12">
+                        Request Booking
+                      </button> 
+                    </Link>
+                  </div>
+                  <div className="col-sm-5">
+                    <Link to={`/user/${localStorage.getItem('activeUid')}/inbox/${localStorage.getItem('activeId')}_${this.props.listing.hostid}_${this.props.listing.id}`} onClick={this.messageHandler}>
+                      <button className="btn btn-outline-dark col-sm-12">
+                        Message Host
+                      </button> 
+                    </Link>
+                  </div>
                 </div>
               }
             </div>
