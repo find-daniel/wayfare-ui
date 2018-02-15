@@ -1,9 +1,11 @@
 import React from 'react';
 import axios from 'axios';
+import 'babel-polyfill';
 import { Provider, connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom'
 import url from '../../../config'
+import './listingCategories.css'
 
 class PendingListing extends React.Component {
   constructor () {
@@ -40,26 +42,26 @@ class PendingListing extends React.Component {
           const data = await axios.get(`${url.restServer}/api/listing/getRequestsByGuest`, {
             params: {guestId: activeId}
           })
-          await data.data.rows.map(request => {
-            guestPayload.push(request)
-        })
+          for (let i = 0; i <data.data.rows.length; i++) {
+            guestPayload.push(data.data.rows[i])
+          }
       }
 
       //if the user is a host, get all the listings they have with a pending status, and then all the requests made on those listings
       if (accountType === '1') {
-        await listings.map( async listing => {          
-          if (activeId === JSON.stringify(listing.hostid)) {
-            payload.push(listing)
+        for (let i = 0; i < listings.length; i++) {
+          if (activeId === JSON.stringify(listings[i].hostid)) {
+            payload.push(listings[i])
             const data = await axios.get(`${url.restServer}/api/listing/getRequestsByListing`, {
-              params: {listingId: listing.id}
+              params: {listingId: listings[i].id}
             }); 
-            data.data.rows.forEach(request => {
-              listingRequests.push(request); 
-            })
+            for (let j = 0; j < data.data.rows.length; j++ ) {
+              listingRequests.push(data.data.rows[j])
+            }
           }
-        })
+        }
       }
-      await this.setState({
+      this.setState({
         listings: payload,
         guestListings: guestPayload, 
         listingRequests
@@ -67,13 +69,17 @@ class PendingListing extends React.Component {
     } catch(err) {
       throw new Error(err)
     }
-    console.log(this.state); 
   }  
 
   async acceptRequestHandler(listingId, guestId) {
     const response = await axios.put(`${url.restServer}/api/listing/acceptListing`, {
       params: {listingId: listingId , guestId: guestId}
     })
+
+    await axios.delete(`${url.restServer}/api/listing/rejectListing`, {
+      params: {listingId: listingId , guestId: guestId}
+    })
+
     this.componentDidMount(); 
   }
 
@@ -87,40 +93,42 @@ class PendingListing extends React.Component {
       })
     this.componentDidMount(); 
   }
-  
+
   render() {
     return (
       <div>
         {this.state.accountType === '0' 
         ? 
           <div>
-            <h2>This is the guests's pending listing</h2>
-          {
+          {this.state.guestListings.length > 0 
+          ? 
             this.state.guestListings.map((listing, i) => {
               return (
                 <div key={i}>
                   <div>
-                    {`Listing: ${listing.title}`}
+                    Listing: <Link to={{pathname:`/listing/${listing.id}`}} className="link">{listing.title}</Link>
                   </div>
                   <div>
                     {`Status: ${listing.status}`}
                   </div>
-                    <button type='button' className="btn btn-outline-secondary btn-sm" onClick={() => {this.rejectRequestHandler(listing)}}>REJECT</button>
+                    <button type='button' className="btn btn-outline-secondary btn-sm" onClick={() => {this.rejectRequestHandler(listing)}}>CANCEL</button>
                   <br/>            
                 </div>
               )      
             })
+            :
+            <h4>You currently have no pending listings!</h4>
           }
           </div>
         :
         <div>
-          <h2>This is the host's pending listing</h2>
-          {
+          {this.state.listings.length > 0 
+          ?
             this.state.listings.map((listing, i) => {
               return (
                 <dl key={i}>
                   <dt>
-                    {`Listing: ${listing.title}`}
+                    Listing: <Link to={{pathname:`/listing/${listing.id}`}} className="link">{listing.title}</Link>
                   </dt>
                   <dt>
                     {`Status: ${listing.status}`}
@@ -140,7 +148,9 @@ class PendingListing extends React.Component {
                 </dl>
               )      
             })
-          }
+          :
+          <h4>You currently have no pending listings! </h4>
+        }
         </div>
         }
       </div>

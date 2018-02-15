@@ -19,8 +19,14 @@ class ListingReviewsList extends React.Component {
     let reviews = await axios.get(`${url.restServer}/api/users/getUserReviews`, {
       params: {userId: this.props.hostId}
     }); 
+    let data = [];
+    reviews.data.rows && reviews.data.rows.forEach(review => {
+      if (JSON.stringify(review.commentee) === JSON.stringify(this.props.user.name) && review.type === 'guest') {
+        data.push(review);
+      }
+    })
     this.setState({
-      reviews : reviews.data.rows
+      reviews : data
     })
   }
 

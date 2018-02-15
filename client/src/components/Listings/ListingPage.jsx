@@ -183,7 +183,7 @@ class ListingPage extends React.Component {
                     ?
                       <div>  </div>
                     :
-                    <ListingReviewsList hostId={this.state.listing.hostid}/>
+                    <ListingReviewsList hostId={this.state.listing.hostid} user={this.state.user}/>
                   }
                 </div>
               </div>
