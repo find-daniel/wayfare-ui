@@ -51,8 +51,12 @@ class SearchMap extends React.PureComponent {
 
   async componentDidMount() {
     
-    let formattedCity = localStorage.getItem('searchQuery').split(',')[0].split(' ').join('+');
-    let formattedState = localStorage.getItem('searchQuery').split(',')[1] || ''
+    //encodeURIComponent
+    let formattedCity = decodeURIComponent(location.pathname.substr(location.pathname.lastIndexOf('/') + 1)).split(',')[0].split(' ').join('+');
+    // let formattedCity = localStorage.getItem('searchQuery').split(',')[0].split(' ').join('+') || ''
+    let formattedState = decodeURIComponent(location.pathname.substr(location.pathname.lastIndexOf('/') + 1)).split(',')[1] || ''
+
+    // let formattedState = localStorage.getItem('searchQuery').split(',')[1] || '' || location.pathname.substr(location.pathname.lastIndexOf('/') + 1).split(',')[0].split(' ').join('+')
 
     let listingAddressURL = ''
     let geodata = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${listingAddressURL},+${formattedCity},+${formattedState}&key=${process.env.GOOGLE_GEO_API}`)
