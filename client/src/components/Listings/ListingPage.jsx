@@ -55,7 +55,12 @@ class ListingPage extends React.Component {
       params: {uid: localStorage.getItem('activeUid')}
     })
     
-    currUser = currUser.data.rows[0].id; 
+    if (currUser.data.rows[0]) {
+      currUser = currUser.data.rows[0].id
+    } else {
+      currUser = null;
+    }
+
     if (currUser === listing.data.hostid) {
       this.setState ({
         listingOwner: true

@@ -27,8 +27,7 @@ const MyMapComponent = compose(
       defaultCenter={{ lat: props.maplat, lng: props.maplng }}
       defaultOptions={{ styles: styles }}
       >
-      {props.isMarkerShown && props.listings.map((listing, i) => {
-        console.log('listinggggggg', listing)
+      {props.isMarkerShown && props.listings && props.listings.map((listing, i) => {
         return (<Marker key={i} position={{ lat: parseFloat(listing.latitude), lng: parseFloat(listing.longitude)}} onClick={props.onMarkerClick}/>)
         })
       } 
@@ -52,17 +51,22 @@ class SearchMap extends React.PureComponent {
 
   async componentDidMount() {
     
+    let formattedCity = localStorage.getItem('searchQuery').split(',')[0].split(' ').join('+');
+    let formattedState = localStorage.getItem('searchQuery').split(',')[1] || ''
+
     let listingAddressURL = ''
-    let geodata = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${listingAddressURL},+${localStorage.getItem('searchQuery').split(',')[0].split(' ').join('+')},+${localStorage.getItem('searchQuery').split(',')[1]}&key=${process.env.GOOGLE_GEO_API}`)
+    let geodata = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${listingAddressURL},+${formattedCity},+${formattedState}&key=${process.env.GOOGLE_GEO_API}`)
     let parsedGeoData = JSON.parse(geodata.request.responseText)
-    console.log('parsedd', parsedGeoData)
-    this.setState({
-      maplat: parsedGeoData.results[0].geometry.location.lat,
-      maplng: parsedGeoData.results[0].geometry.location.lng,
-    })
+
+    console.log('parsedGeoData.results', parsedGeoData.results)
+    if (parsedGeoData.results[0]) {
+      this.setState({
+        maplat: parsedGeoData.results[0].geometry.location.lat,
+        maplng: parsedGeoData.results[0].geometry.location.lng,
+      })
+    }
+
     this.delayedShowMarker();
-    console.log('searchquery', localStorage.getItem('searchQuery'))
-    console.log('testes', this.state.maplat)
   }
 
   delayedShowMarker() {
@@ -83,7 +87,6 @@ class SearchMap extends React.PureComponent {
     return (
       
         <div>
-        {console.log('check check', this.state.lat)}
       { 
         !(this.state.maplat > 0)
         ? null

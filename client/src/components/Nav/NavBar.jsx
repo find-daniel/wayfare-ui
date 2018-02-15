@@ -21,9 +21,12 @@ class NavBar extends React.Component {
 
   async componentDidMount () {
     const data = await axios.get(`${url.restServer}/api/users/getUser`, {params: {uid: localStorage.getItem('activeUid')}});
-    this.setState({
-      img: data.data.rows[0].image
-    });
+    if (data.data.rows[0]) {
+      await this.setState({
+        img: data.data.rows[0].image
+      });
+    }
+
   }
 
   onSuccess () {
@@ -68,7 +71,7 @@ class NavBar extends React.Component {
             <Link onClick={this.clickRefresh} to={{
               pathname:`/user/${localStorage.getItem('activeUid')}/inbox`,
               state: { userAccountType: localStorage.getItem('accountType') }
-              }}> <img className="nav-profile-pic" src={localStorage.getItem('profilePictureURL')} alt=""/> </Link>
+              }}> <img className="nav-profile-pic" src={this.state.img} alt=""/> </Link>
             <button className="btn btn-outline-light" onClick={this.onLogoutClickHandler.bind(this)}>Logout</button>
           </div>
         }

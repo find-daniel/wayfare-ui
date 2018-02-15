@@ -12,13 +12,12 @@ import './Search.css';
 
 class SearchResultPage extends React.Component {
   async componentDidMount () {
-    // Setup axios request to fetch results
+    
     const data = await axios.get(`${url.restServer}/api/listing/getSearchedListings`, { 
       params: { city: localStorage.getItem('searchQuery').split(',')[0] }
     });
-    console.log('queryy', localStorage.getItem('searchQuery').split(',')[0])
-    console.log('dataaaa', data)
-    this.props.setSearchResults(data.data.rows);
+    let pendingOnly = data.data.rows.filter(listing => listing.status === 'PENDING')
+    this.props.setSearchResults(pendingOnly);
   }
 
   render() {
