@@ -4,7 +4,7 @@ import 'babel-polyfill';
 import { Provider, connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import url from '../../../config'
-import './listingCategories.css'
+import './ListingCategories.css'
 import { Link } from 'react-router-dom';
 
 

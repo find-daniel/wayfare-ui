@@ -5,7 +5,7 @@ import { Provider, connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom'
 import url from '../../../config'
-import './listingCategories.css'
+import './ListingCategories.css'
 
 class PendingListing extends React.Component {
   constructor () {
