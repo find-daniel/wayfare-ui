@@ -8,6 +8,7 @@ import ListingEntry from '../Listings/ListingEntry';
 import SearchMap from './SearchMap';
 import NavBar from '../Nav/NavBar';
 import url from '../../config'
+import './Search.css';
 
 class SearchResultPage extends React.Component {
   async componentDidMount () {
@@ -22,22 +23,29 @@ class SearchResultPage extends React.Component {
 
   render() {
     return (
-      <div>
-        {!this.props.search_results ? null :
-          <div className="row" >
-            <div className="col-sm-8">
-              <h1>{localStorage.getItem('searchQuery')}</h1>
-              <div className="container row" >
-                {this.props.search_results.map(entry => {
-                  return <ListingEntry key={entry.id} info={entry} />
-                })}
-              </div>
+      <div className="row">
+        {!this.props.search_results ? <div className="col-sm-8"></div> :
+          <div className="col-sm-8">
+            <div className="header">
+              <h1 className="d-flex justify-content-center">{localStorage.getItem('searchQuery')}</h1>
+              <hr/>
             </div>
-            <div className="col-sm-4" style={{border: '1px solid black'}} >
-              <SearchMap />
+            <div className="container search-result-box">
+              <div className="d-flex justify-content-around">
+                <div className="card-columns row">
+                  {this.props.search_results.map(entry => {
+                    return <ListingEntry key={entry.id} info={entry} />
+                  })}
+                </div>
+              </div>
             </div>
           </div>
         }
+        <div className="col-sm-4">
+          <div className="search-map">
+            <SearchMap />
+          </div>
+        </div>
       </div>
     )
   }
