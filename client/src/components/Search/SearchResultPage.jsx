@@ -12,6 +12,7 @@ import './Search.css';
 
 class SearchResultPage extends React.Component {
   async componentDidMount () {
+    
     const data = await axios.get(`${url.restServer}/api/listing/getSearchedListings`, { 
       params: { city: localStorage.getItem('searchQuery').split(',')[0] }
     });
