@@ -138,50 +138,66 @@ class ListingPage extends React.Component {
   render() {
     return (
       <div>
-        {this.state.alert 
-          ?
-          <div className="alert alert-success center" role="alert">
-            <strong>Success!</strong> You have successfully created a listing!
-          </div>
-          :
-          <div/>
-          }
-
-        <p/>
-          {this.state.edit 
-          ?
-          <div className="title-edit-box">
-            <textarea type="text" ref="title" className="title-edit" placeholder='Edit Title'></textarea> 
+        {/* Alert */}
+        <div>
+          {
+            this.state.alert 
+            ?
+            <div className="alert alert-success center" role="alert">
+              <strong>Success!</strong> You have successfully created a listing!
             </div>
-          :
-            <h2 className="title">{this.state.listing.title}</h2>
+            :
+            <div/>
           }
+        </div>
+        {/* Header/Title && Edit */}
+        <div>
+          {
+            this.state.edit 
+            ?
+              <div className="title-edit-box">
+                <textarea type="text" ref="title" className="title-edit" placeholder='Edit Title'></textarea> 
+              </div>
+            :
+              <h2 className="title">{this.state.listing.title}</h2>
+          }
+        </div>
         <hr/>
-        <div className="container">
-          <div className="row">
-            <div className="col-md-5">
-              <div className="row">
-                <Pictures listingId={this.state.listingId}/>
+        {/* Listing Body */}
+        <div className="">
+          {/* Listing Info */}
+          <div className="top">
+            <div className="row d-flex justify-content-center">
+              <div className="left col-sm-4">
+                <div className="picture">
+                  <Pictures listingId={this.state.listingId}/>
+                </div>
+                <div className="reviews rounded-bottom">
+                  {
+                    this.state.listing === ''
+                    ?
+                      <div>  </div>
+                    :
+                    <ListingReviewsList hostId={this.state.listing.hostid}/>
+                  }
+                </div>
               </div>
-              <p/>
-              <div className="row reviews">
-                {this.state.listing === ''
-                  ?
-                    <div>  </div>
-                  :
-                  <ListingReviewsList hostId={this.state.listing.hostid}/>
-                }
+              <div className="right col-sm-4">
+                  <ListingInfo 
+                  editInfo={this.editInfo} 
+                  submitInfo={this.submitInfo} 
+                  listingOwner={this.state.listingOwner} 
+                  listing={this.state.listing} 
+                  user={this.state.user} 
+                  skills={this.state.skills}
+                  />
               </div>
-              </div>
-            <div className="col-md-1"/>
-            <div className="col-md-5">
-                <ListingInfo editInfo={this.editInfo} submitInfo={this.submitInfo} listingOwner={this.state.listingOwner} listing={this.state.listing} user={this.state.user}  skills={this.state.skills}/>
             </div>
           </div>
-          <p></p>
-          <div className="row">
-            <div className="col align-self-center">
-              <Mymap listing={this.state.listingId} />
+          {/* Map */}
+          <div className="bottom d-flex justify-content-center">
+            <div className="col-sm-8 map-box">
+              <Mymap className="map" listing={this.state.listingId} />
             </div>
           </div>
         </div>

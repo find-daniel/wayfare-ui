@@ -27,7 +27,7 @@ class Pictures extends React.Component {
   render() {
     return (
       <div>
-        <img className="listingImage" src={this.state.image}/>
+        <img className="rounded-top listingImage" src={this.state.image}/>
       </div>
     )
   }

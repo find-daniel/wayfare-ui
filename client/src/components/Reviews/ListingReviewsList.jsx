@@ -2,6 +2,7 @@ import React from 'react';
 import ListingReviewEntry from './ListingReviewEntry';
 import axios from 'axios'
 import url from '../../config'
+import '../Listings/listings.css'
 
 
 class ListingReviewsList extends React.Component {
@@ -27,15 +28,23 @@ class ListingReviewsList extends React.Component {
     return (
       <div className="card">
         <div className="card-body">
-          <h2 className="card-title"> Reviews </h2>
-          {this.state.reviews.length === 0 
-            ?
-              <div/>
-              :
-              this.state.reviews.map((review, i) => {
-                return <div key={i} className="card-text"> <hr/> <ListingReviewEntry review={review}/> </div>
-              })
-          }
+          <h3 className="card-title"> Reviews </h3>
+          <hr/>
+          <div>
+            <ul className="list-group review-list-ul">
+              {
+                this.state.reviews.length === 0 
+                ?
+                <div>
+                  <h6>None</h6>
+                </div>
+                :
+                this.state.reviews.map((review, i) => {
+                  return <ListingReviewEntry key={i} review={review}/>
+                })
+              }
+            </ul>
+          </div>
         </div>
       </div>
     )
