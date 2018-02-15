@@ -32,14 +32,14 @@ class InProgressListing extends React.Component {
       if (accountType === '0') {
         for (let i = 0; i < listings.length; i++) {
           if (activeId === JSON.stringify(listings[i].guestid)) {
-            payload.push(listing)
+            payload.push(listings[i])
           }
         }
       }
       if (accountType === '1') {
         for (let i = 0; i < listings.length; i++) {
           if (activeId === JSON.stringify(listings[i].hostid)) {
-            payload.push(listing)
+            payload.push(listings[i])
           }
         }
       }

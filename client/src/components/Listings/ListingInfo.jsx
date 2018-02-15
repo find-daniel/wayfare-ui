@@ -23,6 +23,7 @@ class ListingInfo extends React.Component {
     this.addSkill = this.addSkill.bind(this); 
     this.deleteSkill = this.deleteSkill.bind(this); 
     this.refresh = this.refresh.bind(this);
+    this.deleteHandler = this.deleteHandler.bind(this); 
 
   }
 
@@ -148,6 +149,12 @@ class ListingInfo extends React.Component {
       deletedSkills : deleteArr
     })
   }
+
+  async deleteHandler() {
+    let listing = await axios.delete(`${url.restServer}/api/listing/deleteListing`, {
+      params: {listingId: this.props.listing.id}
+    }); 
+  }
   
   render() {
     return (
@@ -251,7 +258,9 @@ class ListingInfo extends React.Component {
                         <button onClick={this.editListing} type="button" className="btn btn-outline-dark col-sm-12">Edit Listing</button>
                       </div>
                       <div className="col-sm-5">
-                        <button className="btn btn-outline-danger col-sm-12"> Delete </button>
+                        <Link to={{pathname:'/'}}>
+                        <button className="btn btn-outline-danger col-sm-12" onClick={this.deleteHandler}> Delete </button>
+                        </Link>
                       </div>
                     </div>
                   }
