@@ -107,8 +107,6 @@ class ListingInfo extends React.Component {
       console.log('error creating a chat room in mongo', err)
     }
   
-
-    
     let messagePayload = {
       userName: guestName,
       userImage: localStorage.getItem('profilePictureURL'),
@@ -223,8 +221,26 @@ class ListingInfo extends React.Component {
                 </div>
               :
                 <div>
-                  <Link to={`/listing/book/${this.props.listing.id}`} type="button" className="btn btn-light col-sm-5">Request Booking</Link>
-                  <span className="col-sm-2"/>
+
+                  <Link className="btn btn-light col-sm-5" to={{
+                  pathname:`/listing/book/${this.props.listing.id}`,
+                  state: {
+                    guestName: localStorage.getItem('name') || 'need display name',
+                    guestImage: localStorage.getItem('profilePictureURL'),
+                    guestId: localStorage.getItem('activeId'),
+                    guestUid: localStorage.getItem('activeUid'),
+                    hostName: this.props.user.name,
+                    hostId: this.props.listing.hostid,
+                    hostImage: this.props.user.image,
+                    listingId: this.props.listing.id,
+                    listingTitle: this.props.listing.title,
+                    roomId: `${localStorage.getItem('activeId')}_${this.props.listing.hostid}_${this.props.listing.id}`,
+                    accountType: localStorage.getItem('accountType')
+                  }
+                  }}>Request Booking</Link>              
+                  
+                  {/* <Link to={`/listing/book/${this.props.listing.id}`} type="button" className="btn btn-light col-sm-5">Request Booking</Link>
+                  <span className="col-sm-2"/> */}
                   <Link to={`/user/${localStorage.getItem('activeUid')}/inbox/${localStorage.getItem('activeId')}_${this.props.listing.hostid}_${this.props.listing.id}`} type="button" className="btn btn-light col-sm-5" onClick={this.messageHandler}>Message Host</Link>
                 </div>
               }

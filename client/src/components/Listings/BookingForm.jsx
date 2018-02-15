@@ -12,7 +12,7 @@ class BookingForm extends React.Component {
       checked: [],
       skills: [],
       newSkill: '',
-      message: "Hi I would like to book"
+      message: ''
     }
   }
 
@@ -55,6 +55,8 @@ class BookingForm extends React.Component {
   }  
   
   async onAddSkillHandler(e) {
+    console.log('i am this.state', this.state)
+    console.log('i am this.props:', this.props)
     e.preventDefault();
     console.log('skill added:', this.state.newSkill)
     try {
@@ -119,16 +121,59 @@ class BookingForm extends React.Component {
   }
 
   async onBookingHandler(e) {
+
     // e.preventDefault();
     console.log('booking requested');
     try {
       await axios.post(`${url.restServer}/api/listing/createRequestAndRequestSkills`, {
-        guestId: this.state.userId,
-        listingId: this.props.match.params.listingId,
+        guestId: JSON.parse(this.state.userId),
+        listingId: JSON.parse(this.props.match.params.listingId),
         skillId: this.state.checked 
       })
     } catch(err) {
       throw new Error(err);
+    }    
+
+    console.log('made it after making skills.......')
+
+    const {guestName, guestImage, guestId, guestUid, hostName, hostImage, hostId, listingId, listingTitle, roomId, accountType} = this.props.location.state;
+    const message = this.state.message;
+
+    const roomPayload = {
+      roomId: roomId,
+      guestName: guestName,
+      guestImage: guestImage,
+      guestId: guestId,
+      hostName: hostName,
+      hostImage: hostImage,
+      hostId: hostId,
+      listingId: listingId,
+      listingTitle: listingTitle
+    }
+
+    const messagePayload = {
+      userName: guestName,
+      userImage: guestImage,
+      userId: guestId,
+      userUid: guestUid,
+      listingId: listingId,
+      message: message,
+      room: roomId,
+      accountType: accountType
+    }
+
+    try {
+      const data = await axios.post(`${url.socketServer}/api/rooms/createRoom`, roomPayload)
+      console.log('data after making room', data)
+    } catch (err) {
+      console.log('(BookingForm - Error creating chat room in mongo DB.', err)
+    }
+
+    try {
+      const data = await axios.post(`${url.socketServer}/api/chat/postStaticMessage`, messagePayload)
+      console.log('data after sending message', data)
+    } catch (err) {
+      console.log('BookingForm - Error creating message in mongo DB', err)
     }
   }
 
@@ -182,16 +227,16 @@ class BookingForm extends React.Component {
             {/* MESSAGE HOST */}
             <h5>Message to the host (optional):</h5>
             <textarea name="message" id="" cols="30" rows="10" 
-              placeholder="Send your first message to the host!" 
+              placeholder="Enter a message for the host" 
               value={this.state.message}
               onChange={this.onChangeHandler.bind(this)}
             ></textarea>
-          </div>          
-          <Link to={`/user/${localStorage.getItem('activeUid')}/inbox/${this.state.userId}_${this.state.hostId}_${this.props.match.params.listingId}`} 
-            onClick={this.onBookingHandler.bind(this)}
+          </div>  
+          <Link onClick={this.onBookingHandler.bind(this)} to={`/user/${localStorage.getItem('activeUid')}/inbox/${this.state.userId}_${this.state.hostId}_${this.props.match.params.listingId}`} 
             type="button" 
             className="btn btn-light col-sm-5" 
-          >Message Host</Link>
+          >Request Booking</Link>
+
         </form>
       </div>
     )
