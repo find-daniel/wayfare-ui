@@ -14,9 +14,9 @@ class SearchResultPage extends React.Component {
   async componentDidMount () {
     
     const data = await axios.get(`${url.restServer}/api/listing/getSearchedListings`, { 
-      params: { city: localStorage.getItem('searchQuery').split(',')[0] }
+      params: { city: decodeURIComponent(location.pathname.substr(location.pathname.lastIndexOf('/') + 1)).split(',')[0]}
     });
-    let pendingOnly = data.data.rows.filter(listing => listing.status === 'PENDING')
+    let pendingOnly = data.data.rows.filter(listing => listing.status === 'pending')
     this.props.setSearchResults(pendingOnly);
   }
 
