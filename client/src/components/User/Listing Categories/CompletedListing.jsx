@@ -70,7 +70,11 @@ class CompletedListing extends React.Component {
                 <li key={i} className="list-group-item listing-box d-flex justify-content-around">
                   <div className="col-sm-9 pending-item-content">
                     <div>
-                      <h5>{`${listing[0].title}`}</h5>
+                      <Link className="fix-link" to={{pathname:`/listing/${listing[0].id}`}}>
+                        <h5>
+                          {listing[0].title}
+                        </h5>
+                      </Link>
                       <hr/>
                     </div>
                     <div className="d-flex justify-content-start">

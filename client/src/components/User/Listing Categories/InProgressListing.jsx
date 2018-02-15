@@ -69,7 +69,11 @@ class InProgressListing extends React.Component {
                 <li className="list-group-item listing-box d-flex justify-content-around" key={i}>
                   <div className="col-sm-9 pending-item-content">
                     <div>
-                    <Link to={{pathname:`/listing/${listing.id}`}} className="link">{listing.title}</Link>
+                      <Link className="fix-link" to={{pathname:`/listing/${listing.id}`}}>
+                        <h5>
+                          {listing.title}
+                        </h5>
+                      </Link>
                       <hr/>
                     </div>
                     <div className="d-flex justify-content-start">
