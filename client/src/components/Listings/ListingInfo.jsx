@@ -72,7 +72,6 @@ class ListingInfo extends React.Component {
       skills: skills
     })
     this.refs.skill.value = ''; 
-    console.log('info state', this.state.skills); 
   }
  
 
@@ -135,15 +134,15 @@ class ListingInfo extends React.Component {
   deleteSkill(skill) {
     let arr = this.state.skills; 
     let deleteArr = this.state.deletedSkills; 
-    arr.forEach((s, i) => {
-      if (s.skill === skill && s.id === null) {
-        delete arr[i] ; 
-      }
-      else if (s.skill === skill) {
+    for (let i = 0; i < arr.length; i++ ) {
+      if (arr[i].skill === skill && arr[i].id === null) {
         delete arr[i]; 
-        deleteArr.push(s); 
       }
-    })
+      else if (arr[i].skill === skill) {
+        delete arr[i]; 
+        deleteArr.push(arr[i])
+      }
+    }
     this.setState({
       skills: arr, 
       deletedSkills : deleteArr

@@ -41,9 +41,9 @@ class ListingPage extends React.Component {
       params: {listingId: this.state.listingId}
     });
     let skillsArr = []; 
-    skills.data.forEach(skill => {
-      skillsArr.push({skill: skill.skill, id: skill.id});  
-    })
+    for (let i = 0; i <skills.data.length; i++ ) {
+      skillsArr.push({skill: skills.data[i].skill, id: skills.data[i].id})
+    }
     this.setState ({
       listing: listing.data, 
       user: userId.data, 
