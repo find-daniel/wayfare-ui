@@ -62,41 +62,55 @@ class CompletedListing extends React.Component {
 
   render() {
     return (
-      <ul className="list-group">
-        {
-          this.state.listings.map((listing, i) => {
-            return (
-              <li key={i} className="list-group-item listing-box d-flex justify-content-around">
-                <div className="col-sm-4 text-center">
-                  <h6>Listing</h6>
-                  <hr/>
-                  <h4><Link to={{pathname:`/listing/${listing[0].id}`}} className="badge badge-secondary link">{listing[0].title}</Link></h4>
-                </div>
-                <div className="col-sm-4 text-center">
-                  <h6>Status</h6>
-                  <hr/>
-                  <h4><span className="badge badge-success">{`${listing[0].status}`}</span></h4>
-                </div>
-                {listing[1] 
-                ?
-                  null
-                :
-                <div className="col-sm-2 completed-review-button">
-                  <Link to={{
-                    pathname:`/user/${this.props.match.params.userId}/review`,
-                    state: { commentor: (this.state.type === '0' ? listing[0].guestid : listing[0].hostid), 
-                        commentee: (this.state.type === '1' ? listing[0].guestid : listing[0].hostid), 
-                        listingId: listing[0].id,
-                        type: (this.state.type === '0' ? 'guest' : 'host')}
-                    }}><button className="btn btn-outline-primary"> Review </button>
-                  </Link>
-                </div>
-                }         
-              </li>
-            )      
-          })
-        }
-      </ul>
+      <div className="listings-box">
+        <ul className="list-group">
+          {
+            this.state.listings.map((listing, i) => {
+              return (
+                <li key={i} className="list-group-item listing-box d-flex justify-content-around">
+                  <div className="col-sm-9 pending-item-content">
+                    <div>
+                      <Link className="fix-link" to={{pathname:`/listing/${listing[0].id}`}}>
+                        <h5>
+                          {listing[0].title}
+                        </h5>
+                      </Link>
+                      <hr/>
+                    </div>
+                    <div className="d-flex justify-content-start">
+                      <div>
+                        <h6>Status:</h6>
+                      </div>
+                      <div>
+                        <h5><span className="badge badge-success pending-badge">{`${listing[0].status}`}</span></h5>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-sm-3 d-flex justify-content-around pending-buttons">
+                    {
+                      listing[1] 
+                    ?
+                      null
+                    :
+                    <div>
+                      <Link to={{
+                        pathname:`/user/${this.props.match.params.userId}/review`,
+                        state: { commentor: (this.state.type === '0' ? listing[0].guestid : listing[0].hostid), 
+                            commentee: (this.state.type === '1' ? listing[0].guestid : listing[0].hostid), 
+                            listingId: listing[0].id,
+                            type: (this.state.type === '0' ? 'guest' : 'host')}
+                        }}><button className="btn btn-outline-primary"> Review </button>
+                      </Link>
+                    </div>
+                    }    
+                  </div>     
+                </li>
+              )      
+            })
+          }
+        </ul>
+      </div>
+      
     )      
   }
 };

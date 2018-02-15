@@ -153,11 +153,11 @@ body {
 
 /* Hides scrollbar */
 ::-webkit-scrollbar {
-  width: 1px;
+  width: 5px;
   background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgb(185, 185, 185);
+  background: #A9BBC5;
   border-radius: 10px;
 }

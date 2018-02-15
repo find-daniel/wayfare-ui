@@ -96,62 +96,84 @@ class PendingListing extends React.Component {
 
   render() {
     return (
-      <div>
-        {this.state.accountType === '0' 
-        ? 
-          <div>
-          {this.state.guestListings.length > 0 
+      <div className="listings-box">
+        {
+          this.state.accountType === '0' 
           ? 
-            this.state.guestListings.map((listing, i) => {
-              return (
-                <div key={i}>
-                  <div>
-                    Listing: <Link to={{pathname:`/listing/${listing.id}`}} className="link">{listing.title}</Link>
-                  </div>
-                  <div>
-                    {`Status: ${listing.status}`}
-                  </div>
-                    <button type='button' className="btn btn-outline-secondary btn-sm" onClick={() => {this.rejectRequestHandler(listing)}}>CANCEL</button>
-                  <br/>            
-                </div>
-              )      
-            })
-            :
-            <h4>You currently have no pending listings!</h4>
-          }
-          </div>
-        :
-        <div>
-          {this.state.listings.length > 0 
-          ?
-            this.state.listings.map((listing, i) => {
-              return (
-                <dl key={i}>
-                  <dt>
-                    Listing: <Link to={{pathname:`/listing/${listing.id}`}} className="link">{listing.title}</Link>
-                  </dt>
-                  <dt>
-                    {`Status: ${listing.status}`}
-                  </dt>
-                    {this.state.listingRequests.map((request, i) => {
-                      if (listing.id === request.listingid) {
-                        return (
-                        <dd key={i}>
-                          <Link to={{pathname:`/user/public/${request.uid}`}} style={{color:'black'}}>{request.name}</Link>
-                          <button type='button' className="btn btn-outline-primary btn-sm" onClick={() => {this.acceptRequestHandler(listing.id, request.guestid)}}>ACCEPT</button>
-                          <button type='button' className="btn btn-outline-secondary btn-sm" onClick={() => {this.rejectRequestHandler(listing, request)}}>REJECT</button>
-                        </dd>
-                        )
-                      }
-                    })}
-                  <br/>            
-                </dl>
-              )      
-            })
+            <ul className="list-group">
+              { this.state.guestListings.map((listing, i) => {
+                  return (
+                    <li className="list-group-item listing-box d-flex justify-content-around" key={i}>
+                      <div className="col-sm-9 pending-item-content">
+                        <div>
+                          <h5> {listing.title} </h5>
+                          <hr/>
+                        </div>
+                        <div className="d-flex justify-content-start">
+                          <div>
+                            <p>Status:</p>
+                          </div>
+                          <div>
+                            <h5><span className="badge badge-secondary pending-badge">{listing.status}</span></h5>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-sm-3 d-flex justify-content-around pending-buttons">
+                        <div className="text-center">
+                          <Link to={`/listing/${listing.listingid}`}><button className="btn btn-outline-secondary btn-sm col-sm-12">View</button></Link>
+                        </div>
+                        <div className="text-center">
+                          <button className="btn btn-outline-danger btn-sm col-sm-12" onClick={() => {this.rejectRequestHandler(listing)}}>Reject</button>        
+                        </div>
+                      </div>
+                    </li>
+                  )      
+                })
+              }
+            </ul>
           :
-          <h4>You currently have no pending listings! </h4>
-        }
-        </div>
+            <ul className="list-group">
+              { this.state.listings.map((listing, i) => {
+                  return (
+                    <li className="list-group-item listing-box d-flex justify-content-around" key={i}>
+                      <div className="col-sm-9 pending-item-content">
+                        <div>
+                          <Link className="fix-link" to={`/listing/${listing.id}`}>
+                            <h5> {listing.title} </h5>
+                            <hr/>
+                          </Link>
+                        </div>
+                        <div className="d-flex justify-content-start">
+                          <div>
+                            <p>Status:</p>
+                          </div>
+                          <div>
+                            <h5><span className="badge badge-secondary pending-badge">{listing.status}</span></h5>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-sm-3">
+                        { this.state.listingRequests.map((request, i) => {
+                          if (listing.id === request.listingid) {
+                            return (
+                              <div key={i} className="row d-flex justify-content-around host-pending-buttons">
+                                <Link to={{pathname:`/user/public/${request.uid}`}} style={{color:'black'}}>
+                                  <h5 className="requester-badge">
+                                    <span className="badge badge-secondary"> {request.name} </span>
+                                  </h5>
+                                </Link>
+                                <button type='button' className="btn btn-outline-success btn-sm" onClick={() => {this.acceptRequestHandler(listing.id, request.guestid)}}>ACCEPT</button>
+                                <button type='button' className="btn btn-outline-danger btn-sm" onClick={() => {this.rejectRequestHandler(listing, request)}}>REJECT</button>
+                              </div>
+                            )
+                          }
+                        })}
+                      </div>            
+                    </li>
+                  )      
+                })
+              }
+            </ul>
         }
       </div>
     )      

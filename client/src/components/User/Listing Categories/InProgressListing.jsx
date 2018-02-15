@@ -61,31 +61,38 @@ class InProgressListing extends React.Component {
 
   render() {
     return (
-      <div>
-      { this.state.listings.length > 0 
-        ?
-          this.state.listings.map((listing, i) => {
-            return (
-              <div key={i}>
-                <div>
-                  Listing: <Link to={{pathname:`/listing/${listing.id}`}} className="link">{listing.title}</Link>
-                </div>
-                <div>
-                  {`Status: ${listing.status}`}
-                </div>
-                {this.state.accountType === '0' 
-                ?
-                <p/>
-                :
-                <button type='button' className="btn btn-outline-secondary btn-sm" onClick={() => {this.completeListingHandler(listing)}}>Complete</button>
-                }
-                <br/>            
-              </div>
-            )      
-          })
-        :
-        <h4>You currently have no in-progress listings! </h4>
-      }
+      <div className="listings-box">
+        <ul className="list-group">
+          {
+            this.state.listings.map((listing, i) => {
+              return (
+                <li className="list-group-item listing-box d-flex justify-content-around" key={i}>
+                  <div className="col-sm-9 pending-item-content">
+                    <div>
+                      <Link className="fix-link" to={{pathname:`/listing/${listing.id}`}}>
+                        <h5>
+                          {listing.title}
+                        </h5>
+                      </Link>
+                      <hr/>
+                    </div>
+                    <div className="d-flex justify-content-start">
+                      <div>
+                        <p>Status:</p>
+                      </div>
+                      <div>
+                        <h5><span className="badge badge-success pending-badge">{listing.status}</span></h5>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-sm-3 d-flex justify-content-around pending-buttons">
+                    <button className="btn btn-outline-primary" onClick={() => {this.completeListingHandler(listing)}}>Complete</button>
+                  </div>
+                </li>
+              )      
+            })
+          }
+        </ul>
       </div>
     )      
   }
