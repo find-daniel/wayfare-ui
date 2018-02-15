@@ -8,6 +8,7 @@ import { compose, withProps } from 'recompose';
 import { setTimeout } from 'timers';
 import url from '../../config';
 import styles from '../Search/MapStyles';
+import '../Listings/listings.css'
 
 
 const MyMapComponent = compose(
@@ -72,7 +73,7 @@ class myMap extends React.PureComponent {
   render() {
      
     return (
-      <div>
+      <div className="map">
       {
         !this.state.lat > 0
         ? null

@@ -151,64 +151,94 @@ class ListingInfo extends React.Component {
   
   render() {
     return (
-      <div className="card hostInfo">
-        <div className="card">
-
-          <div className="card-body body">
-            {this.state.edit 
-            ?
-              <div>
-                <input type="text" ref="startdate" defaultValue={this.props.listing.startdate}></input>
-                <input type="text" ref="enddate" defaultValue={this.props.listing.enddate}></input>
-                <input type="text" ref="address" defaultValue={this.props.listing.address}></input>
-                <input type="text" ref="city" defaultValue={this.props.listing.city}></input>
-                <input type="text" ref="state" defaultValue={this.props.listing.state}></input>
-                <input type="text" ref="country" defaultValue={this.props.listing.country}></input>
-              </div>
-            : 
-            <h4 className="card-title">{this.props.listing.startdate} - {this.props.listing.enddate}, {this.props.listing.city}</h4>
-            }
-            <hr/>
-
-            {this.state.edit 
-            ?
-              <div>
-                <textarea className="descriptionInput" type="text" ref="description" defaultValue={this.props.listing.description}></textarea>
-              </div>
-            : 
-              <p className="card-text">
-                {this.props.listing.description}
-              </p>
-            }
-
-            <hr/>
-            <h6 className="skills"> Skills for Stay: </h6>
-
-            <div>
-              {this.state.edit
+      <div className="card host-info-outer-box">
+        {/* LISTING INFO */}
+        <div>
+          <div className="card-body listing-info-box">
+            {/* HEADER && HEADER EDIT */}
+            {
+              this.state.edit 
               ?
-                <div>
-                  <input type="text" ref="skill" placeholder="Skill for stay"></input><button onClick={this.addSkill}>+</button>
-                  <ul>
-                      {this.state.skills.map((skill, i) => {
-                        return  <li key={i}>{skill.skill}<button onClick={() => {this.deleteSkill(skill.skill)}}>-</button></li>
-                      })}
-                    </ul>
+              <div>
+                <div className="input-group">
+                  <input className="form-control" type="date" ref="startdate" defaultValue={this.props.listing.startdate} placeholder="Start Date"></input>
+                  <input className="form-control" type="date" ref="enddate" defaultValue={this.props.listing.enddate} placeholder="End Date"></input>
                 </div>
+                <div className="input-group">
+                  <input className="form-control" type="text" ref="address" defaultValue={this.props.listing.address} placeholder="Address"></input>
+                  <input className="form-control" type="text" ref="city" defaultValue={this.props.listing.city} placeholder="City"></input>
+                </div>
+                <div className="input-group">
+                  <input className="form-control" type="text" ref="state" defaultValue={this.props.listing.state} placeholder="State"></input>
+                  <input className="form-control" type="text" ref="country" defaultValue={this.props.listing.country} placeholder="Country"></input>
+                </div>
+              </div>
               :
-                this.state.skills.length > 0 
-                  ? <ul>
+              <div>
+                <div className="card-title text-center">
+                  <h4>
+                    <span style={{marginRight: '10px'}}>{this.props.listing.city}</span>
+                  </h4>
+                </div>
+                <div>
+                  <h4 className="card-title text-center">
+                    <span className="badge badge-secondary">{this.props.listing.startdate}</span> - <span className="badge badge-secondary">{this.props.listing.enddate}</span>
+                  </h4>
+                </div>
+              </div> 
+            }
+            <hr/>
+            {/* DESCRIPTION && DESCRIPTION EDIT */}
+            {
+              this.state.edit 
+              ?
+              <div>
+                <textarea className="descriptionInput form-control" type="text" ref="description" defaultValue={this.props.listing.description}></textarea>
+              </div>
+              : 
+              <div className="card-text">
+                {this.props.listing.description}
+              </div>
+            }
+            <hr/>
+            {/* SKILLS && SKILLS EDIT */}
+            <div className="skills-info-box">
+              <div className="col-sm-4">
+                <h6 className="skills"> Skills for Stay</h6>
+                <hr/>
+              </div>
+              {
+                  this.state.edit
+                ?
+                  <div>
+                    <div className="input-group">
+                      <input className="form-control" type="text" ref="skill" placeholder="Skill Requested"></input>
+                      <div className="input-group-append">
+                        <button className="btn btn-small btn-outline-dark" onClick={this.addSkill}>+</button>
+                      </div>
+                    </div>
+                    <ul className="list-group d-flex justify-content-end">
                       {this.state.skills.map((skill, i) => {
-                        return  <li key={i}>{skill.skill}</li>
+                        return  <li className="list-group-item" key={i}>{skill.skill}<button className="skill-li btn btn-small btn-outline-dark" onClick={() => {this.deleteSkill(skill.skill)}}>-</button></li>
                       })}
                     </ul>
-                  :
-                  <div></div>
-                
+                  </div>
+                :
+                  this.state.skills.length > 0 
+                ?
+                  <ul>
+                    {this.state.skills.map((skill, i) => {
+                      return  <li key={i}>{skill.skill}</li>
+                    })}
+                  </ul>
+                :
+                  <ul>
+                    <li>None</li>
+                  </ul>
               }
             </div>
-
-            <div className="container">
+            {/* BUTTONS */}
+            <div className="">
               {this.props.listingOwner 
               ? 
                 <div className="center" >
@@ -216,55 +246,67 @@ class ListingInfo extends React.Component {
                   ?
                     <button onClick={this.saveListing} type="button" className="btn btn-dark"> Save </button> 
                   :
-                    <button onClick={this.editListing} type="button" className="btn btn-dark">Edit Listing</button>
+                    <div className="d-flex justify-content-around">
+                      <div className="col-sm-5">
+                        <button onClick={this.editListing} type="button" className="btn btn-outline-dark col-sm-12">Edit Listing</button>
+                      </div>
+                      <div className="col-sm-5">
+                        <button className="btn btn-outline-danger col-sm-12"> Delete </button>
+                      </div>
+                    </div>
                   }
                 </div>
               :
-                <div>
-
-                  <Link className="btn btn-light col-sm-5" to={{
-                  pathname:`/listing/book/${this.props.listing.id}`,
-                  state: {
-                    guestName: localStorage.getItem('name') || 'need display name',
-                    guestImage: localStorage.getItem('profilePictureURL'),
-                    guestId: localStorage.getItem('activeId'),
-                    guestUid: localStorage.getItem('activeUid'),
-                    hostName: this.props.user.name,
-                    hostId: this.props.listing.hostid,
-                    hostImage: this.props.user.image,
-                    listingId: this.props.listing.id,
-                    listingTitle: this.props.listing.title,
-                    roomId: `${localStorage.getItem('activeId')}_${this.props.listing.hostid}_${this.props.listing.id}`,
-                    accountType: localStorage.getItem('accountType')
-                  }
-                  }}>Request Booking</Link>              
-                  
-                  {/* <Link to={`/listing/book/${this.props.listing.id}`} type="button" className="btn btn-light col-sm-5">Request Booking</Link>
-                  <span className="col-sm-2"/> */}
-                  <Link to={`/user/${localStorage.getItem('activeUid')}/inbox/${localStorage.getItem('activeId')}_${this.props.listing.hostid}_${this.props.listing.id}`} type="button" className="btn btn-light col-sm-5" onClick={this.messageHandler}>Message Host</Link>
+                <div className="d-flex justify-content-around">
+                  <div className="col-sm-5">
+                    <Link to={{
+                    pathname:`/listing/book/${this.props.listing.id}`,
+                    state: {
+                      guestName: localStorage.getItem('name') || 'need display name',
+                      guestImage: localStorage.getItem('profilePictureURL'),
+                      guestId: localStorage.getItem('activeId'),
+                      guestUid: localStorage.getItem('activeUid'),
+                      hostName: this.props.user.name,
+                      hostId: this.props.listing.hostid,
+                      hostImage: this.props.user.image,
+                      listingId: this.props.listing.id,
+                      listingTitle: this.props.listing.title,
+                      roomId: `${localStorage.getItem('activeId')}_${this.props.listing.hostid}_${this.props.listing.id}`,
+                      accountType: localStorage.getItem('accountType')
+                    }
+                    }}>
+                      <button className="btn btn-outline-dark col-sm-12">
+                        Request Booking
+                      </button> 
+                    </Link>
+                  </div>
+                  <div className="col-sm-5">
+                    <Link to={`/user/${localStorage.getItem('activeUid')}/inbox/${localStorage.getItem('activeId')}_${this.props.listing.hostid}_${this.props.listing.id}`} onClick={this.messageHandler}>
+                      <button className="btn btn-outline-dark col-sm-12">
+                        Message Host
+                      </button> 
+                    </Link>
+                  </div>
                 </div>
               }
             </div>
-
           </div>
-
-        <p></p>
-
-
         </div>
-         <div className="card hostBox">
-           <span>
-             <img className="host-image" src={this.props.user.image}/>
-             <span className="hostInfoBox">
-               <Link onClick={this.refresh} className="hostInfoLink" to={{
-                pathname:`/user/public/${this.props.user.uid}`,
-                state: { hostUid: this.props.user.uid, hostId: this.props.user.id }
-                }}>{this.props.user.name}</Link>
-             </span>
-           </span>
-         </div>
-
-    </div>
+        {/* HOST INFO */}
+        <div className="d-flex justify-content-center hostInfoBox">
+          <div className="col-sm-3">
+            <img className="host-image" src={this.props.user.image}/>
+          </div>
+          <div className="col-sm-6">
+            <div className="hostInfoLink d-flex justify-content-start">
+              <Link onClick={this.refresh} className="fixLink" to={{
+              pathname:`/user/public/${this.props.user.uid}`,
+              state: { hostUid: this.props.user.uid, hostId: this.props.user.id }
+              }}><h3>{this.props.user.name}</h3></Link>
+            </div>
+          </div>
+        </div>
+      </div>
     )
   }
 };
