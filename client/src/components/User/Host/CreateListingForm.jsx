@@ -45,7 +45,7 @@ class CreateListingForm extends React.Component {
       latitude: lat,
       longitude: lng,
       address: this.refs.address.value,
-      city: this.refs.city.value,
+      city: this.refs.city.value.toLowerCase(),
       state: this.refs.state.value,
       country: this.refs.country.value,
       hostId: userId,
@@ -77,7 +77,6 @@ class CreateListingForm extends React.Component {
         }
 
         const data = await axios.post(`${url.restServer}/api/listing/postPhoto`, payload)
-        console.log('payloaadddd', payload)
         console.log('data from posting image to db:', data)
         //
       } catch (err) {
