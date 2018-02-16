@@ -9,8 +9,8 @@ import url from '../../config'
 
 
 class ListingInfo extends React.Component {
-  constructor(props) {
-    super(props); 
+  constructor(prop) {
+    super(prop); 
     this.state = {
       edit : false,
       skills: [], 
@@ -39,6 +39,10 @@ class ListingInfo extends React.Component {
     this.setState ({
       skills: skillsArr
     })
+  }
+
+  componentDidMount () {
+    console.log('this.props',this.props)
   }
 
   editListing() {
@@ -129,7 +133,10 @@ class ListingInfo extends React.Component {
     } catch (err) {
       console.log('Error posting static message', err)
     }
+    window.location.reload(true);
+
   }
+  
 
   refresh() {
     // not working
@@ -273,33 +280,55 @@ class ListingInfo extends React.Component {
               :
                 <div className="d-flex justify-content-around">
                   <div className="col-sm-5">
+
+
+                  {!localStorage.getItem('activeUid')
+                    ? 
+                      <Link to={`/login`}>
+                        <button className="btn btn-outline-dark col-sm-12">
+                          Request Booking
+                        </button> 
+                      </Link>
+                      :
+
                     <Link to={{
-                    pathname:`/listing/book/${this.props.listing.id}`,
-                    state: {
-                      guestName: localStorage.getItem('name') || 'need display name',
-                      guestImage: localStorage.getItem('profilePictureURL'),
-                      guestId: localStorage.getItem('activeId'),
-                      guestUid: localStorage.getItem('activeUid'),
-                      hostName: this.props.user.name,
-                      hostId: this.props.listing.hostid,
-                      hostImage: this.props.user.image,
-                      listingId: this.props.listing.id,
-                      listingTitle: this.props.listing.title,
-                      roomId: `${localStorage.getItem('activeId')}_${this.props.listing.hostid}_${this.props.listing.id}`,
-                      accountType: localStorage.getItem('accountType')
-                    }
-                    }}>
-                      <button className="btn btn-outline-dark col-sm-12">
-                        Request Booking
-                      </button> 
+                      pathname:`/listing/book/${this.props.listing.id}`,
+                      state: {
+                        guestName: localStorage.getItem('name') || 'need display name',
+                        guestImage: localStorage.getItem('profilePictureURL'),
+                        guestId: localStorage.getItem('activeId'),
+                        guestUid: localStorage.getItem('activeUid'),
+                        hostName: this.props.user.name,
+                        hostId: this.props.listing.hostid,
+                        hostImage: this.props.user.image,
+                        listingId: this.props.listing.id,
+                        listingTitle: this.props.listing.title,
+                        roomId: `${localStorage.getItem('activeId')}_${this.props.listing.hostid}_${this.props.listing.id}`,
+                        accountType: localStorage.getItem('accountType')
+                      }
+                      }}>
+                        <button className="btn btn-outline-dark col-sm-12">
+                          Request Booking
+                        </button> 
                     </Link>
+                    }
                   </div>
                   <div className="col-sm-5">
+
+                    {!localStorage.getItem('activeUid')
+                      ? 
+                      <Link to={`/login`}>
+                        <button className="btn btn-outline-dark col-sm-12">
+                          Message Host
+                        </button> 
+                    </Link>
+                      :
                     <Link to={`/user/${localStorage.getItem('activeUid')}/inbox/${localStorage.getItem('activeId')}_${this.props.listing.hostid}_${this.props.listing.id}`} onClick={this.messageHandler}>
                       <button className="btn btn-outline-dark col-sm-12">
                         Message Host
                       </button> 
                     </Link>
+                    }
                   </div>
                 </div>
               }

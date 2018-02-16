@@ -9,8 +9,6 @@ import { setActiveUser } from '../../actions/actionCreators';
 import MessageEntry from './MessageEntry';
 import './UserInfo.css'
 import url from '../../config'
-
-// rename to Chat
 class Messages extends React.Component {
   constructor() {
     super()
@@ -177,10 +175,19 @@ class Messages extends React.Component {
               }
             </ul>
           </div>
-          <div className="row chat-footer input-group">
-            <input className="offset-sm-1 col-sm-8 form-control" type="text" placeholder="Message" value={this.state.message} onKeyPress={(e)=>{e.charCode === 13 && this.state.message ? this.sendMessage(e) : null}} onChange={e => this.setState({message: e.target.value})}/>
-            <button className="col-sm-2 input-group-append btn btn-outline-dark d-flex justify-content-center"  onClick={(e) => this.sendMessage(e)}>Send</button>
-          </div>
+
+          {location.pathname.split('/').pop() !== 'inbox'
+            ?
+            <div className="row chat-footer input-group">
+              <input className="offset-sm-1 col-sm-8 form-control" type="text" placeholder="Message" value={this.state.message} onKeyPress={(e)=>{e.charCode === 13 && this.state.message ? this.sendMessage(e) : null}} onChange={e => this.setState({message: e.target.value})}/>
+              <button className="col-sm-2 input-group-append btn btn-outline-dark d-flex justify-content-center" onClick={(e) => this.sendMessage(e)}>Send</button>
+            </div>
+            :
+            <div className="row chat-footer input-group">
+              <input className="offset-sm-1 col-sm-8 form-control" type="text" placeholder="Enter a chatroom to chat." value={this.state.message} disabled />
+              <button className="col-sm-2 input-group-append btn btn-outline-dark d-flex justify-content-center">Send</button>
+            </div>
+          }
         </div>
       </div>
   );

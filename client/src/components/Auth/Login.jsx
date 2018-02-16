@@ -82,7 +82,7 @@ class Login extends React.Component {
            await localStorage.setItem('profilePictureURL', data.data.rows[0].image)
            await this.props.setActiveUser(data.data.rows[0])
            await this.props.setUserData(data.data.rows[0])
-           setTimeout(()=>{this.onSuccess()}, 1000)
+           setTimeout(()=>{this.onSuccess()}, 2000)
         } catch (err) {
           console.log('error...', err)
         }
