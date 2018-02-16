@@ -30,11 +30,6 @@ class App extends React.Component {
       firebase.auth().onAuthStateChanged(async (user) => {
         try {
           if (user) {
-            // await localStorage.setItem('activeUid', user.uid)
-            // await this.props.setActiveUser(user)
-            // const data = await axios.get(`${url.restServer}/api/users/getUser`, {params: {uid: user.uid}})
-            // await localStorage.setItem('activeId', data.data.rows[0].id); 
-            // await this.props.setUserData(data.data.rows[0])
           } else {
             localStorage.clear(); 
           }

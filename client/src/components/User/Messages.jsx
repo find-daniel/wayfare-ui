@@ -9,8 +9,6 @@ import { setActiveUser } from '../../actions/actionCreators';
 import MessageEntry from './MessageEntry';
 import './UserInfo.css'
 import url from '../../config'
-
-// rename to Chat
 class Messages extends React.Component {
   constructor() {
     super()

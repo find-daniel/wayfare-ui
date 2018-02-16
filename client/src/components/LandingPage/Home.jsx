@@ -60,9 +60,8 @@ class Home extends React.Component {
   }
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
-    
     active_user: state.active_user,
     user_data: state.user_data
 
