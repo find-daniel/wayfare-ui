@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { setSearchResults } from '../../actions/actionCreators';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import './Search.css'
 
 class SearchBar extends React.Component {
   constructor (props) {
@@ -34,7 +35,7 @@ class SearchBar extends React.Component {
     return (
       <div>
         <form className="form-inline">
-          <input name="search" className="form-control" onChange={this.onChangeHandler} type="text" placeholder="Search"/>
+          <input name="search" className="form-control search-bar" onChange={this.onChangeHandler} type="text" placeholder="Search"/>
           <Link onClick={this.onClickHandler} style={{display: 'none'}} to={`/search/${localStorage.getItem('searchQuery')}`}><button>Submit</button></Link>
         </form>
       </div>
