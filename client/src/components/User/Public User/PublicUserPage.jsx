@@ -46,15 +46,15 @@ class PublicUserPage extends React.Component {
 
   render () {
     return (
-      <div className="d-flex justify-content-center container" >
+      <div className="d-flex justify-content-center container public-user-box" >
         <div className="card public" >
           <h1>{this.state.name}</h1>
-          <img className="row d-flex justify-content-around  img-fluid profile-pic" src={this.state.img} alt=""/>
+          <img className="row d-flex justify-content-around  img-fluid public-profile-pic" src={this.state.img} alt=""/>
           <p>City: {this.state.city}</p>
           <p>Bio: {this.state.bio}</p>
         </div>
         <div className="wireframe">
-          <div className="reviews-box wireframe">
+          <div className="public-reviews-box wireframe">
           <p>Host Rating: {this.state.hostRating}</p>
           <p>Guest Rating: {this.state.guestRating}</p>
           </div>
