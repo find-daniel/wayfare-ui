@@ -170,7 +170,7 @@ class CreateListingForm extends React.Component {
                 <div className="input-group">
                   <input className="form-control text-center" type="text" ref="skill" placeholder="Requested Skill"/>
                   <div className="input-group-append">
-                    <button className="btn btn-sm btn-outline-dark" onClick={this.addSkill}>+</button>
+                    <button type="button" className="btn btn-sm btn-outline-dark" onClick={this.addSkill}>+</button>
                   </div>
                   <div className="input-group">
                     {this.state.skills.length > 0
