@@ -48,7 +48,7 @@ class InProgressListing extends React.Component {
         accountType
       })
     } catch(err) {
-      throw new Error(err)
+      console.log('Error', err)
     }
   }  
 

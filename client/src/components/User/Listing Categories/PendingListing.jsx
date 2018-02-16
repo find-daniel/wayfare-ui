@@ -67,7 +67,7 @@ class PendingListing extends React.Component {
         listingRequests
       })
     } catch(err) {
-      throw new Error(err)
+      console.log('Error', err)
     }
   }  
 

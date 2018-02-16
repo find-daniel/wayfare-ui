@@ -55,7 +55,7 @@ class CompletedListing extends React.Component {
         type: accountType
       })
     } catch(err) {
-      throw new Error(err)
+      console.log('Error', err)
     }
   }  
 

@@ -39,7 +39,7 @@ class App extends React.Component {
             localStorage.clear(); 
           }
         } catch(err) {
-          console.log(err)
+          console.log('Error', err)
         }
       });        
     }
