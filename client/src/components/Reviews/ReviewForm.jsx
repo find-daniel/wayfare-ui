@@ -42,7 +42,7 @@ class ReviewForm extends React.Component {
     })
   }
   
-  onClickHandler(i) {
+  async onClickHandler(i) {
     let arr = this.state.stars; 
     arr.forEach((star, j) => {
       if (j<=i) {
@@ -55,11 +55,12 @@ class ReviewForm extends React.Component {
       stars: arr,
       setStar : i
     })
+
   }
 
   async onSubmit() {
     const reviewDetails = {}; 
-    reviewDetails.rating = this.state.setStar; 
+    reviewDetails.rating = (this.state.setStar + 1); 
     reviewDetails.review = this.refs.review.value; 
     reviewDetails.commentor = this.props.location.state.commentor;  
     reviewDetails.commentee = this.props.location.state.commentee; 
@@ -67,6 +68,28 @@ class ReviewForm extends React.Component {
     reviewDetails.type = this.props.location.state.type; 
 
     const data = await axios.post(`${url.restServer}/api/users/postReview`, {reviewDetails: reviewDetails})
+    const userid = localStorage.activeId; 
+    const userData = await axios.get(`${url.restServer}/api/users/getUserData`, {params: {userId: userid}})
+
+    if (localStorage.accountType === '1') {
+      let hostRatingCount = userData.data.hostratingcount; 
+      let hostRating = userData.data.hostrating; 
+
+      let newRating = Number(hostRating) * hostRatingCount + reviewDetails.rating; 
+      hostRatingCount++; 
+      newRating = newRating/hostRatingCount; 
+
+      let data = await axios.put(`${url.restServer}/api/users/updateHostRating`, {userId: userid, hostRatingCount: hostRatingCount , hostRating: newRating})
+    } else {
+      let guestRatingCount = userData.data.guestratingcount; 
+      let guestRating = userData.data.guestrating; 
+
+      let newRating = Number(guestRating) * guestRatingCount + reviewDetails.rating; 
+      guestRatingCount++; 
+      newRating = newRating/guestRatingCount; 
+
+      let data = await axios.put(`${url.restServer}/api/users/updateGuestRating`, {userId: userid, guestRatingCount: guestRatingCount , guestRating: newRating})
+    }
   }
 
   render() {
