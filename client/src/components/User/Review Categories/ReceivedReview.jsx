@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Provider, connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import url from '../../../config'
+import './UserReviews.css'
 
 class ReceivedReview extends React.Component {
   constructor() {
@@ -44,27 +45,46 @@ class ReceivedReview extends React.Component {
   
   render () {
     return (
-      <div>
-        <h2>This is a review you've received</h2>
+      <div className="reviews-outer-box">
+      <ul className="list-group">
         {
           this.state.reviews.map(review => {
             return (
-              <div key={review.id}>
-                <div>
-                  {`Review By: ${review.commentor}`}
+              <li className="list-group-item reviews-box d-flex justify-content-around" key={review.id}>
+                <div className="col-sm-9">
+                  <div>
+                    <h3>{`Reviewer: ${review.commentor}`}</h3>
+                    <hr/>
+                  </div>
+                  <div>
+                    {review.review}
+                  </div>
                 </div>
-                <div>
-                  {`Rating: ${review.rating}`}
+                <div className="col-sm-3 rating-badges">
+                  <div className="d-flex justify-content-around">
+                    {
+                      review.rating > 3
+                      ?
+                      <h2> <span className="badge badge-success">{`${review.rating}/5`}</span> </h2>
+                      :
+                      review.rating <= 3 &&  review.rating >= 2
+                      ?
+                      <h2> <span className="badge badge-warning">{`${review.rating}/5`}</span> </h2>
+                      :
+                      review.rating < 2
+                      ?
+                      <h2> <span className="badge badge-danger">{`${review.rating}/5`}</span> </h2>
+                      :
+                      null
+                    }
+                  </div>
                 </div>
-                <div>
-                  {`Review: ${review.review}`}
-                </div>
-                <br />
-              </div>              
+              </li>              
             )
           })
         }
-      </div>
+      </ul>
+    </div>
     )
   }
 };
