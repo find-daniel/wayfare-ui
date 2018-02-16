@@ -165,13 +165,13 @@ class Signup extends React.Component {
         <div className="container text-center">
           <form action="submit" onSubmit={this.onSubmitHandler.bind(this)}>
             <div className="input-spacing d-flex justify-content-center">
-              <input className="form-control col-sm-5 text-center" onChange={this.handleInputChange.bind(this)} type="text" id="name" placeholder="Full Name"/>
+              <input className="form-control col-sm-5 text-center" onChange={this.handleInputChange.bind(this)} type="text" id="name" placeholder="Full Name" autoFocus={true} required/>
             </div>
             <div className="input-spacing d-flex justify-content-center">
-              <input className="form-control col-sm-5 text-center" onChange={this.handleInputChange.bind(this)} type="text" id="email" placeholder="Email"/>
+              <input className="form-control col-sm-5 text-center" onChange={this.handleInputChange.bind(this)} type="text" id="email" placeholder="Email" required/>
             </div>
             <div className="input-spacing d-flex justify-content-center">
-              <input className="form-control col-sm-5 text-center" onChange={this.handleInputChange.bind(this)} type="password" id="password" placeholder="Password"/>
+              <input className="form-control col-sm-5 text-center" onChange={this.handleInputChange.bind(this)} type="password" id="password" placeholder="Password" required/>
             </div>
             <div className="input-spacing">
               <button className="btn btn-outline-dark col-sm-2">Signup</button>
