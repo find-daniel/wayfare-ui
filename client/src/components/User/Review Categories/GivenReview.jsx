@@ -52,7 +52,7 @@ class GivenReviews extends React.Component {
                 <li className="list-group-item reviews-box d-flex justify-content-around" key={review.id}>
                   <div className="col-sm-9">
                     <div>
-                      <h3>{`Reviewer: ${review.commentor}`}</h3>
+                      <h3>{review.commentee}</h3>
                       <hr/>
                     </div>
                     <div>

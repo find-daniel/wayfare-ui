@@ -62,7 +62,7 @@ class PublicUserPage extends React.Component {
           <p>Reviews</p>
           <ul className="list-group-flush">
             {this.state.reviews.map(review => {
-              return <li className="list-group-item" key={review.id} >{review.rating}/5  {review.review} -{this.state.name}</li>
+              return <li className="list-group-item" key={review.id} >{review.rating}/5  {review.review} -{review.commentor}</li>
             })}
           </ul>
           </div>
