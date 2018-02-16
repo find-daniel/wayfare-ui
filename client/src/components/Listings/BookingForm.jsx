@@ -160,6 +160,7 @@ class BookingForm extends React.Component {
     } catch (err) {
       console.log('BookingForm - Error creating message in mongo DB', err)
     }
+    window.location.reload(true);
   }
 
   render() {
