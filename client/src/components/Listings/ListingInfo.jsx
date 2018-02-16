@@ -13,7 +13,7 @@ class ListingInfo extends React.Component {
     super(props); 
     this.state = {
       edit : false,
-      skills: this.props.skills, 
+      skills: [], 
       newSkills: [],
       deletedSkills : []
     }
@@ -27,12 +27,18 @@ class ListingInfo extends React.Component {
 
   }
 
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState ({
-        skills: this.props.skills.slice(0)
-      })
-    }, 150)
+  async componentWillMount() {
+    let listingid = location.pathname.split('/')[2]; 
+    let skills = await axios.get(`${url.restServer}/api/listing/getListingSkills`, {
+      params: {listingId: listingid}
+    });
+    let skillsArr = []; 
+    for (let i = 0; i <skills.data.length; i++ ) {
+      skillsArr.push({skill: skills.data[i].skill, id: skills.data[i].id})
+    }
+    this.setState ({
+      skills: skillsArr
+    })
   }
 
   editListing() {
@@ -62,7 +68,6 @@ class ListingInfo extends React.Component {
       newSkills: [], 
       deletedSkills: []
     })
-    //display new info? 
   }
 
   addSkill() {
@@ -134,13 +139,14 @@ class ListingInfo extends React.Component {
   deleteSkill(skill) {
     let arr = this.state.skills; 
     let deleteArr = this.state.deletedSkills; 
+
     for (let i = 0; i < arr.length; i++ ) {
       if (arr[i].skill === skill && arr[i].id === null) {
         delete arr[i]; 
       }
       else if (arr[i].skill === skill) {
-        delete arr[i]; 
         deleteArr.push(arr[i])
+        delete arr[i]; 
       }
     }
     this.setState({
