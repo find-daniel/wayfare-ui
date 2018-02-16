@@ -36,7 +36,6 @@ class Signup extends React.Component {
     e.preventDefault();
     try {
       const authData = await firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-      console.log('Local user signed up with Firebase.')
       let payload = {
         name: this.state.name,
         email: authData.providerData[0].email,
@@ -45,9 +44,7 @@ class Signup extends React.Component {
       }
       try {
         const data = await axios.post(`${url.restServer}/api/auth/signup`, payload)
-        console.log('Local user saved to sql db.')
         this.onSuccess()
-        //
       } catch (err) {
         console.log('Error saving local user to sql db. Err: ', err)
       }
@@ -60,7 +57,6 @@ class Signup extends React.Component {
     e.preventDefault();
     try {
       const authData = await firebase.auth().signInWithPopup(googleProvider)
-      console.log('User signed in with Firebase->Google.');
       await localStorage.setItem('activeUid', authData.user.uid);
 
       let payload = {
@@ -71,10 +67,8 @@ class Signup extends React.Component {
       }
       try {
         const data = await axios.post(`${url.restServer}/api/auth/signup`, payload)
-        console.log('Google user saved to sql db.', data)
         try {
            const data = await axios.get(`${url.restServer}/api/users/getUser`, {params: {uid: localStorage.getItem('activeUid')}})
-           console.log('data from getUSer request in psql via fb login', data)
            await localStorage.setItem('activeUid', data.data.rows[0].uid)
            await localStorage.setItem('activeId', data.data.rows[0].id)
            await localStorage.setItem('name', data.data.rows[0].name)
@@ -99,7 +93,6 @@ class Signup extends React.Component {
     e.preventDefault();
     try {
       const data = await firebase.auth().signInWithPopup(facebookProvider);
-      console.log('User signed in with Firebase->Facebook.');
       await localStorage.setItem('activeUid', data.user.uid);
 
       let payload = {
@@ -110,7 +103,6 @@ class Signup extends React.Component {
       }
       try {
         const data = await axios.post(`${url.restServer}/api/auth/signup`, payload)
-        console.log('Facebook user saved to sql db.')
         try {
            const data = await axios.get(`${url.restServer}/api/users/getUser`, {params: {uid: localStorage.getItem('activeUid')}})
            await localStorage.setItem('activeUid', data.data.rows[0].uid)

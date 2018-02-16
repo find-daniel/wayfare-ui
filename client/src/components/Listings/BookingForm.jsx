@@ -21,7 +21,6 @@ class BookingForm extends React.Component {
     try{
 
       const userId = await localStorage.getItem('activeId')
-      console.log(userId)
       const listingData = await axios.get(`${url.restServer}/api/listing/getListing`, {
         params: {listingId: this.props.match.params.listingId}
       })
@@ -30,7 +29,6 @@ class BookingForm extends React.Component {
         userId: userId,
         hostId: listingData.data.hostid
       })
-      console.log(this.state.userId)
       const skills = await axios.get(`${url.restServer}/api/listing/getUserSkills`, {
         params: {userId: this.state.userId}
       })
@@ -49,17 +47,13 @@ class BookingForm extends React.Component {
   
   async onChangeHandler(e) {
     e.preventDefault();
-    console.log(e.target.value)
     this.setState({
       [e.target.name]: e.target.value
     })
   }  
   
   async onAddSkillHandler(e) {
-    console.log('i am this.state', this.state)
-    console.log('i am this.props:', this.props)
     e.preventDefault();
-    console.log('skill added:', this.state.newSkill)
     try {
       const response = await axios.post(`${url.restServer}/api/listing/createUserSkills`, {
         userId: this.state.userId,
@@ -85,22 +79,17 @@ class BookingForm extends React.Component {
       await this.setState({
         checked: addPayload
       })
-      console.log('after add', this.state.checked)
     } else {
       const deletePayload = this.state.checked
-      console.log(e.target.id)
       await deletePayload.splice(deletePayload.indexOf(JSON.parse(e.target.id)), 1)
       await this.setState({
         checked: deletePayload
       })
-      console.log('after delete', this.state.checked)
     }    
   }
 
   async onDeleteHandler(e) {
     e.preventDefault();
-    console.log('skill delete requested', e.target.id)
-    console.log('userId', this.state.userId)
     try {
       const response = await axios.delete(`${url.restServer}/api/listing/deleteUserSkills`, {
         params: { 
@@ -122,9 +111,7 @@ class BookingForm extends React.Component {
   }
 
   async onBookingHandler(e) {
-
     // e.preventDefault();
-    console.log('booking requested');
     try {
       await axios.post(`${url.restServer}/api/listing/createRequestAndRequestSkills`, {
         guestId: JSON.parse(this.state.userId),
@@ -135,7 +122,6 @@ class BookingForm extends React.Component {
       throw new Error(err);
     }    
 
-    console.log('made it after making skills.......')
 
     const {guestName, guestImage, guestId, guestUid, hostName, hostImage, hostId, listingId, listingTitle, roomId, accountType} = this.props.location.state;
     const message = this.state.message;
@@ -165,14 +151,12 @@ class BookingForm extends React.Component {
 
     try {
       const data = await axios.post(`${url.socketServer}/api/rooms/createRoom`, roomPayload)
-      console.log('data after making room', data)
     } catch (err) {
       console.log('(BookingForm - Error creating chat room in mongo DB.', err)
     }
 
     try {
       const data = await axios.post(`${url.socketServer}/api/chat/postStaticMessage`, messagePayload)
-      console.log('data after sending message', data)
     } catch (err) {
       console.log('BookingForm - Error creating message in mongo DB', err)
     }

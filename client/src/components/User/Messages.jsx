@@ -172,10 +172,7 @@ class Messages extends React.Component {
             <ul className="list-group-flush col-sm-12">
               {!this.state.messages.length > 0 ? null :
                 this.state.messages.map((message, i) => {
-                  // if (message.accountType.toString() === localStorage.getItem('accountType')) {
-                  //   console.log('message',message)
                     return <MessageEntry key={i} message={message} />
-                  // }
                 })
               }
             </ul>

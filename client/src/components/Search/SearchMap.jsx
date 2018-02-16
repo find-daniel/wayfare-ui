@@ -62,7 +62,6 @@ class SearchMap extends React.PureComponent {
     let geodata = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${listingAddressURL},+${formattedCity},+${formattedState}&key=${process.env.GOOGLE_GEO_API}`)
     let parsedGeoData = JSON.parse(geodata.request.responseText)
 
-    console.log('parsedGeoData.results', parsedGeoData.results)
     if (parsedGeoData.results[0]) {
       this.setState({
         maplat: parsedGeoData.results[0].geometry.location.lat,

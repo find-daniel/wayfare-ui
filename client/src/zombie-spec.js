@@ -111,7 +111,6 @@ describe('user signs up with new local account', function() {
 //         .pressButton('Login', done);
 //     });
 
-//     console.log('yo', browser.resources)
 
 //     it('should not return a status of 200', function(done) {
 //       browser.assert.status(200);

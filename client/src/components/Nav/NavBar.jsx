@@ -36,7 +36,6 @@ class NavBar extends React.Component {
   async onLogoutClickHandler() {
     try {
       const logout = await firebase.auth().signOut()
-      console.log('User logged out.')
       localStorage.removeItem('activeUid');
       window.location.reload(true);
       this.props.history.push('/');

@@ -52,7 +52,6 @@ class CreateListingForm extends React.Component {
       description: this.refs.description.value 
     }
 
-    console.log('listingDetails', listingDetails); 
     let listingId = await axios.post(`${url.restServer}/api/listing/createListing`, {params: {listingDetails: listingDetails}}); 
 
     listingId = listingId.data.rows[0].id;
@@ -77,8 +76,6 @@ class CreateListingForm extends React.Component {
         }
 
         const data = await axios.post(`${url.restServer}/api/listing/postPhoto`, payload)
-        console.log('data from posting image to db:', data)
-        //
       } catch (err) {
         console.log('error posting image to sql table', err)
       }
@@ -119,7 +116,6 @@ class CreateListingForm extends React.Component {
 
   _onDrop(files) {
     let file = files[0];
-    console.log('file', file)
     this.setState({
       imageObj: file,
       imagePrev: file.preview

@@ -14,11 +14,9 @@ class Pictures extends React.Component {
   }
 
     async componentDidMount() {
-      //console.log('sup... i am listingId', this.props.listingId)
     let img = await axios.get(`${url.restServer}/api/listing/getPhoto`, {
       params: {listingId: this.props.listingId}
     }); 
-    //console.log('i am img...', img)
     this.setState ({
       image : img.data
     })
