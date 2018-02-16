@@ -13,7 +13,6 @@ class UserInfo extends React.Component {
     const data = await axios.get(`${url.restServer}/api/users/getUser`, {params: {uid: localStorage.getItem('activeUid')}});
     this.props.setUserData(data.data.rows[0])
     localStorage.setItem('accountType', this.props.user_data.type);
-    // console.log('this is the user data: ', data.data.rows[0]);
   }
 
   async accountUpgradeHandler () {
@@ -30,7 +29,6 @@ class UserInfo extends React.Component {
         localStorage.setItem('accountType', 0);
       }
 
-      console.log('data received after user upgrade: ', data);
     } catch (err) {
       console.error(err);
     }

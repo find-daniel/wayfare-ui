@@ -28,7 +28,6 @@ class EditUserInfo extends React.Component {
   async componentDidMount () {
     const data = await axios.get(`${url.restServer}/api/users/getUser`, {params: {uid: this.state.uid}})
     const {city, bio, image} = data.data.rows[0];
-    console.log('data',data)
     
     if (city) {
       await this.setState({
@@ -73,7 +72,6 @@ class EditUserInfo extends React.Component {
       // update user info
       const data = await axios.put(`${url.restServer}/api/users/editUser`, payload);
 
-      console.log('this.props', this.props)
       if (this.state.image) {
         await localStorage.setItem('profilePictureURL', this.state.image);
       }
@@ -95,7 +93,6 @@ class EditUserInfo extends React.Component {
 
   _onDrop(files) {
     let file = files[0];
-    console.log('file', file)
     this.setState({
       imageObj: file,
       imagePrev: file.preview
