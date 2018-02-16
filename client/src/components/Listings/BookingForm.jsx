@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import url from '../../config'
+import './BookingForm.css'
 
 class BookingForm extends React.Component {
   constructor() {
@@ -179,65 +180,83 @@ class BookingForm extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1> Request Booking </h1>
-
-        {/* Add new Skill */}
-        <div> 
-          <h5>Add a New Skill </h5>
-          <form onSubmit={this.onAddSkillHandler.bind(this)}>
-            <input name="newSkill" type="text" ref="reset"
-              onChange={this.onChangeHandler.bind(this)} 
-            />
-            <button>Add skill</button>
-          </form>
-        </div>        
-
-        {/* FORM SUBMISSION */}
-        <form>
+      <div className="container col-sm-4 booking-form-box">
+        {/* Header */}
+        <div className="text-center header">
+          <h1> Request Booking </h1>
+          <hr/>
+        </div>
+        {/* Body */}
+        <div className="container text-center">
+          {/* Add new Skill */}
           <div> 
+            <div className="input-spacing">
+              <h5>Add a New Skill </h5>
+            </div>
+            <div className="container">
+              <form className="input-group d-flex justify-content-center input-spacing" onSubmit={this.onAddSkillHandler.bind(this)}>
+                <input className="form-control col-sm-5" name="newSkill" type="text" ref="reset"
+                  onChange={this.onChangeHandler.bind(this)} 
+                />
+                <div className="input-group-append">
+                  <button className="btn btn-outline-dark">Add skill</button>
+                </div>
+              </form>
+              <form className="">
+                <div className="input-spacing">
+                  {/* CHOOSE/DELETE SKILLS */}
+                  <h5>Choose Your Skills </h5>
+                  <div className="booking-form-skills-box">
+                    {
+                      !this.state.skills
+                      ? null
+                      : this.state.skills.map(skill => {
+                        return (
+                          <div className="input-spacing" key={skill.id}>
+                            <label htmlFor={skill.id}> 
+                              <input type="checkbox" id={skill.id} name="skill" 
+                                checked={(()=> {
+                                  this.state.checked.includes(skill.id)
+                                  }).bind(this)
+                                }
+                                onChange={this.onCheckHandler.bind(this)} />
+                              {
+                                skill.skill
+                              } 
+                            </label>
+                            <button className="btn btn-sm btn-outline-danger booking-form-skills-delete" id={skill.id} 
+                              onClick={this.onDeleteHandler.bind(this)}
+                            >Delete</button>
+                          </div>
+                        )
+                      })                
+                    }
+                  </div>              
+                  {/* MESSAGE HOST */}
+                  <div className="input-spacing">
+                    <h5>Message to the host (optional):</h5>
+                  </div>
+                  <div className="input-spacing">
+                    <textarea className="form-control" name="message" id="" cols="30" rows="10" 
+                      placeholder="Enter a message for the host" 
+                      value={this.state.message}
+                      onChange={this.onChangeHandler.bind(this)}
+                    ></textarea>
+                  </div>
+                </div>
+                <div className="booking-form-submit-btn">
+                  <Link onClick={this.onBookingHandler.bind(this)} to={`/user/${localStorage.getItem('activeUid')}/inbox/${this.state.userId}_${this.state.hostId}_${this.props.match.params.listingId}`}>
+                   <button className="btn btn-outline-dark"> Request Booking </button>
+                  </Link>
+                </div>
+                
 
-            {/* CHOOSE/DELETE SKILLS */}
-            <h5>Choose Your Skills </h5>
-              {
-                !this.state.skills
-                ? null
-                : this.state.skills.map(skill => {
-                  return (
-                    <div key={skill.id}>
-                      <label htmlFor={skill.id}> 
-                        <input type="checkbox" id={skill.id} name="skill" 
-                          checked={(()=> {
-                            this.state.checked.includes(skill.id)
-                            }).bind(this)
-                          }
-                          onChange={this.onCheckHandler.bind(this)} />
-                        {
-                          skill.skill
-                        } 
-                      </label>
-                      <button id={skill.id} 
-                        onClick={this.onDeleteHandler.bind(this)}
-                      >Delete</button>
-                    </div>
-                  )
-                })                
-              }              
-            
-            {/* MESSAGE HOST */}
-            <h5>Message to the host (optional):</h5>
-            <textarea name="message" id="" cols="30" rows="10" 
-              placeholder="Enter a message for the host" 
-              value={this.state.message}
-              onChange={this.onChangeHandler.bind(this)}
-            ></textarea>
-          </div>  
-          <Link onClick={this.onBookingHandler.bind(this)} to={`/user/${localStorage.getItem('activeUid')}/inbox/${this.state.userId}_${this.state.hostId}_${this.props.match.params.listingId}`} 
-            type="button" 
-            className="btn btn-light col-sm-5" 
-          >Request Booking</Link>
-
-        </form>
+              </form>
+            </div>
+          </div>        
+          {/* FORM SUBMISSION */}
+          
+        </div>
       </div>
     )
   }

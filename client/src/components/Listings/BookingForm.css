@@ -1,0 +1,39 @@
+.wireframe {
+  border: 1px solid black;
+}
+
+.header {
+  margin-top: 15px;
+}
+
+.booking-form-box {
+  margin-top: 75px;
+  height: 750px;
+  background-color: #FEFEFE;
+  border: 1px solid rgb(218, 218, 218);
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.booking-form-skills-box {
+  height: 100px;
+  overflow-y: hidden;
+}
+
+.booking-form-skills-box:hover {
+  overflow-y: scroll;
+  border: 1px solid rgb(218, 218, 218);
+}
+
+.booking-form-skills-delete {
+  margin-left: 2%;
+}
+
+.booking-form-submit-btn {
+  margin-top: 15px;
+}
+
+.input-spacing {
+  margin-top: 25px;
+  margin-bottom: 15px;
+}
