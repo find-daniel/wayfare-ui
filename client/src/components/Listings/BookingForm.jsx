@@ -41,7 +41,7 @@ class BookingForm extends React.Component {
         skills: payload
       })
     } catch(err) {
-      throw new Error(err);
+      console.log('Error', err);
     }
   }
   
@@ -67,7 +67,7 @@ class BookingForm extends React.Component {
         skills: payload,
       })
     } catch(err) {
-      throw new Error(err);
+      console.log('Error', err);
     }
     this.refs.reset.value = ''
   }
@@ -106,7 +106,7 @@ class BookingForm extends React.Component {
       })
 
     } catch(err) {
-      throw new Error(err);
+      console.log('Error', err);
     }
   }
 
@@ -119,7 +119,7 @@ class BookingForm extends React.Component {
         skillId: this.state.checked 
       })
     } catch(err) {
-      throw new Error(err);
+      console.log('Error', err);
     }    
 
 

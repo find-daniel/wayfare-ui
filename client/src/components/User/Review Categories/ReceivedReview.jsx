@@ -39,7 +39,7 @@ class ReceivedReview extends React.Component {
       }
       await this.setState({reviews: payload})
     } catch(err) {
-      throw new Error(err);
+      console.log('Error', err);
     }
   }
   
