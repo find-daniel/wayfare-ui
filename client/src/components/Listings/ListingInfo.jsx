@@ -133,7 +133,10 @@ class ListingInfo extends React.Component {
     } catch (err) {
       console.log('Error posting static message', err)
     }
+    window.location.reload(true);
+
   }
+  
 
   refresh() {
     // not working
