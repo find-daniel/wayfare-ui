@@ -1,34 +1,86 @@
 .public-user-box {
-  font-family: 'Quicksand', sans-serif;
-  background-color: #F9FBFC;
-  margin: auto;
+  font-family: 'Open Sans', sans-serif;
+  background-color: #FEFEFE;
+  min-height: 700px;
+  margin: 75px auto;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
-.public {
-  background-color: #D8D8D8;
+.public-user-info {
   margin-top: 25px; 
-  margin-right:5%;
   border-radius: 5px;
-  height: 310px;
-  width: 40%
+  height: 600px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
+
+.public-user-ratings {
+  margin-top: 10px;
+}
+
+.public-img-background {
+  height: 120px; 
+  background-color: #B7C6CE; 
+  border-radius: 5px;
+  z-index: 1;
+}
+
+.public-user-card-header {
+  margin-top: 10px;
+}
+
+.public-user-bio {
+  margin-top: 15px;
+  border-radius: 5px;
+  background-color: #FEFEFE;
+}
+
+.public-user-card-body {
+  margin-top: 25px; 
+  background-color: rgb(243, 243, 243); 
+  margin-bottom: 10px; 
+  border-radius: 5px;
+}
+
 
 .public-reviews-box {
-  background-color: #D8D8D8;
-  
+  background-color: #FFFF;
+  border: 1px solid rgb(224, 224, 224);
+  border-radius: 5px;
   margin-top: 25px; 
   /* width: 40%; */
   height: 100px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.public-user-reviews-header {
+  margin-top: 15px;
+}
+
+.public-user-reviews-ul {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.public-user-review-li {
+  margin-bottom: 15px;
+  border: 1px solid rgb(194, 194, 194);
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 
 .public-profile-pic {
-  background-color: #D8D8D8;
-  box-shadow: 0px 2px 2px 0px;
-  width: 50%;
-  height: 180px;
-  margin-top: 5px;
-  margin-right: 100px;
-  
+  background-color: #FFFF;
+  display: inline-block;
+  position: relative;
+  width: 33%;
+  height: 115px;
+  overflow: hidden;
+  border-radius: 50%;
+  margin-top: 55px;
+  margin-left: 32%;
+  z-index: 2;
+  box-shadow: 0px 1px 1px 0px;
 }
 
 .wireframe {
