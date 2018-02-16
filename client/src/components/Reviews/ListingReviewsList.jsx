@@ -21,7 +21,8 @@ class ListingReviewsList extends React.Component {
     }); 
     let data = [];
     reviews.data.rows && reviews.data.rows.forEach(review => {
-      if (JSON.stringify(review.commentee) === JSON.stringify(this.props.user.name) && review.type === 'guest') {
+      let id = Number(location.pathname.split('/')[2]); 
+      if (JSON.stringify(review.commentee) === JSON.stringify(this.props.user.name) && review.type === 'guest' && review.listingid === id) {
         data.push(review);
       }
     })
