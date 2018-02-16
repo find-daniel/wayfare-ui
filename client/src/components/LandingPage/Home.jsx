@@ -37,7 +37,7 @@ class Home extends React.Component {
         <div className="jumbotron jumbotron-fluid jumbo" >
           <div className="container text-center text-light" >
             <h1 className="display-4">Wayfare</h1>
-            <p className="lead">Something witty</p>
+            <p className="lead">Travel Freely...</p>
           </div>
         </div>
         <div className="offset-sm-1 col-sm-10 offset-sm-1 montserrat">
